@@ -56,3 +56,29 @@
     </button>
   </form>
 </section>
+
+<style>
+  section {
+    max-width: 40vw;
+    margin: 3rem auto 0;
+  }
+
+  header {
+    margin-bottom: 2rem;
+  }
+
+  header h1 {
+    margin: 0 0 0.4rem;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  button {
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+</style>

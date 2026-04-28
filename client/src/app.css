@@ -19,12 +19,16 @@
   box-sizing: border-box;
 }
 
-html,
-body {
+html {
   min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
   background-color: var(--bg);
   background-image: radial-gradient(ellipse at 20% 50%, rgba(0, 255, 153, 0.04) 0%, transparent 60%),
     radial-gradient(ellipse at 80% 20%, rgba(0, 180, 255, 0.04) 0%, transparent 60%);
+  background-attachment: fixed;
 }
 
 html {

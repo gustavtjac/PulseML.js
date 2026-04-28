@@ -37,3 +37,12 @@
       </footer>
     {/if}
   </main>
+
+<style>
+  footer {
+    margin: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
