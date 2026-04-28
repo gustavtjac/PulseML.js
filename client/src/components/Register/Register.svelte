@@ -24,6 +24,7 @@
         email,
         password1: password,
         password2: confirmPassword,
+        countryId
       });
       toast.success(result.data.successMessage);
       navigate("/login");
