@@ -4,15 +4,17 @@
   import { navigate } from "svelte-routing";
   import { onMount } from "svelte";
 
-  let username = "";
-  let name = "";
-  let email = "";
-  let password = "";
-  let confirmPassword = "";
-  let countryId = "";
-  let submitted = false;
+  let username = $state("");
+  let name = $state("");
+  let email = $state("");
+  let password = $state("");
+  let confirmPassword = $state("");
+  let countryId = $state("");
+  let submitted = $state(false);
 
-  let countries = [];
+  let countries = $state([]);
+  let selectedCountry = $derived(countries.find(country => country.id === countryId));
+
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -37,8 +39,6 @@
   onMount(async () => {
     try {
       const result = await fetchGet("/api/countries");
-
-      
       countries = result.data.countries;
     } catch (error) {
       console.log()
@@ -64,13 +64,23 @@
     />
 
     <label for="country">Country</label>
-    <select bind:value={countryId} required name="country_id" id="country">
-      {#each countries as country}
-        <option value={country.id}>
-          {country.name}
-        </option>
-      {/each}
-    </select>
+
+    <div style="display: flex; align-items: center; gap: 8px;">
+      {#if countryId}
+        <img
+          src="https://flagcdn.com/{selectedCountry?.code.toLowerCase()}.svg"
+          width="24"
+          alt={selectedCountry?.name}
+        />
+      {/if}
+      <select bind:value={countryId} required name="country_id" id="country">
+        <option value="" disabled>Select a country</option>
+        {#each countries as country}
+          <option value={country.id}>{country.name}</option>
+        {/each}
+      </select>
+    </div>
+    
 
     <label for="name">name</label>
     <input

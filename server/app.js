@@ -45,7 +45,14 @@ const generalLimiter = rateLimit({
   },
 });
 
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+      "img-src": ["'self'", "data:", "https://flagcdn.com"],
+    },
+  },
+}));
 app.use("/auth", authLimiter);
 app.use(generalLimiter);
 app.use("/auth", authRouter);

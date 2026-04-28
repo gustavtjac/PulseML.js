@@ -1,36 +1,37 @@
 <script>
     import Navbar from "../../components/Nav/Navbar.svelte";
+     import { navigate } from "svelte-routing";
 </script>
 
 <Navbar/>
 
 <main>
     <header>
-        <h1>Nintendo Switch Library</h1>
-        <p>Rate, track and discover Nintendo Switch games. Create an account to build your personal game collection.</p> 
+        <h1>PulseML.js</h1>
+        <p>Play fun webcam games powered by machine learning — right in your browser. No downloads, no controllers, just you and your camera.</p>
     </header>
 
     <section>
-        <h2>Why Switch Library?</h2>
+        <h2>Why PulseML.js?</h2>
         <ul>
             <li>
-                <h3>Track Your Games</h3>
-                <p>Log every game you've played, are playing, or want to play next.</p>
+                <h3>Webcam as a Controller</h3>
+                <p>Use your face, hands, or body to control games. Machine learning tracks your movements in real time.</p>
             </li>
             <li>
-                <h3>Rate & Review</h3>
-                <p>Score your games and share your thoughts with other Switch players.</p>
+                <h3>Runs in the Browser</h3>
+                <p>Built with TensorFlow.js and MediaPipe — no installs required. Just open and play.</p>
             </li>
             <li>
-                <h3>Discover Hidden Gems</h3>
-                <p>Browse community ratings to find your next favourite Switch game.</p>
+                <h3>Track Your Scores</h3>
+                <p>Create an account to save your highscores and see how you stack up against other players.</p>
             </li>
         </ul>
     </section>
 
     <section>
-        <h2>Ready to build your collection?</h2>
-        <p>Join for free and start rating your Switch games today.</p>
-        <a href="/register">Create an account</a>
+        <h2>Ready to play?</h2>
+        <p>Create a free account and start playing webcam games powered by ML today.</p>
+        <button onclick={() => navigate("/register")}>Get started</button>
     </section>
 </main>
