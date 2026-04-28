@@ -35,3 +35,12 @@
         <button onclick={() => navigate("/register")}>Get started</button>
     </section>
 </main>
+
+<style>
+main {
+padding: 3rem;
+height: 80vh;
+}
+
+
+</style>

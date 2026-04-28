@@ -1,61 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
-  <rect width="48" height="48" rx="10" fill="#1a1a2e"/>
-
-  <!-- === BARBELL (behind robot, on traps) === -->
-  <!-- Left weight plate -->
-  <rect x="1" y="14" width="5" height="8" rx="1.5" fill="#47bfff"/>
-  <rect x="3" y="13" width="3" height="10" rx="1" fill="#1a8ab5"/>
-  <!-- Bar -->
-  <rect x="6" y="17" width="36" height="2.5" rx="1" fill="#ede6ff"/>
-  <!-- Right weight plate -->
-  <rect x="42" y="14" width="5" height="8" rx="1.5" fill="#47bfff"/>
-  <rect x="42" y="13" width="3" height="10" rx="1" fill="#1a8ab5"/>
-
-  <!-- === HEAD (facing viewer) === -->
-  <rect x="17" y="6" width="14" height="11" rx="3" fill="#863bff"/>
-  <!-- Antenna -->
-  <line x1="24" y1="6" x2="24" y2="2.5" stroke="#863bff" stroke-width="1.5" stroke-linecap="round"/>
-  <circle cx="24" cy="2" r="1.5" fill="#47bfff"/>
-  <!-- Eyes (forward facing — looking at viewer) -->
-  <circle cx="20" cy="10" r="2" fill="#ede6ff"/>
-  <circle cx="28" cy="10" r="2" fill="#ede6ff"/>
-  <circle cx="20.5" cy="10.5" r="1" fill="#1a1a2e"/>
-  <circle cx="28.5" cy="10.5" r="1" fill="#1a1a2e"/>
-  <!-- Eye shine -->
-  <circle cx="19.8" cy="9.8" r="0.4" fill="white"/>
-  <circle cx="27.8" cy="9.8" r="0.4" fill="white"/>
-  <!-- Mouth (smirk) -->
-  <path d="M21 13 Q24 15 27 13" stroke="#5a1fb5" stroke-width="1" fill="none" stroke-linecap="round"/>
-
-  <!-- Neck -->
-  <rect x="21" y="17" width="6" height="4" rx="1" fill="#6a28d0"/>
-
-  <!-- === TORSO (slight side angle) === -->
-  <rect x="16" y="21" width="16" height="10" rx="3" fill="#863bff"/>
-  <!-- Chest panel -->
-  <rect x="20" y="23" width="8" height="5" rx="1" fill="#6a28d0"/>
-  <circle cx="24" cy="25.5" r="1.5" fill="#47bfff" opacity="0.8"/>
-
-  <!-- === ARMS (hands on knees / sides) === -->
-  <!-- Left arm -->
-  <line x1="16" y1="24" x2="10" y2="31" stroke="#7e14ff" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="9.5" cy="32" r="2" fill="#5a1fb5"/>
-  <!-- Right arm -->
-  <line x1="32" y1="24" x2="38" y2="31" stroke="#7e14ff" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="38.5" cy="32" r="2" fill="#5a1fb5"/>
-
-  <!-- === LEGS — squat pose, side-ish view === -->
-  <!-- Left upper leg (angled out) -->
-  <line x1="19" y1="31" x2="12" y2="38" stroke="#6a28d0" stroke-width="5" stroke-linecap="round"/>
-  <!-- Left lower leg -->
-  <line x1="12" y1="38" x2="14" y2="44" stroke="#5a1fb5" stroke-width="4" stroke-linecap="round"/>
-  <!-- Left foot -->
-  <rect x="10" y="43" width="8" height="3" rx="1.5" fill="#4a18a0"/>
-
-  <!-- Right upper leg (angled out other side) -->
-  <line x1="29" y1="31" x2="36" y2="38" stroke="#6a28d0" stroke-width="5" stroke-linecap="round"/>
-  <!-- Right lower leg -->
-  <line x1="36" y1="38" x2="34" y2="44" stroke="#5a1fb5" stroke-width="4" stroke-linecap="round"/>
-  <!-- Right foot -->
-  <rect x="30" y="43" width="8" height="3" rx="1.5" fill="#4a18a0"/>
+  <rect width="48" height="48" rx="8" fill="#0a0e17"/>
+  <polyline
+    points="4,24 12,24 16,12 20,36 24,18 28,30 32,24 44,24"
+    fill="none"
+    stroke="#00ff99"
+    stroke-width="3"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
 </svg>

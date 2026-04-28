@@ -1,28 +1,30 @@
-@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap");
 
 :root {
-  --red: #e60012;
-  --yellow: #ffcc00;
-  --white: #f8f8f8;
-  --black: #1a1a2e;
-  --gray: #3a3a5c;
+  --accent: #00ff99;
+  --accent-dim: #00cc77;
+  --danger: #ff4455;
+  --warning: #ffcc00;
+  --bg: #0a0e17;
+  --bg-surface: #111827;
+  --bg-raised: #1a2235;
+  --border: #1e2d40;
+  --text: #e2e8f0;
+  --text-muted: #64748b;
 }
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
-  image-rendering: pixelated;
 }
 
 html,
 body {
   min-height: 100%;
-  background-color: var(--black);
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
+  background-color: var(--bg);
+  background-image: radial-gradient(ellipse at 20% 50%, rgba(0, 255, 153, 0.04) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(0, 180, 255, 0.04) 0%, transparent 60%);
 }
 
 html {
@@ -36,94 +38,140 @@ html {
 }
 
 body {
-  color: var(--white);
-  font-family: "Press Start 2P", monospace;
-  line-height: 1.8;
-  margin: 4rem auto 2rem;
-  max-width: 52rem;
-  padding: 1rem;
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  line-height: 1.7;
+  margin: 0;
+  padding: 0;
 }
 
 h1,
 h2,
 h3 {
   margin: 1.5rem 0 0.75rem;
-  line-height: 1.4;
-  text-shadow: 3px 3px 0 var(--red);
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 h1 {
   font-size: 2.4rem;
-  color: var(--yellow);
+  color: var(--accent);
 }
+
 h2 {
   font-size: 1.8rem;
-  color: var(--yellow);
+  color: var(--text);
 }
+
 h3 {
   font-size: 1.4rem;
+  color: var(--text-muted);
 }
 
 p {
   font-size: 0.85rem;
+  color: var(--text-muted);
   margin-bottom: 1.3rem;
 }
 
 a,
 a:visited {
-  color: var(--yellow);
+  color: var(--accent);
   text-decoration: none;
-  border-bottom: 2px solid var(--red);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.15s;
 }
 
 a:hover,
 a:focus,
 a:active {
-  color: var(--red);
-  border-bottom-color: var(--yellow);
+  border-bottom-color: var(--accent);
 }
 
-input {
-  background: var(--black);
-  color: var(--white);
-  font-family: "Press Start 2P", monospace;
-  font-size: 0.75rem;
-  border: 3px solid var(--white);
-  padding: 0.5rem 0.75rem;
+label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+
+input,
+select {
+  background: var(--bg-surface);
+  color: var(--text);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.6rem 0.9rem;
   outline: none;
   width: 100%;
-  box-shadow: 4px 4px 0 var(--gray);
-  transition: box-shadow 0.1s;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
-input:focus {
-  border-color: var(--yellow);
-  box-shadow: 4px 4px 0 var(--yellow);
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(0, 255, 153, 0.1);
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
 }
 
 button {
-  background: var(--red);
-  color: var(--white);
-  font-family: "Press Start 2P", monospace;
-  font-size: 0.75rem;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
   border: none;
-  padding: 0.75rem 1.25rem;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
   cursor: pointer;
-  box-shadow: 4px 4px 0 #800000;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition:
-    transform 0.1s,
-    box-shadow 0.1s;
-  width: auto;
+  letter-spacing: 0.08em;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
 }
 
 button:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 #800000;
+  background: var(--accent-dim);
+  box-shadow: 0 0 20px rgba(0, 255, 153, 0.25);
+  transform: translateY(-1px);
 }
 
 button:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 #800000;
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2rem 0;
+}
+
+ul,
+ol {
+  font-size: 0.8rem;
+  padding-left: 1.5rem;
+  line-height: 2;
+  color: var(--text-muted);
+}
+
+small {
+  font-size: 0.65rem;
+  color: var(--text-muted);
 }
