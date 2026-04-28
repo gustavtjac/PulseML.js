@@ -1,0 +1,72 @@
+import "dotenv/config";
+import { hashPassword } from "../utils/passwordHashing.js";
+
+const ADMIN_PASSWORD = await hashPassword(
+  process.env.ADMIN_PASSWORD ?? "admin",
+);
+
+import db from "./connection.js";
+
+const deleteMode = process.argv.includes("--delete");
+
+if (deleteMode) {
+  db.exec("DROP TABLE IF EXISTS scores");
+  db.exec("DROP TABLE IF EXISTS users");
+  db.exec("DROP TABLE IF EXISTS games");
+  db.exec("DROP TABLE IF EXISTS countries");
+}
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS countries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100) NOT NULL,
+    code CHAR(2) NOT NULL UNIQUE,
+    flag_image TEXT
+  );
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS games (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100) NOT NULL UNIQUE
+  );
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(100),
+    profile_picture TEXT,
+    country_id INTEGER REFERENCES countries(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+`);
+
+db.exec(`
+  CREATE TABLE IF NOT EXISTS scores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    game_id INTEGER NOT NULL REFERENCES games(id),
+    score INTEGER NOT NULL,
+    date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+`);
+
+if (deleteMode) {
+  db.prepare(
+    "INSERT INTO countries (name, code, flag_image) VALUES (?, ?, ?)",
+  ).run("Denmark", "DK", "https://flagcdn.com/dk.svg");
+
+  const denmark = db.prepare("SELECT id FROM countries WHERE code = ?").get("DK");
+
+  db.prepare(
+    "INSERT INTO users (username, email, password, name, country_id) VALUES (?, ?, ?, ?, ?)",
+  ).run("admin", "admin@test.dk", ADMIN_PASSWORD, "Admin", denmark.id);
+
+  db.prepare(
+    "INSERT INTO games (name) VALUES (?)",
+  ).run("NeuRep");
+}
