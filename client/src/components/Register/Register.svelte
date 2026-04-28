@@ -75,7 +75,7 @@
       {/if}
       <select bind:value={countryId} required name="country_id" id="country">
         <option value="" disabled>Select a country</option>
-        {#each countries as country}
+        {#each countries as country (country.id)}
           <option value={country.id}>{country.name}</option>
         {/each}
       </select>

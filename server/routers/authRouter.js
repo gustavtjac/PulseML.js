@@ -85,14 +85,16 @@ router.post("/register", async (req, res) => {
     ).run(username, name, hashedPassword, email, countryId);
 
     sendRegisterMail(email).catch((error) => {
-      logger.error({ error }, "Register email failed");
+    console.log(error);
+     /*  logger.error({ error }, "Register email failed"); */
     });
 
     return res.status(201).send({
       data: { successMessage: "Account registered" },
     });
   } catch (error) {
-    logger.error({ error }, "Error while registering user");
+    console.log(error);
+    /* logger.error({ error }, "Error while registering user"); */
     return res.status(500).send({
       data: { errorMessage: "Something went wrong, please try again" },
     });
