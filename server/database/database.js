@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { hashPassword } from "../utils/passwordHashing.js";
+import { seedCountries } from "./seed.js";
 
 const ADMIN_PASSWORD = await hashPassword(
   process.env.ADMIN_PASSWORD ?? "admin",
@@ -20,8 +21,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS countries (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(100) NOT NULL,
-    code CHAR(2) NOT NULL UNIQUE,
-    flag_image TEXT
+    code CHAR(2) NOT NULL UNIQUE
   );
 `);
 
@@ -56,9 +56,8 @@ db.exec(`
 `);
 
 if (deleteMode) {
-  db.prepare(
-    "INSERT INTO countries (name, code, flag_image) VALUES (?, ?, ?)",
-  ).run("Denmark", "DK", "https://flagcdn.com/dk.svg");
+  
+  seedCountries(db);
 
   const denmark = db.prepare("SELECT id FROM countries WHERE code = ?").get("DK");
 

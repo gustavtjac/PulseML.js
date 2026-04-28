@@ -3,11 +3,7 @@ const router = Router();
 
 import db from "../database/connection.js";
 import { sendRegisterMail } from "../utils/emailUtil.js";
-import {
-  compareHashedPasswords,
-  hashPassword,
-} from "../utils/passwordHashing.js";
-import logger from "../utils/LoggerUtil.js";
+import {compareHashedPasswords, hashPassword,} from "../utils/passwordHashing.js";
 import { isLoggedIn } from "../middleWare/authMiddleWare.js";
 
 router.post("/login", async (req, res) => {
@@ -49,13 +45,13 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { username, firstName, lastName, password1, password2, email } =
+  const { username, name, password1, password2, email, countryId } =
     req.body;
 
   if (
     !username ||
-    !firstName ||
-    !lastName ||
+    !name ||
+    !countryId ||
     !password1 ||
     !password2 ||
     !email
@@ -85,8 +81,8 @@ router.post("/register", async (req, res) => {
     const hashedPassword = await hashPassword(password1);
 
     db.prepare(
-      "INSERT INTO users (username, first_name, last_name, password, email) VALUES (?, ?, ?, ?, ?)",
-    ).run(username, firstName, lastName, hashedPassword, email);
+      "INSERT INTO users (username, name, password, email, country_id) VALUES (?, ?, ?, ?, ?)",
+    ).run(username, name, hashedPassword, email, countryId);
 
     sendRegisterMail(email).catch((error) => {
       logger.error({ error }, "Register email failed");

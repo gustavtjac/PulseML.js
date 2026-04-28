@@ -1,10 +1,10 @@
 import "dotenv/config";
 import express from "express";
-import logger from "./utils/LoggerUtil.js";
 import session from "express-session";
 import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import authRouter from "./routers/authRouter.js";
+import countriesRouter from "./routers/countriesRouter.js"
 import path from "path";
 
 const app = express();
@@ -49,6 +49,7 @@ app.use(helmet());
 app.use("/auth", authLimiter);
 app.use(generalLimiter);
 app.use("/auth", authRouter);
+app.use("/api", countriesRouter)
 
 app.get("/api/{*splat}", (req, res) => {
   res.status(404).send({
@@ -69,5 +70,5 @@ app.all("/{*splat}", (req, res) => {
 const PORT = process.env.PORT ?? 8080;
 
 const server = app.listen(PORT, () => {
-  logger.info("Server is running on port " + server.address().port);
+  console.log("Server is running on port " + server.address().port);
 });
