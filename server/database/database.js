@@ -1,6 +1,6 @@
 import "dotenv/config";
 import { hashPassword } from "../utils/passwordHashing.js";
-import { seedCountries } from "./seed.js";
+import { seedCountries, seedGames } from "./seed.js";
 
 const ADMIN_PASSWORD = await hashPassword(
   process.env.ADMIN_PASSWORD ?? "admin",
@@ -28,7 +28,8 @@ db.exec(`
 db.exec(`
   CREATE TABLE IF NOT EXISTS games (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(100) NOT NULL UNIQUE
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description VARCHAR(255) NOT NULL
   );
 `);
 
@@ -65,7 +66,5 @@ if (deleteMode) {
     "INSERT INTO users (username, email, password, name, country_id) VALUES (?, ?, ?, ?, ?)",
   ).run("admin", "admin@test.dk", ADMIN_PASSWORD, "Admin", denmark.id);
 
-  db.prepare(
-    "INSERT INTO games (name) VALUES (?)",
-  ).run("NeuRep");
+  seedGames(db);
 }
