@@ -1,31 +1,32 @@
 <script>
-    import { fetchPost } from "../../util/fetchUtil.js";
+    import { fetchPatch, fetchPost } from "../../util/fetchUtil.js";
     import { toast } from "svelte-sonner";
+    import { user } from "../../stores/userStore.js"
 
     let currentPassword = $state("");
     let newPassword = $state("");
-    let confirmPassword = $state("");
+    let confirmNewPassword = $state("");
     let submitted = $state(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
 
-        if (newPassword !== confirmPassword) {
+        if (newPassword !== confirmNewPassword) {
             toast.error("New passwords do not match");
             return;
         }
 
         submitted = true;
         try {
-            const result = await fetchPost("/auth/reset-password", {
+            const result = await fetchPatch(`/api/users/${$user.id}`, {
                 currentPassword,
                 newPassword,
-                confirmPassword
+                confirmNewPassword
             });
             toast.success(result.data.successMessage);
             currentPassword = "";
             newPassword = "";
-            confirmPassword = "";
+            confirmNewPassword = "";
         } catch (error) {
             toast.error(error.data.errorMessage);
         } finally {
@@ -67,7 +68,7 @@
                 <input
                     id="confirm"
                     type="password"
-                    bind:value={confirmPassword}
+                    bind:value={confirmNewPassword}
                     placeholder="••••••••"
                     required
                 />

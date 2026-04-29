@@ -29,7 +29,7 @@
         try {
             const encoded = await encodeImage(file);
             const result = await fetchPatch(`/api/users/${$user.id}`, { profile_picture: encoded });
-            user.update(u => ({ ...u, profile_picture: encoded }));
+            user.update(update => ({ ...update, profile_picture: encoded }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
@@ -42,7 +42,7 @@
 
 <main>
     <section id="topSection">
-        <div class="avatar-wrapper" onclick={ fileInput?.click()}>
+        <div class="avatar-wrapper" onclick={() => fileInput?.click()}>
             <img class="avatar" src={$user?.profile_picture} alt="Profile Pic" />
         </div>
         <h2>{$user?.name}</h2>
@@ -99,6 +99,12 @@
     .avatar-wrapper {
         position: relative;
         margin-bottom: 0.8rem;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+
+    .avatar-wrapper:hover {
+        transform: scale(1.08);
     }
 
     .avatar {
