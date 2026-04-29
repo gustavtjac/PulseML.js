@@ -157,6 +157,12 @@ dist
 dist-ssr
 *.local
 
+# ML training videos and exported model files
+traningData/
+*.keras
+*.tflite
+*.task
+
 # SQLite WAL and shared memory files
 *.db-wal
 *.db-shm
