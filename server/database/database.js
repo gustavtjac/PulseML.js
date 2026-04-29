@@ -39,7 +39,7 @@ db.exec(`
     email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(100),
-    profile_picture TEXT,
+    profile_picture TEXT DEFAULT '/default-avatar.svg',
     country_id INTEGER REFERENCES countries(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );

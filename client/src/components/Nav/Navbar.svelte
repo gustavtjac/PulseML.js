@@ -26,6 +26,9 @@
     <div class="links">
       {#if $user}
         <Link to="/dashboard">Home</Link>
+        <Link to="/profile" class="profile-link">
+          <img src={$user?.profile_picture} alt="Profile" class="profile-avatar" />
+        </Link>
         <button onclick={logout}>Logout</button>
       {:else}
         <Link to="/login">Login</Link>
@@ -68,5 +71,24 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
+  }
+
+  :global(.profile-link) {
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .profile-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border);
+    transition: border-color 0.15s;
+  }
+
+  .profile-avatar:hover {
+    border-color: var(--accent);
   }
 </style>

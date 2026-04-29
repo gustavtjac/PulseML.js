@@ -7,6 +7,7 @@ import Auth from "./pages/Auth/Auth.svelte";
 import Landing from "./pages/Landing/Landing.svelte";
 import RouteGuard from './components/RouteGuard/RouteGuard.svelte';
 import { checkAuth } from './stores/userStore.js';
+import Profile from './pages/Profile/Profile.svelte';
 
 onMount(() => checkAuth());
 
@@ -18,6 +19,7 @@ onMount(() => checkAuth());
     <Route path='/login'><RouteGuard requireAuth={false}><Auth view="login"/></RouteGuard></Route>
     <Route path='/register'><RouteGuard requireAuth={false}><Auth view="register"/></RouteGuard></Route>
     <Route path='/dashboard'><RouteGuard requireAuth={true}><Home/></RouteGuard></Route>
+    <Route path='/profile'><RouteGuard requireAuth={true}><Profile/></RouteGuard></Route>
     <Route><h1>404</h1><p>This page does not exist.</p></Route>
   </div>
 </Router>

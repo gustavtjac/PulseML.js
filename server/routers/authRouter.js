@@ -38,6 +38,7 @@ router.post("/login", async (req, res) => {
 
   const { password: _password, ...safeUser } = foundUserFromDatabase;
   req.session.user = safeUser;
+  console.log(safeUser)
 
   res.status(200).send({
     data: { successMessage: "Login succesfull" },
@@ -102,12 +103,12 @@ router.post("/register", async (req, res) => {
 });
 
 router.get("/me", isLoggedIn, (req, res) => {
-  res.status(200).json({ data: { user: { ...req.session.user } } });
+  res.status(200).send({ data: { user: { ...req.session.user } } });
 });
 
 router.post("/logout", isLoggedIn, (req, res) => {
   req.session.destroy();
-  res.status(200).json({ data: { successMessage: "Logged out" } });
+  res.status(200).send({ data: { successMessage: "Logged out" } });
 });
 
 export default router;
