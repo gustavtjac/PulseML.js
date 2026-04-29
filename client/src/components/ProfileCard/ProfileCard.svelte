@@ -5,11 +5,16 @@
     import { encodeImage } from "../../util/encodeUtil.js";
     import { toast } from "svelte-sonner";
 
-    let country = null;
+    let name = $state("");
+    let country = $state(null);
     let fileInput;
 
     onMount(async () => {
+
+        name = $user?.name;
         try {
+            
+
             if ($user?.country_id) {
                 const result = await fetchGet(
                     `/api/countries/${$user.country_id}`,
@@ -35,6 +40,19 @@
             toast.error(error.data.errorMessage);
         }
     }
+
+    async function handleNameChange(){
+
+         try {
+            const result = await fetchPatch(`/api/users/${$user.id}`, { name });
+            user.update(update => ({ ...update, name }));
+            toast.success(result.data.successMessage);
+        } catch (error) {
+            toast.error(error.data.errorMessage);
+        }
+
+    }
+
     
 </script>
 
@@ -45,7 +63,7 @@
         <div class="avatar-wrapper" onclick={() => fileInput?.click()}>
             <img class="avatar" src={$user?.profile_picture} alt="Profile Pic" />
         </div>
-        <h2>{$user?.name}</h2>
+        <input class="name-input" type="text" bind:value={name} onchange={handleNameChange}>
         <h3>@{$user?.username}</h3>
         {#if country}
             <div class="country-badge">
@@ -123,6 +141,30 @@
         font-size: 1.3rem;
         font-weight: 700;
         color: var(--text);
+    }
+
+    .name-input {
+        background: none;
+        border: none;
+        border-bottom: 1px solid transparent;
+        border-radius: 0;
+        color: var(--text);
+        font-size: 1.3rem;
+        font-weight: 700;
+        font-family: inherit;
+        text-align: center;
+        width: auto;
+        padding: 0;
+        outline: none;
+        transition: border-color 0.15s;
+    }
+
+    .name-input:hover {
+        border-bottom-color: var(--text-muted);
+    }
+
+    .name-input:focus {
+        border-bottom-color: var(--accent);
     }
 
     h3 {

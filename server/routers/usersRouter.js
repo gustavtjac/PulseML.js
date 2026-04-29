@@ -5,7 +5,7 @@ import db from "../database/connection.js";
 import { isLoggedIn, isAccessingOwnUser } from "../middleWare/authMiddleWare.js";
 import { compareHashedPasswords, hashPassword } from "../utils/passwordHashing.js";
 
-const ALLOWED_FIELDS = new Set(["profile_picture"]);
+const ALLOWED_FIELDS = new Set(["profile_picture","name"]);
 
 router.patch("/users/:id", isLoggedIn, isAccessingOwnUser, async (req, res) => {
     const { id } = req.params;
