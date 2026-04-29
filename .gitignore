@@ -157,6 +157,10 @@ dist
 dist-ssr
 *.local
 
+# SQLite WAL and shared memory files
+*.db-wal
+*.db-shm
+
 # Editor directories and files
 .vscode/
 .idea
