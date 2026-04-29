@@ -26,6 +26,7 @@
     <div class="links">
       {#if $user}
         <Link to="/dashboard">Home</Link>
+        <Link to="/leaderboard">Leaderboard</Link>
         <Link to="/profile" class="profile-link">
           <img src={$user?.profile_picture} alt="Profile" class="profile-avatar" />
         </Link>

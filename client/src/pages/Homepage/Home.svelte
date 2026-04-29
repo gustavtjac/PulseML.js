@@ -5,7 +5,12 @@
 
 
 <Navbar/>
-<h2>Home / Dashboard {$user.name} </h2>
+
+
+<main>
+
+    
+</main>
 
 
 
