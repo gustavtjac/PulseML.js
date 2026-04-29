@@ -54,8 +54,8 @@ app.use(helmet({
     },
   },
 }));
-app.use("/auth", authLimiter);
-app.use(generalLimiter);
+/* app.use("/auth", authLimiter);
+app.use(generalLimiter); */
 app.use("/auth", authRouter);
 app.use("/api", countriesRouter);
 app.use("/api", usersRouter);

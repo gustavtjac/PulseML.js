@@ -2,7 +2,7 @@ import { Router } from "express";
 const router = Router();
 
 import db from "../database/connection.js";
-import { sendRegisterMail } from "../utils/emailUtil.js";
+import { sendRegisterMail } from "../utils/emailUtil/emailUtil.js";
 import {compareHashedPasswords, hashPassword,} from "../utils/passwordHashing.js";
 import { isLoggedIn } from "../middleWare/authMiddleWare.js";
 
@@ -85,7 +85,7 @@ router.post("/register", async (req, res) => {
       "INSERT INTO users (username, name, password, email, country_id) VALUES (?, ?, ?, ?, ?)",
     ).run(username, name, hashedPassword, email, countryId);
 
-    sendRegisterMail(email).catch((error) => {
+    sendRegisterMail(email, username).catch((error) => {
     console.log(error);
      /*  logger.error({ error }, "Register email failed"); */
     });

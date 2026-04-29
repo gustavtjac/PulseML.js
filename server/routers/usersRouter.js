@@ -4,8 +4,9 @@ const router = Router();
 import db from "../database/connection.js";
 import { isLoggedIn, isAccessingOwnUser } from "../middleWare/authMiddleWare.js";
 import { compareHashedPasswords, hashPassword } from "../utils/passwordHashing.js";
+import { sendPasswordChangedMail } from "../utils/emailUtil/emailUtil.js";
 
-const ALLOWED_FIELDS = new Set(["profile_picture","name"]);
+const ALLOWED_FIELDS = new Set(["profile_picture", "name"]);
 
 router.patch("/users/:id", isLoggedIn, isAccessingOwnUser, async (req, res) => {
     const { id } = req.params;
@@ -44,9 +45,17 @@ router.patch("/users/:id", isLoggedIn, isAccessingOwnUser, async (req, res) => {
 
     db.prepare(`UPDATE users SET ${fields} WHERE id = ?`).run(...values, id);
 
+
+
     updates.filter(k => k !== "password").forEach(key => {
         req.session.user[key] = otherFields[key];
     });
+
+    if (updates.includes("password")) {
+        sendPasswordChangedMail(req.session.user.email, req.session.user.username).catch(error => {
+            console.log(error);
+        });
+    }
 
     return res.status(200).send({ data: { successMessage: "User updated" } });
 });
