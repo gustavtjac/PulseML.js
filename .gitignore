@@ -158,7 +158,7 @@ dist-ssr
 *.local
 
 # ML training videos and exported model files
-traningData/
+trainingData/
 *.keras
 *.tflite
 *.task

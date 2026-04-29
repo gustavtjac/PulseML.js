@@ -22,6 +22,31 @@ export async function fetchGet(endpoint) {
   }
 }
 
+export async function fetchPatch(endpoint, body) {
+  try {
+    const response = await fetch(BASE_URL + endpoint, {
+      method: "PATCH",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      throw await response.json();
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error?.data?.errorMessage) {
+      throw error;
+    } else {
+      throw { data: { errorMessage: "Server down error" } };
+    }
+  }
+}
+
 export async function fetchPost(endpoint, body) {
   try {
     const response = await fetch(BASE_URL + endpoint, {

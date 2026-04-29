@@ -4,7 +4,8 @@ import session from "express-session";
 import { rateLimit } from "express-rate-limit";
 import helmet from "helmet";
 import authRouter from "./routers/authRouter.js";
-import countriesRouter from "./routers/countriesRouter.js"
+import countriesRouter from "./routers/countriesRouter.js";
+import usersRouter from "./routers/usersRouter.js";
 import path from "path";
 
 const app = express();
@@ -56,7 +57,8 @@ app.use(helmet({
 app.use("/auth", authLimiter);
 app.use(generalLimiter);
 app.use("/auth", authRouter);
-app.use("/api", countriesRouter)
+app.use("/api", countriesRouter);
+app.use("/api", usersRouter);
 
 app.get("/api/{*splat}", (req, res) => {
   res.status(404).send({

@@ -1,9 +1,12 @@
 <script>
     import { onMount } from "svelte";
     import { user } from "../../stores/userStore.js";
-    import { fetchGet } from "../../util/fetchUtil.js";
+    import { fetchGet, fetchPatch } from "../../util/fetchUtil.js";
+    import { encodeImage } from "../../util/encodeUtil.js";
+    import { toast } from "svelte-sonner";
 
     let country = null;
+    let fileInput;
 
     onMount(async () => {
         try {
@@ -17,11 +20,29 @@
             console.log(error);
         }
     });
+
+
+    async function handleFileChange(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        try {
+            const encoded = await encodeImage(file);
+            const result = await fetchPatch(`/api/users/${$user.id}`, { profile_picture: encoded });
+            user.update(u => ({ ...u, profile_picture: encoded }));
+            toast.success(result.data.successMessage);
+        } catch (error) {
+            toast.error(error.data.errorMessage);
+        }
+    }
+    
 </script>
+
+<input bind:this={fileInput} type="file" accept="image/*" onchange={handleFileChange} style="display:none" />
 
 <main>
     <section id="topSection">
-        <div class="avatar-wrapper">
+        <div class="avatar-wrapper" onclick={ fileInput?.click()}>
             <img class="avatar" src={$user?.profile_picture} alt="Profile Pic" />
         </div>
         <h2>{$user?.name}</h2>
@@ -59,7 +80,7 @@
         flex-direction: column;
         gap: 0;
         width: 320px;
-        margin: 2rem auto;
+        margin: 2rem;
         background: var(--bg-surface);
         border-radius: 16px;
         overflow: hidden;
