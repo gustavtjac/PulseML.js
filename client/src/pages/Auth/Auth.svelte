@@ -2,9 +2,11 @@
   import Navbar from "../../components/Nav/Navbar.svelte";
   import Login from "../../components/Login/Login.svelte";
   import Register from "../../components/Register/Register.svelte";
+  import LeaderboardBanner from "../../components/LeadearboardBanner/LeaderboardBanner.svelte";
   import { user } from "../../stores/userStore.js";
   import { onMount } from "svelte";
   import { navigate } from "svelte-routing";
+
 
   let { view = $bindable() } = $props();
 
@@ -14,7 +16,7 @@
     }
   });
 </script>
-
+  <LeaderboardBanner/>
   <Navbar />
   <main aria-label="Authentication">
     {#if view === "login"}

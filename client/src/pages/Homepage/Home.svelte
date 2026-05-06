@@ -4,9 +4,9 @@
     import LeaderboardBanner from "../../components/LeadearboardBanner/LeaderboardBanner.svelte";
 </script>
 
-
-<Navbar/>
 <LeaderboardBanner/>
+<Navbar/>
+
 
 <main>
 

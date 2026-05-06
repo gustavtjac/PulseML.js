@@ -2,7 +2,7 @@
     import { authReady, user } from '../../stores/userStore.js';
     import { navigate } from 'svelte-routing';
 
-    let { requireAuth = false } = $props();
+    let { requireAuth = false, children } = $props();
 
     $effect(() => {
         if ($authReady) {
@@ -13,5 +13,5 @@
 </script>
 
 {#if $authReady && ((requireAuth && $user) || (!requireAuth && !$user))}
-    <slot />
+    {@render children()}
 {/if}

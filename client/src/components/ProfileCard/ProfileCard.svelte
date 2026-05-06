@@ -78,15 +78,15 @@
 
     <section class="info-section">
         <div class="info-row">
-            <label>USERNAME</label>
+            <span class="label">USERNAME</span>
             <span>{$user?.username}</span>
         </div>
         <div class="info-row">
-            <label>EMAIL</label>
+            <span class="label">EMAIL</span>
             <span>{$user?.email}</span>
         </div>
         <div class="info-row">
-            <label>MEMBER SINCE</label>
+            <span class="label">MEMBER SINCE</span>
             <span class="highlight">{$user?.created_at}</span>
         </div>
     </section>
@@ -116,7 +116,6 @@
 
     .avatar-wrapper {
         position: relative;
-        margin-bottom: 0.8rem;
         cursor: pointer;
         transition: transform 0.2s ease;
     }
@@ -136,12 +135,6 @@
             linear-gradient(135deg, var(--accent), var(--accent-dim)) border-box;
     }
 
-    h2 {
-        margin: 0;
-        font-size: 1.3rem;
-        font-weight: 700;
-        color: var(--text);
-    }
 
     .name-input {
         background: none;
@@ -211,11 +204,18 @@
         border-bottom: 1px solid var(--border);
     }
 
-    label {
+    .label {
         font-size: 0.7rem;
         letter-spacing: 0.1em;
         color: var(--text-muted);
         text-transform: uppercase;
+    }
+
+    button.avatar-wrapper {
+        background: none;
+        border: none;
+        padding: 0;
+        margin-bottom: 0.8rem;
     }
 
     span {
