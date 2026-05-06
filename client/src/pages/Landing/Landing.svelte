@@ -1,10 +1,13 @@
 <script>
     import Navbar from "../../components/Nav/Navbar.svelte";
-     import { navigate } from "svelte-routing";
+    import { navigate } from "svelte-routing";
+    import LeaderboardBanner from "../../components/LeadearboardBanner/LeaderboardBanner.svelte";
 </script>
 
-<Navbar/>
 
+
+<Navbar/>
+<LeaderboardBanner/>
 <main>
     <header>
         <h1>PulseML.js</h1>

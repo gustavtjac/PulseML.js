@@ -14,14 +14,14 @@ const app = express();
 app.use(express.static("../client/dist"));
 app.use(express.json({ limit: "5mb" }));
 
-app.use(
-  session({
+const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false },
-  }),
-);
+    cookie: { secure: false }
+});
+
+app.use(sessionMiddleware);
 
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -62,6 +62,19 @@ app.use(countriesRouter);
 app.use(usersRouter);
 app.use(gamesRouter);
 
+
+import http from 'http'
+const server = http.createServer(app);
+
+import { Server } from 'socket.io'
+const io = new Server(server);
+
+io.engine.use(sessionMiddleware);
+
+import { leaderboardBannerSocket } from "./sockets/leaderboardBannerSocket.js";
+leaderboardBannerSocket(io);
+
+
 app.get("/api/{*splat}", (req, res) => {
   res.status(404).send({
     data: { errorMessage: `${req.method} ${req.path} does not exist` },
@@ -80,6 +93,6 @@ app.all("/{*splat}", (req, res) => {
 
 const PORT = process.env.PORT ?? 8080;
 
-const server = app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("Server is running on port " + server.address().port);
 });
