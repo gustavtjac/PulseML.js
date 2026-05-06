@@ -57,10 +57,10 @@ app.use(helmet({
 }));
 /* app.use("/auth", authLimiter);
 app.use(generalLimiter); */
-app.use("/auth", authRouter);
-app.use("/api", countriesRouter);
-app.use("/api", usersRouter);
-app.use("/api", gamesRouter);
+app.use(authRouter);
+app.use(countriesRouter);
+app.use(usersRouter);
+app.use(gamesRouter);
 
 app.get("/api/{*splat}", (req, res) => {
   res.status(404).send({

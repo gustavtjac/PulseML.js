@@ -7,4 +7,4 @@ import Navbar from "../../components/Nav/Navbar.svelte";
 
 <Navbar/>
 
-<h1>Leaderboasrd</h1>   
+<h1>Leaderboard</h1>   

@@ -3,7 +3,7 @@ const router = Router();
 
 import db from "../database/connection.js";
 
-router.get("/countries", (req, res) => {
+router.get("/api/countries", (req, res) => {
 
     console.log("Her")
     const countries = db.prepare("SELECT * FROM countries ORDER BY name ASC").all();
@@ -11,7 +11,7 @@ router.get("/countries", (req, res) => {
     return res.status(200).send({ data: { countries } });
 });
 
-router.get("/countries/:id", (req, res) => {
+router.get("/api/countries/:id", (req, res) => {
     const { id } = req.params;
 
     const country = db.prepare("SELECT * FROM countries WHERE id = ?").get(id);

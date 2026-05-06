@@ -6,7 +6,7 @@ import { sendRegisterMail } from "../utils/emailUtil/emailUtil.js";
 import {compareHashedPasswords, hashPassword,} from "../utils/passwordHashing.js";
 import { isLoggedIn } from "../middleWare/authMiddleWare.js";
 
-router.post("/login", async (req, res) => {
+router.post("/auth/login", async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -45,7 +45,7 @@ router.post("/login", async (req, res) => {
   });
 });
 
-router.post("/register", async (req, res) => {
+router.post("/auth/register", async (req, res) => {
   const { username, name, password1, password2, email, countryId } =
     req.body;
 
@@ -102,11 +102,11 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.get("/me", isLoggedIn, (req, res) => {
+router.get("/auth/me", isLoggedIn, (req, res) => {
   res.status(200).send({ data: { user: { ...req.session.user } } });
 });
 
-router.post("/logout", isLoggedIn, (req, res) => {
+router.post("/auth/logout", isLoggedIn, (req, res) => {
   req.session.destroy();
   res.status(200).send({ data: { successMessage: "Logged out" } });
 });

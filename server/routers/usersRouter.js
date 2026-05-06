@@ -8,7 +8,7 @@ import { sendPasswordChangedMail } from "../utils/emailUtil/emailUtil.js";
 
 const ALLOWED_FIELDS = new Set(["profile_picture", "name"]);
 
-router.patch("/users/:id", isLoggedIn, isAccessingOwnUser, async (req, res) => {
+router.patch("/api/users/:id", isLoggedIn, isAccessingOwnUser, async (req, res) => {
     const { id } = req.params;
     const { currentPassword, newPassword, confirmNewPassword, ...otherFields } = req.body;
 
