@@ -100,7 +100,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 2.5rem 2rem 2rem;
+        padding: 1.5rem 2rem 1rem;
         gap: 0.4rem;
     }
 
