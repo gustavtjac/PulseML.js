@@ -42,9 +42,9 @@ db.exec(`
     name VARCHAR(100),
     profile_picture TEXT DEFAULT '/default-avatar.svg',
     country_id INTEGER REFERENCES countries(id),
-    birthday TEXT,
-    weight REAL,
-    gender INTEGER,
+    birthday TEXT NOT NULL,
+    weight REAL NOT NULL,
+    gender INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 `);
