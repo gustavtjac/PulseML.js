@@ -35,6 +35,9 @@ db.exec(`
     name VARCHAR(100),
     profile_picture TEXT DEFAULT '/default-avatar.svg',
     country_id INTEGER REFERENCES countries(id),
+    birthday TEXT,
+    weight REAL,
+    gender INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 `);
@@ -55,7 +58,7 @@ seedGames(db);
 const testPassword = await hashPassword("123");
 
 const insertUser = db.prepare(
-    "INSERT INTO users (username, email, password, name, country_id) VALUES (?, ?, ?, ?, ?)"
+    "INSERT INTO users (username, email, password, name, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
 );
 const insertScore = db.prepare(
     "INSERT INTO scores (user_id, game_id, score) VALUES (?, ?, ?)"
@@ -71,6 +74,9 @@ for (const userData of testUsers) {
         testPassword,
         userData.name,
         country?.id ?? null,
+        userData.birthday,
+        userData.weight,
+        userData.gender,
     );
 
     const userIndex = testUsers.indexOf(userData);

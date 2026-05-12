@@ -42,6 +42,9 @@ db.exec(`
     name VARCHAR(100),
     profile_picture TEXT DEFAULT '/default-avatar.svg',
     country_id INTEGER REFERENCES countries(id),
+    birthday TEXT,
+    weight REAL,
+    gender INTEGER,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
 `);
@@ -63,8 +66,8 @@ if (deleteMode) {
   const denmark = db.prepare("SELECT id FROM countries WHERE code = ?").get("DK");
 
   db.prepare(
-    "INSERT INTO users (username, email, password, name, country_id) VALUES (?, ?, ?, ?, ?)",
-  ).run("admin", "admin@test.dk", ADMIN_PASSWORD, "Admin", denmark.id);
+    "INSERT INTO users (username, email, password, name, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+  ).run("admin", "admin@test.dk", ADMIN_PASSWORD, "Admin", denmark.id, "1990-01-01", 80, 0);
 
   seedGames(db);
 }

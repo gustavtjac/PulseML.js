@@ -6,12 +6,12 @@ import { isLoggedIn, isAccessingOwnUser } from "../middleWare/authMiddleWare.js"
 import { compareHashedPasswords, hashPassword } from "../utils/passwordHashing.js";
 import { sendPasswordChangedMail } from "../utils/emailUtil/emailUtil.js";
 
-const ALLOWED_FIELDS = ["profile_picture", "name"];
+const ALLOWED_FIELDS = ["profile_picture", "name", "birthday", "weight", "gender"];
 
 router.get("/api/users/profile/:username", isLoggedIn, (req, res) => {
     const { username } = req.params;
     const profile = db.prepare(`
-        SELECT u.id, u.username, u.name, u.profile_picture, u.created_at,
+        SELECT u.id, u.username, u.name, u.profile_picture, u.created_at, u.birthday, u.weight, u.gender,
                c.name AS country_name, c.code AS country_code
         FROM users u
         LEFT JOIN countries c ON u.country_id = c.id

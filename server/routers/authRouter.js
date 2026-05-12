@@ -46,7 +46,7 @@ router.post("/auth/login", async (req, res) => {
 });
 
 router.post("/auth/register", async (req, res) => {
-  const { username, name, password1, password2, email, countryId } =
+  const { username, name, password1, password2, email, countryId, birthday, weight, gender } =
     req.body;
 
   if (
@@ -55,7 +55,10 @@ router.post("/auth/register", async (req, res) => {
     !countryId ||
     !password1 ||
     !password2 ||
-    !email
+    !email ||
+    !birthday ||
+    !weight ||
+    !gender
   ) {
     return res.status(400).send({
       data: { errorMessage: "Please fill out all information fields" },
@@ -82,8 +85,8 @@ router.post("/auth/register", async (req, res) => {
     const hashedPassword = await hashPassword(password1);
 
     db.prepare(
-      "INSERT INTO users (username, name, password, email, country_id) VALUES (?, ?, ?, ?, ?)",
-    ).run(username, name, hashedPassword, email, countryId);
+      "INSERT INTO users (username, name, password, email, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+    ).run(username, name, hashedPassword, email, countryId, birthday, weight, gender);
 
     sendRegisterMail(email, username).catch((error) => {
     console.log(error);
