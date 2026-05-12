@@ -1,4 +1,5 @@
 <script>
+    import { calcAge } from "../../util/dateUtil.js";
     let { profile } = $props();
 </script>
 
@@ -25,6 +26,24 @@
             <span class="label">USERNAME</span>
             <span>{profile.username}</span>
         </div>
+        {#if profile.birthday}
+        <div class="info-row">
+            <span class="label">AGE</span>
+            <span>{calcAge(profile.birthday)}</span>
+        </div>
+        {/if}
+        {#if profile.weight != null}
+        <div class="info-row">
+            <span class="label">WEIGHT</span>
+            <span>{profile.weight} kg</span>
+        </div>
+        {/if}
+        {#if profile.gender != null}
+        <div class="info-row">
+            <span class="label">GENDER</span>
+            <span>{profile.gender === 0 ? "Male" : "Female"}</span>
+        </div>
+        {/if}
         <div class="info-row">
             <span class="label">MEMBER SINCE</span>
             <span class="highlight">{profile.created_at}</span>
