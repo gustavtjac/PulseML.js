@@ -1,0 +1,57 @@
+import { Router } from "express";
+import db from "../database/connection.js";
+import { isLoggedIn } from "../middleWare/authMiddleWare.js";
+
+
+const router = Router();
+
+router.get("/api/leaderboard/:game_id", isLoggedIn, (req, res) => {
+    const { game_id } = req.params;
+
+    if (!game_id) {
+        return res.status(400).send({ data: { errorMessage: "game_id is required" } });
+    }
+
+    const game = db.prepare("SELECT * FROM games WHERE id = ?").get(game_id);
+    if (!game) {
+        return res.status(404).send({ data: { errorMessage: "Game not found" } });
+    }
+
+    const highscores = db.prepare(`
+        SELECT s.score, s.date, u.username, u.profile_picture
+        FROM scores s
+        JOIN users u ON s.user_id = u.id
+        WHERE s.game_id = ?
+          AND s.score = (
+            SELECT MAX(s2.score) FROM scores s2
+            WHERE s2.user_id = s.user_id AND s2.game_id = s.game_id
+          )
+        GROUP BY s.user_id
+        ORDER BY s.score DESC
+        LIMIT 50
+    `).all(game_id);
+
+    return res.status(200).send({ data: { highscores } });
+});
+
+router.get("/api/scores/user/:username", isLoggedIn, (req, res) => {
+    const { username } = req.params;
+
+    const user = db.prepare("SELECT id FROM users WHERE username = ?").get(username);
+    if (!user) {
+        return res.status(404).send({ data: { errorMessage: "User not found" } });
+    }
+
+    const scores = db.prepare(`
+        SELECT g.name AS game_name, MAX(s.score) AS best_score, COUNT(s.id) AS plays
+        FROM scores s
+        JOIN games g ON s.game_id = g.id
+        WHERE s.user_id = ?
+        GROUP BY s.game_id
+        ORDER BY best_score DESC
+    `).all(user.id);
+
+    return res.status(200).send({ data: { scores } });
+});
+
+export default router;

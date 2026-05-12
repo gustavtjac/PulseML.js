@@ -25,7 +25,7 @@
                     {#each game.scores as score, j}
                         <span class="score">
                             <span class="rank">{j === 0 ? '🥇' : j === 1 ? '🥈' : '🥉'}</span>
-                            <span class="username">@{score.username}</span>
+                            <a href="/profile/{score.username}"><span class="username">@{score.username}</span></a>
                             <span class="pts">{score.score} pts</span>
                         </span>
                     {/each}
@@ -41,7 +41,8 @@
                     {#each game.scores as score, j}
                         <span class="score">
                             <span class="rank">{j === 0 ? '🥇' : j === 1 ? '🥈' : '🥉'}</span>
-                            <span class="username">@{score.username}</span>
+                            <a href="/profile/{score.username}"><span class="username">@{score.username}</span></a>
+                            
                             <span class="pts">{score.score} pts</span>
                         </span>
                     {/each}

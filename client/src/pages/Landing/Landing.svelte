@@ -95,9 +95,15 @@
 
     <section id="cta">
         <h2>Ready to play?</h2>
-        <button onclick={() => navigate("/register")}
+        {#if $user}
+        <button onclick={() => navigate("/dashboard")}
+            >Go to games!</button
+        >
+         {:else}
+<button onclick={() => navigate("/register")}
             >Create a free account</button
         >
+         {/if}
     </section>
 </main>
 

@@ -6,21 +6,38 @@ import { isLoggedIn, isAccessingOwnUser } from "../middleWare/authMiddleWare.js"
 import { compareHashedPasswords, hashPassword } from "../utils/passwordHashing.js";
 import { sendPasswordChangedMail } from "../utils/emailUtil/emailUtil.js";
 
-const ALLOWED_FIELDS = new Set(["profile_picture", "name"]);
+const ALLOWED_FIELDS = ["profile_picture", "name"];
+
+router.get("/api/users/profile/:username", isLoggedIn, (req, res) => {
+    const { username } = req.params;
+    const profile = db.prepare(`
+        SELECT u.id, u.username, u.name, u.profile_picture, u.created_at,
+               c.name AS country_name, c.code AS country_code
+        FROM users u
+        LEFT JOIN countries c ON u.country_id = c.id
+        WHERE u.username = ?
+    `).get(username);
+
+    if (!profile) {
+        return res.status(404).send({ data: { errorMessage: "User not found" } });
+    }
+
+    return res.status(200).send({ data: { profile } });
+});
 
 router.patch("/api/users/:id", isLoggedIn, isAccessingOwnUser, async (req, res) => {
     const { id } = req.params;
     const { currentPassword, newPassword, confirmNewPassword, ...otherFields } = req.body;
 
-    const updates = Object.keys(otherFields).filter(key => ALLOWED_FIELDS.has(key));
+    const updates = Object.keys(otherFields).filter(key => ALLOWED_FIELDS.includes(key));
 
     if (updates.length === 0 && !newPassword) {
         return res.status(400).send({ data: { errorMessage: "No valid fields provided" } });
     }
 
     if (newPassword) {
-        if (!currentPassword) {
-            return res.status(400).send({ data: { errorMessage: "Current password is required" } });
+        if (!currentPassword || !newPassword) {
+            return res.status(400).send({ data: { errorMessage: "Current & new password is required" } });
         }
         if (newPassword !== confirmNewPassword) {
             return res.status(400).send({ data: { errorMessage: "Passwords do not match" } });
@@ -40,12 +57,10 @@ router.patch("/api/users/:id", isLoggedIn, isAccessingOwnUser, async (req, res) 
         otherFields.password = await hashPassword(newPassword);
     }
 
-    const fields = updates.map(key => `${key} = ?`).join(", ");
+    const fields = updates.map(field => `${field} = ?`).join(", ");
     const values = updates.map(key => otherFields[key]);
 
     db.prepare(`UPDATE users SET ${fields} WHERE id = ?`).run(...values, id);
-
-
 
     updates.filter(k => k !== "password").forEach(key => {
         req.session.user[key] = otherFields[key];

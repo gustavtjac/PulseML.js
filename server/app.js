@@ -7,6 +7,7 @@ import authRouter from "./routers/authRouter.js";
 import countriesRouter from "./routers/countriesRouter.js";
 import usersRouter from "./routers/usersRouter.js";
 import gamesRouter from "./routers/gamesRouter.js";
+import scoresRouter from "./routers/scoresRouter.js";
 import path from "path";
 
 const app = express();
@@ -61,6 +62,7 @@ app.use(authRouter);
 app.use(countriesRouter);
 app.use(usersRouter);
 app.use(gamesRouter);
+app.use(scoresRouter);
 
 
 import http from 'http'
