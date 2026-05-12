@@ -6,12 +6,18 @@
     import { toast } from "svelte-sonner";
 
     let name = $state("");
+    let birthday = $state("");
+    let weight = $state("");
+    let gender = $state("");
     let country = $state(null);
     let fileInput;
 
     onMount(async () => {
 
         name = $user?.name;
+        birthday = $user?.birthday;
+        weight = $user?.weight;
+        gender = $user?.gender;
         try {
             
 
@@ -41,16 +47,44 @@
         }
     }
 
-    async function handleNameChange(){
-
-         try {
+    async function handleNameChange() {
+        try {
             const result = await fetchPatch(`/api/users/${$user.id}`, { name });
             user.update(update => ({ ...update, name }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
         }
+    }
 
+    async function handleBirthdayChange() {
+        try {
+            const result = await fetchPatch(`/api/users/${$user.id}`, {  birthday  });
+            user.update(update => ({ ...update, birthday }));
+            toast.success(result.data.successMessage);
+        } catch (error) {
+            toast.error(error.data.errorMessage);
+        }
+    }
+
+    async function handleWeightChange() {
+        try {
+            const result = await fetchPatch(`/api/users/${$user.id}`, { weight  });
+            user.update(update => ({ ...update, weight: Number(weight) }));
+            toast.success(result.data.successMessage);
+        } catch (error) {
+            toast.error(error.data.errorMessage);
+        }
+    }
+
+    async function handleGenderChange() {
+        try {
+            const result = await fetchPatch(`/api/users/${$user.id}`, { gender });
+            user.update(update => ({ ...update, gender: Number(gender) }));
+            toast.success(result.data.successMessage);
+        } catch (error) {
+            toast.error(error.data.errorMessage);
+        }
     }
 
     
@@ -84,6 +118,21 @@
         <div class="info-row">
             <span class="label">EMAIL</span>
             <span>{$user?.email}</span>
+        </div>
+        <div class="info-row">
+            <span class="label">BIRTHDAY</span>
+            <input class="inline-input" type="date" bind:value={birthday} onchange={handleBirthdayChange} />
+        </div>
+        <div class="info-row">
+            <span class="label">WEIGHT (KG)</span>
+            <input class="inline-input" type="number" bind:value={weight} onchange={handleWeightChange} min="1" max="500"/>
+        </div>
+        <div class="info-row">
+            <span class="label">GENDER</span>
+            <select class="inline-select"  bind:value={gender} onchange={handleGenderChange}>
+                <option value={0}>Male</option>
+                <option value={1}>Female</option>
+            </select>
         </div>
         <div class="info-row">
             <span class="label">MEMBER SINCE</span>
@@ -211,12 +260,6 @@
         text-transform: uppercase;
     }
 
-    button.avatar-wrapper {
-        background: none;
-        border: none;
-        padding: 0;
-        margin-bottom: 0.8rem;
-    }
 
     span {
         font-size: 0.95rem;
@@ -226,5 +269,58 @@
     .highlight {
         color: var(--accent);
         font-weight: 600;
+    }
+
+    .inline-input {
+        background: none;
+        border: none;
+        border-bottom: 1px solid transparent;
+        border-radius: 0;
+        color: var(--text);
+        font-size: 0.95rem;
+        font-family: inherit;
+        text-align: right;
+        width: 80px;
+        padding: 0;
+        outline: none;
+        transition: border-color 0.15s;
+    }
+
+    .inline-input[type="date"] {
+        width: auto;
+        text-align: left;
+        color-scheme: dark;
+    }
+
+    .inline-input:hover {
+        border-bottom-color: var(--text-muted);
+    }
+
+    .inline-input:focus {
+        border-bottom-color: var(--accent);
+    }
+
+    .inline-input[type="number"]::-webkit-inner-spin-button,
+    .inline-input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    .inline-select {
+        background: var(--bg-raised);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        color: var(--text);
+        font-size: 0.85rem;
+        font-family: inherit;
+        padding: 0.2rem 0.4rem;
+        outline: none;
+        cursor: pointer;
+        max-width: 100px;
+        text-align: right;
+        direction: rtl;
+    }
+
+    .inline-select:focus {
+        border-color: var(--accent);
     }
 </style>
