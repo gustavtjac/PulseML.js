@@ -1,5 +1,5 @@
 <script>
-import LeaderboardBanner from "../../components/LeadearboardBanner/LeaderboardBanner.svelte";
+import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
 import Navbar from "../../components/Nav/Navbar.svelte";
 </script>
 

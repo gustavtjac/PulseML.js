@@ -1,6 +1,6 @@
 <script>
     import { onMount } from "svelte";
-    import LeaderboardBanner from "../../components/LeadearboardBanner/LeaderboardBanner.svelte";
+    import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import Navbar from "../../components/Nav/Navbar.svelte";
     import PublicProfileCard from "../../components/PublicProfileCard/PublicProfileCard.svelte";
     import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";

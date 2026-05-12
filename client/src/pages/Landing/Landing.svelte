@@ -1,7 +1,7 @@
 <script>
     import Navbar from "../../components/Nav/Navbar.svelte";
     import { navigate } from "svelte-routing";
-    import LeaderboardBanner from "../../components/LeadearboardBanner/LeaderboardBanner.svelte";
+    import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import { onMount, onDestroy } from "svelte";
 
     import { user } from "../../stores/userStore.js";
