@@ -10,6 +10,9 @@
   let password = $state("");
   let confirmPassword = $state("");
   let countryId = $state("");
+  let birthday = $state("");
+  let weight = $state("");
+  let gender = $state("");
   let submitted = $state(false);
 
   let countries = $state([]);
@@ -26,7 +29,10 @@
         email,
         password1: password,
         password2: confirmPassword,
-        countryId
+        countryId: Number(countryId),
+        birthday,
+        weight: Number(weight),
+        gender: Number(gender),
       });
       toast.success(result.data.successMessage);
       navigate("/login");
@@ -110,6 +116,19 @@
       bind:value={confirmPassword}
       required
     />
+
+    <label for="birthday">Birthday</label>
+    <input id="birthday" type="date" bind:value={birthday} required />
+
+    <label for="weight">Weight (kg)</label>
+    <input id="weight" type="number" bind:value={weight} placeholder="70" min="1" max="500" step="0.1" required />
+
+    <label for="gender">Gender</label>
+    <select id="gender" bind:value={gender} required>
+      <option value="" disabled>Select gender</option>
+      <option value={0}>Male</option>
+      <option value={1}>Female</option>
+    </select>
 
     <button type="submit">
       {submitted ? "Creating account…" : "Create account"}
