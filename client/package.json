@@ -7,13 +7,15 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "eslint src"
+    "lint": "eslint src && npx prettier --write src"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@sveltejs/vite-plugin-svelte": "^7.0.0",
     "eslint": "^10.2.1",
     "eslint-plugin-svelte": "^3.17.0",
+    "prettier": "^3.8.3",
+    "prettier-plugin-svelte": "^4.0.1",
     "svelte": "^5.55.4",
     "vite": "^8.0.10"
   },
