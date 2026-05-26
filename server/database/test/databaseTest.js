@@ -88,6 +88,3 @@ for (const userData of testUsers) {
     });
 }
 
-const userCount = db.prepare("SELECT COUNT(*) as count FROM users").get().count;
-const scoreCount = db.prepare("SELECT COUNT(*) as count FROM scores").get().count;
-
