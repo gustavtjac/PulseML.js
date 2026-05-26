@@ -16,41 +16,49 @@
     });
 </script>
 
-    <main class="carousel">
-        <section class="group">
-            <span class="label">⚡ LIVE LEADERBOARD</span>
-            {#each leaderboardRankings as game (game.name)}
-                <div class="card">
-                    <span class="game-name">🎮 {game.name}</span>
-                    {#each game.scores as score, j (score.username)}
-                        <span class="score">
-                            <span class="rank">{j === 0 ? '🥇' : j === 1 ? '🥈' : '🥉'}</span>
-                            <a href="/profile/{score.username}"><span class="username">@{score.username}</span></a>
-                            <span class="pts">{score.score} pts</span>
-                        </span>
-                    {/each}
-                </div>
-            {/each}
-            <span class="sep">✦</span>
-        </section>
-        <section aria-hidden="true" class="group">
-            <span class="label">⚡ LIVE LEADERBOARD</span>
-            {#each leaderboardRankings as game (game.name)}
-                <div class="card">
-                    <span class="game-name">🎮 {game.name}</span>
-                    {#each game.scores as score, j (score.username)}
-                        <span class="score">
-                            <span class="rank">{j === 0 ? '🥇' : j === 1 ? '🥈' : '🥉'}</span>
-                            <a href="/profile/{score.username}"><span class="username">@{score.username}</span></a>
-                            
-                            <span class="pts">{score.score} pts</span>
-                        </span>
-                    {/each}
-                </div>
-            {/each}
-            <span class="sep">✦</span>
-        </section>
-    </main>
+<main class="carousel">
+    <section class="group">
+        <span class="label">⚡ LIVE LEADERBOARD</span>
+        {#each leaderboardRankings as game (game.name)}
+            <div class="card">
+                <span class="game-name">🎮 {game.name}</span>
+                {#each game.scores as score, j (score.username)}
+                    <span class="score">
+                        <span class="rank"
+                            >{j === 0 ? "🥇" : j === 1 ? "🥈" : "🥉"}</span
+                        >
+                        <a href="/profile/{score.username}"
+                            ><span class="username">@{score.username}</span></a
+                        >
+                        <span class="pts">{score.score} pts</span>
+                    </span>
+                {/each}
+            </div>
+        {/each}
+        <span class="sep">✦</span>
+    </section>
+    <section aria-hidden="true" class="group">
+        <span class="label">⚡ LIVE LEADERBOARD</span>
+        {#each leaderboardRankings as game (game.name)}
+            <div class="card">
+                <span class="game-name">🎮 {game.name}</span>
+                {#each game.scores as score, j (score.username)}
+                    <span class="score">
+                        <span class="rank"
+                            >{j === 0 ? "🥇" : j === 1 ? "🥈" : "🥉"}</span
+                        >
+                        <a href="/profile/{score.username}"
+                            ><span class="username">@{score.username}</span></a
+                        >
+
+                        <span class="pts">{score.score} pts</span>
+                    </span>
+                {/each}
+            </div>
+        {/each}
+        <span class="sep">✦</span>
+    </section>
+</main>
 
 <style>
     .carousel {
@@ -92,7 +100,7 @@
         letter-spacing: 0.1em;
         padding: 0 1.5em;
         flex-shrink: 0;
-        border-right: 2px solid rgba(0,0,0,0.2);
+        border-right: 2px solid rgba(0, 0, 0, 0.2);
     }
 
     .game-name {
@@ -140,7 +148,11 @@
     }
 
     @keyframes spin {
-        from { transform: translateX(0); }
-        to { transform: translateX(-100%); }
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
     }
 </style>

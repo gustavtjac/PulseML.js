@@ -13,14 +13,11 @@
     let fileInput;
 
     onMount(async () => {
-
         name = $user?.name;
         birthday = $user?.birthday;
         weight = $user?.weight;
         gender = $user?.gender;
         try {
-            
-
             if ($user?.country_id) {
                 const result = await fetchGet(
                     `/api/countries/${$user.country_id}`,
@@ -32,15 +29,16 @@
         }
     });
 
-
     async function handleFileChange(event) {
         const file = event.target.files[0];
         if (!file) return;
 
         try {
             const encoded = await encodeImage(file);
-            const result = await fetchPatch(`/api/users/${$user.id}`, { profile_picture: encoded });
-            user.update(update => ({ ...update, profile_picture: encoded }));
+            const result = await fetchPatch(`/api/users/${$user.id}`, {
+                profile_picture: encoded,
+            });
+            user.update((update) => ({ ...update, profile_picture: encoded }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
@@ -50,7 +48,7 @@
     async function handleNameChange() {
         try {
             const result = await fetchPatch(`/api/users/${$user.id}`, { name });
-            user.update(update => ({ ...update, name }));
+            user.update((update) => ({ ...update, name }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
@@ -59,8 +57,10 @@
 
     async function handleBirthdayChange() {
         try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, {  birthday  });
-            user.update(update => ({ ...update, birthday }));
+            const result = await fetchPatch(`/api/users/${$user.id}`, {
+                birthday,
+            });
+            user.update((update) => ({ ...update, birthday }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
@@ -69,8 +69,10 @@
 
     async function handleWeightChange() {
         try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, { weight  });
-            user.update(update => ({ ...update, weight: Number(weight) }));
+            const result = await fetchPatch(`/api/users/${$user.id}`, {
+                weight,
+            });
+            user.update((update) => ({ ...update, weight: Number(weight) }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
@@ -79,25 +81,40 @@
 
     async function handleGenderChange() {
         try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, { gender });
-            user.update(update => ({ ...update, gender: Number(gender) }));
+            const result = await fetchPatch(`/api/users/${$user.id}`, {
+                gender,
+            });
+            user.update((update) => ({ ...update, gender: Number(gender) }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
         }
     }
-
-    
 </script>
 
-<input bind:this={fileInput} type="file" accept="image/*" onchange={handleFileChange} style="display:none" />
+<input
+    bind:this={fileInput}
+    type="file"
+    accept="image/*"
+    onchange={handleFileChange}
+    style="display:none"
+/>
 
 <main>
     <section id="topSection">
         <div class="avatar-wrapper" onclick={() => fileInput?.click()}>
-            <img class="avatar" src={$user?.profile_picture} alt="Profile Pic" />
+            <img
+                class="avatar"
+                src={$user?.profile_picture}
+                alt="Profile Pic"
+            />
         </div>
-        <input class="name-input" type="text" bind:value={name} onchange={handleNameChange}>
+        <input
+            class="name-input"
+            type="text"
+            bind:value={name}
+            onchange={handleNameChange}
+        />
         <h3>@{$user?.username}</h3>
         {#if country}
             <div class="country-badge">
@@ -121,15 +138,31 @@
         </div>
         <div class="info-row">
             <span class="label">BIRTHDAY</span>
-            <input class="inline-input" type="date" bind:value={birthday} onchange={handleBirthdayChange} />
+            <input
+                class="inline-input"
+                type="date"
+                bind:value={birthday}
+                onchange={handleBirthdayChange}
+            />
         </div>
         <div class="info-row">
             <span class="label">WEIGHT (KG)</span>
-            <input class="inline-input" type="number" bind:value={weight} onchange={handleWeightChange} min="1" max="500"/>
+            <input
+                class="inline-input"
+                type="number"
+                bind:value={weight}
+                onchange={handleWeightChange}
+                min="1"
+                max="500"
+            />
         </div>
         <div class="info-row">
             <span class="label">GENDER</span>
-            <select class="inline-select"  bind:value={gender} onchange={handleGenderChange}>
+            <select
+                class="inline-select"
+                bind:value={gender}
+                onchange={handleGenderChange}
+            >
                 <option value={0}>Male</option>
                 <option value={1}>Female</option>
             </select>
@@ -183,7 +216,6 @@
             linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
             linear-gradient(135deg, var(--accent), var(--accent-dim)) border-box;
     }
-
 
     .name-input {
         background: none;
@@ -259,7 +291,6 @@
         color: var(--text-muted);
         text-transform: uppercase;
     }
-
 
     span {
         font-size: 0.95rem;

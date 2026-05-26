@@ -14,14 +14,16 @@
 
     onMount(async () => {
         try {
-
-            const profileResult = await fetchGet(`/api/users/profile/${username}`)
-            const scoresResult = await fetchGet(`/api/scores/user/${username}`)
+            const profileResult = await fetchGet(
+                `/api/users/profile/${username}`,
+            );
+            const scoresResult = await fetchGet(`/api/scores/user/${username}`);
 
             profile = profileResult.data.profile;
             scores = scoresResult.data.scores;
         } catch (error) {
-            errorMessage = error?.data?.errorMessage ?? "Failed to load profile.";
+            errorMessage =
+                error?.data?.errorMessage ?? "Failed to load profile.";
         }
     });
 </script>
@@ -55,7 +57,8 @@
         align-items: flex-start;
     }
 
-    .error, .loading {
+    .error,
+    .loading {
         color: var(--text-muted);
         font-size: 0.9rem;
         margin-top: 4rem;

@@ -1,7 +1,7 @@
 <script>
     import { fetchPatch } from "../../util/fetchUtil.js";
     import { toast } from "svelte-sonner";
-    import { user } from "../../stores/userStore.js"
+    import { user } from "../../stores/userStore.js";
 
     let currentPassword = $state("");
     let newPassword = $state("");
@@ -21,7 +21,7 @@
             const result = await fetchPatch(`/api/users/${$user.id}`, {
                 currentPassword,
                 newPassword,
-                confirmNewPassword
+                confirmNewPassword,
             });
             toast.success(result.data.successMessage);
             currentPassword = "";

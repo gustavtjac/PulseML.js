@@ -60,7 +60,8 @@
             {/each}
             <div class="dots">
                 {#each images as dots, i (dots.toString())}
-                    <button aria-label="false"
+                    <button
+                        aria-label="false"
                         class:active={i === current}
                         onclick={() => (current = i)}
                     ></button>
@@ -96,14 +97,12 @@
     <section id="cta">
         <h2>Ready to play?</h2>
         {#if $user}
-        <button onclick={() => navigate("/dashboard")}
-            >Go to games!</button
-        >
-         {:else}
-<button onclick={() => navigate("/register")}
-            >Create a free account</button
-        >
-         {/if}
+            <button onclick={() => navigate("/dashboard")}>Go to games!</button>
+        {:else}
+            <button onclick={() => navigate("/register")}
+                >Create a free account</button
+            >
+        {/if}
     </section>
 </main>
 

@@ -1,13 +1,13 @@
 <script>
-    import { authReady, user } from '../../stores/userStore.js';
-    import { navigate } from 'svelte-routing';
+    import { authReady, user } from "../../stores/userStore.js";
+    import { navigate } from "svelte-routing";
 
     let { requireAuth = false, children } = $props();
 
     $effect(() => {
         if ($authReady) {
-            if (requireAuth && $user === null) navigate('/login');
-            else if (!requireAuth && $user) navigate('/dashboard');
+            if (requireAuth && $user === null) navigate("/login");
+            else if (!requireAuth && $user) navigate("/dashboard");
         }
     });
 </script>

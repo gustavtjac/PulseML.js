@@ -1,37 +1,37 @@
 <script>
-import { onMount } from "svelte";
-import { user } from "../../stores/userStore.js";
-import { fetchGet } from "../../util/fetchUtil.js";
-  import { toast } from "svelte-sonner";
-import Navbar from "../../components/Nav/Navbar.svelte";
-import ProfileCard from "../../components/ProfileCard/ProfileCard.svelte";
-import ResetPassword from "../../components/ResetPassword/ResetPassword.svelte";
-import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
-import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";
+    import { onMount } from "svelte";
+    import { user } from "../../stores/userStore.js";
+    import { fetchGet } from "../../util/fetchUtil.js";
+    import { toast } from "svelte-sonner";
+    import Navbar from "../../components/Nav/Navbar.svelte";
+    import ProfileCard from "../../components/ProfileCard/ProfileCard.svelte";
+    import ResetPassword from "../../components/ResetPassword/ResetPassword.svelte";
+    import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
+    import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";
 
+    let scores = $state([]);
+    let errorMessage = $state("");
 
-let scores = $state([]);
-let errorMessage = $state("")
+    onMount(async () => {
+        try {
+            const result = await fetchGet(`/api/scores/user/${$user.username}`);
+            scores = result.data.scores;
+        } catch (error) {
+            errorMessage =
+                error?.data?.errorMessage ?? "Failed to load users scores";
+        }
 
-onMount(async () => {
-    try {
-        const result = await fetchGet(`/api/scores/user/${$user.username}`);
-        scores = result.data.scores;
-    } catch (error) {
-        errorMessage = error?.data?.errorMessage ?? "Failed to load users scores";
-    }
-
-    toast(errorMessage)
-});
+        toast(errorMessage);
+    });
 </script>
 
-<LeaderboardBanner/>
+<LeaderboardBanner />
 <Navbar></Navbar>
 <div class="cards-row">
-    <ProfileCard/>
+    <ProfileCard />
     <div class="right-col">
-        <PublicProfileStats {scores}/>
-        <ResetPassword/>
+        <PublicProfileStats {scores} />
+        <ResetPassword />
     </div>
 </div>
 

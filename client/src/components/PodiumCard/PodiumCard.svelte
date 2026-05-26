@@ -6,12 +6,23 @@
 </script>
 
 <div class="podium-card rank-{rank}">
-    <img src={score.profile_picture} alt={score.username} onclick={() => navigate(`/profile/${score.username}`)} />
+    <img
+        src={score.profile_picture}
+        alt={score.username}
+        onclick={() => navigate(`/profile/${score.username}`)}
+    />
     <span class="medal">{medals[rank]}</span>
-    <span class="username" onclick={() => navigate(`/profile/${score.username}`)}>@{score.username}</span>
+    <span
+        class="username"
+        onclick={() => navigate(`/profile/${score.username}`)}
+        >@{score.username}</span
+    >
     {#if score.country_code}
         <div class="country-badge">
-            <img src="https://flagcdn.com/{score.country_code.toLowerCase()}.svg" alt={score.country_name} />
+            <img
+                src="https://flagcdn.com/{score.country_code.toLowerCase()}.svg"
+                alt={score.country_name}
+            />
             <span>{score.country_name}</span>
         </div>
     {/if}

@@ -6,7 +6,11 @@
 <main>
     <section id="topSection">
         <div class="avatar-wrapper">
-            <img class="avatar" src={profile.profile_picture} alt="Profile picture" />
+            <img
+                class="avatar"
+                src={profile.profile_picture}
+                alt="Profile picture"
+            />
         </div>
         <p class="display-name">{profile.name ?? profile.username}</p>
         <h3>@{profile.username}</h3>
@@ -27,22 +31,22 @@
             <span>{profile.username}</span>
         </div>
         {#if profile.birthday}
-        <div class="info-row">
-            <span class="label">AGE</span>
-            <span>{calcAge(profile.birthday)}</span>
-        </div>
+            <div class="info-row">
+                <span class="label">AGE</span>
+                <span>{calcAge(profile.birthday)}</span>
+            </div>
         {/if}
         {#if profile.weight != null}
-        <div class="info-row">
-            <span class="label">WEIGHT</span>
-            <span>{profile.weight} kg</span>
-        </div>
+            <div class="info-row">
+                <span class="label">WEIGHT</span>
+                <span>{profile.weight} kg</span>
+            </div>
         {/if}
         {#if profile.gender != null}
-        <div class="info-row">
-            <span class="label">GENDER</span>
-            <span>{profile.gender === 0 ? "Male" : "Female"}</span>
-        </div>
+            <div class="info-row">
+                <span class="label">GENDER</span>
+                <span>{profile.gender === 0 ? "Male" : "Female"}</span>
+            </div>
         {/if}
         <div class="info-row">
             <span class="label">MEMBER SINCE</span>

@@ -6,92 +6,92 @@
     import { fetchGet } from "../../util/fetchUtil";
     import { navigate } from "svelte-routing";
 
-    let games = $state([])
-    let gameLeaderBoardMap = $state({})
+    let games = $state([]);
+    let gameLeaderBoardMap = $state({});
     let errorMessage = $state(null);
-    let selectedGame = $state()
+    let selectedGame = $state();
 
+    onMount(async () => {
+        try {
+            const gamesResult = await fetchGet(`/api/games`);
+            games = gamesResult.data.games;
+            selectedGame = games[0]?.id;
 
-onMount(async () => {
-    try {
-    const gamesResult = await fetchGet(`/api/games`);
-    games = gamesResult.data.games;
-    selectedGame = games[0]?.id;
-
-    for (const game of games) {
-      const leaderboard = await fetchGet(`/api/leaderboard/${game.id}`);
-      gameLeaderBoardMap[game.id] = leaderboard.data;
-    }
-
-    }catch(error) {
-         errorMessage = error?.data?.errorMessage ?? "Failed to load leaderboard";
-    }
-
-})
+            for (const game of games) {
+                const leaderboard = await fetchGet(
+                    `/api/leaderboard/${game.id}`,
+                );
+                gameLeaderBoardMap[game.id] = leaderboard.data;
+            }
+        } catch (error) {
+            errorMessage =
+                error?.data?.errorMessage ?? "Failed to load leaderboard";
+        }
+    });
 </script>
 
-
-<LeaderboardBanner/>
-<Navbar/>
-
+<LeaderboardBanner />
+<Navbar />
 
 <div class="header-row">
     <h1>Game Leaderboard</h1>
     <select bind:value={selectedGame}>
         {#each games as game (game.id)}
-        <option value={game.id}>{game.name}</option>
+            <option value={game.id}>{game.name}</option>
         {/each}
     </select>
-
-</div>    
-
+</div>
 
 <main>
-
     {#if errorMessage}
         <h2>{errorMessage}</h2>
     {/if}
 
-{#if selectedGame && gameLeaderBoardMap[selectedGame]}
-      {@const scores = gameLeaderBoardMap[selectedGame].highscores}
-<div class="podium-wrapper">
-      {#each scores.slice(0, 3) as score, i (score.username)}
-          <PodiumCard rank={i + 1} {score} />
-      {/each}
-   </div>
-  
+    {#if selectedGame && gameLeaderBoardMap[selectedGame]}
+        {@const scores = gameLeaderBoardMap[selectedGame].highscores}
+        <div class="podium-wrapper">
+            {#each scores.slice(0, 3) as score, i (score.username)}
+                <PodiumCard rank={i + 1} {score} />
+            {/each}
+        </div>
 
-      <div class="highscore-table">
-          {#each scores.slice(3) as score, i (score.username)}
-              <div class="highscore-row">
-                  <span class="rank">#{i + 4}</span>
-                  <img src={score.profile_picture} alt={score.username} onclick={() => navigate(`/profile/${score.username}`)} style="cursor:pointer" />
-                  <span class="username" onclick={() => navigate(`/profile/${score.username}`)} style="cursor:pointer">@{score.username}</span>
-                  {#if score.country_code}
-                      <div class="country-badge">
-                          <img src="https://flagcdn.com/{score.country_code.toLowerCase()}.svg" alt={score.country_name} />
-                          <span>{score.country_name}</span>
-                      </div>
-                  {/if}
-                  <span class="score">{score.score} pts</span>
-                  <span class="date">{score.date}</span>
-              </div>
-          {/each}
-      </div>
-  {/if}
-
-
+        <div class="highscore-table">
+            {#each scores.slice(3) as score, i (score.username)}
+                <div class="highscore-row">
+                    <span class="rank">#{i + 4}</span>
+                    <img
+                        src={score.profile_picture}
+                        alt={score.username}
+                        onclick={() => navigate(`/profile/${score.username}`)}
+                        style="cursor:pointer"
+                    />
+                    <span
+                        class="username"
+                        onclick={() => navigate(`/profile/${score.username}`)}
+                        style="cursor:pointer">@{score.username}</span
+                    >
+                    {#if score.country_code}
+                        <div class="country-badge">
+                            <img
+                                src="https://flagcdn.com/{score.country_code.toLowerCase()}.svg"
+                                alt={score.country_name}
+                            />
+                            <span>{score.country_name}</span>
+                        </div>
+                    {/if}
+                    <span class="score">{score.score} pts</span>
+                    <span class="date">{score.date}</span>
+                </div>
+            {/each}
+        </div>
+    {/if}
 </main>
-    
-
 
 <style>
-
     .header-row {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
-
     }
     select {
         width: 20vw;
@@ -189,5 +189,4 @@ onMount(async () => {
         height: auto;
         border-radius: 2px;
     }
-
 </style>

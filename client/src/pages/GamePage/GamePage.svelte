@@ -4,8 +4,15 @@
     import { onMount, tick } from "svelte";
     import { fetchGet, fetchPost } from "../../util/fetchUtil.js";
     import { startWebcam, stopWebcam } from "../../util/webcamUtil.js";
-    import { loadPoseLandmarker, startFrameLoop } from "../../util/mediapipeUtil.js";
-    import { loadModel, loadScaler, runInference } from "../../util/onnxUtil.js";
+    import {
+        loadPoseLandmarker,
+        startFrameLoop,
+    } from "../../util/mediapipeUtil.js";
+    import {
+        loadModel,
+        loadScaler,
+        runInference,
+    } from "../../util/onnxUtil.js";
     import { gameConfigs } from "../../util/gameConfigs.js";
     import confetti from "canvas-confetti";
 
@@ -52,7 +59,10 @@
 
     $effect(() => {
         if (phase === "done") {
-            fetchPost("/api/scores", { game_id: Number(gameId), score: repCount });
+            fetchPost("/api/scores", {
+                game_id: Number(gameId),
+                score: repCount,
+            });
             confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         }
     });
@@ -69,22 +79,31 @@
                     loadScaler(config.scalerFile),
                 ]);
 
-                cancelLoop = startFrameLoop(videoEl, poseLandmarker, config, async (features) => {
-                    if (!features) return;
+                cancelLoop = startFrameLoop(
+                    videoEl,
+                    poseLandmarker,
+                    config,
+                    async (features) => {
+                        if (!features) return;
 
-                    frameBuffer.push(features);
-                    if (frameBuffer.length > 20) frameBuffer.shift();
-                    if (frameBuffer.length < 20) return;
+                        frameBuffer.push(features);
+                        if (frameBuffer.length > 20) frameBuffer.shift();
+                        if (frameBuffer.length < 20) return;
 
-                    const prob = await runInference(session, frameBuffer, scaler);
+                        const prob = await runInference(
+                            session,
+                            frameBuffer,
+                            scaler,
+                        );
 
-                    if (prob > 0.5 && !inRep) {
-                        inRep = true;
-                    } else if (prob <= 0.5 && inRep) {
-                        inRep = false;
-                        repCount++;
-                    }
-                });
+                        if (prob > 0.5 && !inRep) {
+                            inRep = true;
+                        } else if (prob <= 0.5 && inRep) {
+                            inRep = false;
+                            repCount++;
+                        }
+                    },
+                );
             }
 
             setup();
@@ -104,55 +123,55 @@
             };
         }
     });
-
 </script>
 
-<LeaderboardBanner/>
-<Navbar/>
+<LeaderboardBanner />
+<Navbar />
 
 <main>
-      {#if phase === "playing" || countdown !== null}
-          <div class="game-container">
-              <video bind:this={videoEl} autoplay playsinline></video>
-              {#if countdown !== null}
-                  <div class="countdown-overlay">
-                      <span class="countdown-number">{countdown}</span>
-                      <p>Get ready!</p>
-                  </div>
-              {:else}
-                  <div class="hud">
-                      <div class="hud-stat">
-                          <span class="hud-label">Reps</span>
-                          <span class="hud-value">{repCount}</span>
-                      </div>
-                      <div class="hud-stat">
-                          <span class="hud-label">Time</span>
-                          <span class="hud-value" class:urgent={timeLeft <= 5}>{timeLeft}</span>
-                      </div>
-                  </div>
-              {/if}
-          </div>
-      {:else if phase === "done"}
-          <div class="start-screen">
-              <h1>Nice job!</h1>
-              <p>{repCount} reps in 20 seconds</p>
-              <button onclick={resetGame}>Play Again</button>
-          </div>
-      {:else if game}
-          <div class="start-screen">
-              <h1>{game.name}</h1>
-              <p>{game.description}</p>
-              <button onclick={startCountdown}>Start</button>
-          </div>
-      {:else}
-          <div class="start-screen">
-              <p>Loading...</p>
-          </div>
-      {/if}
-  </main>
+    {#if phase === "playing" || countdown !== null}
+        <div class="game-container">
+            <video bind:this={videoEl} autoplay playsinline></video>
+            {#if countdown !== null}
+                <div class="countdown-overlay">
+                    <span class="countdown-number">{countdown}</span>
+                    <p>Get ready!</p>
+                </div>
+            {:else}
+                <div class="hud">
+                    <div class="hud-stat">
+                        <span class="hud-label">Reps</span>
+                        <span class="hud-value">{repCount}</span>
+                    </div>
+                    <div class="hud-stat">
+                        <span class="hud-label">Time</span>
+                        <span class="hud-value" class:urgent={timeLeft <= 5}
+                            >{timeLeft}</span
+                        >
+                    </div>
+                </div>
+            {/if}
+        </div>
+    {:else if phase === "done"}
+        <div class="start-screen">
+            <h1>Nice job!</h1>
+            <p>{repCount} reps in 20 seconds</p>
+            <button onclick={resetGame}>Play Again</button>
+        </div>
+    {:else if game}
+        <div class="start-screen">
+            <h1>{game.name}</h1>
+            <p>{game.description}</p>
+            <button onclick={startCountdown}>Start</button>
+        </div>
+    {:else}
+        <div class="start-screen">
+            <p>Loading...</p>
+        </div>
+    {/if}
+</main>
 
 <style>
-
     main {
         display: flex;
         justify-content: center;
@@ -237,6 +256,4 @@
         color: var(--card-accent);
         line-height: 1;
     }
-
 </style>
-

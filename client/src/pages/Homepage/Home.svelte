@@ -20,30 +20,23 @@
     }
 </script>
 
-<LeaderboardBanner/>
-<Navbar/>
-
+<LeaderboardBanner />
+<Navbar />
 
 <main>
+    <h1>Choose a game!</h1>
 
-<h1>Choose a game!</h1>
-
-
-<div class="gameswrapper">
-{#each games as game (game.id)}
-    <GameCard
-      title={game.name}
-      description={game.description}
-      icon={icons[game.id] ?? "🎮"}
-      onclick={() => handleGameCardClick(game.id)}
-    />
-  {/each}
-
-</div>
-    
+    <div class="gameswrapper">
+        {#each games as game (game.id)}
+            <GameCard
+                title={game.name}
+                description={game.description}
+                icon={icons[game.id] ?? "🎮"}
+                onclick={() => handleGameCardClick(game.id)}
+            />
+        {/each}
+    </div>
 </main>
-
-
 
 <style>
     .gameswrapper {
@@ -52,13 +45,10 @@
         flex-direction: row;
         padding: 50px;
         gap: 2vw;
-      
     }
-    
+
     h1 {
         margin-top: 5vh;
         text-align: center;
     }
-
-
 </style>
