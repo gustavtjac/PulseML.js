@@ -54,4 +54,23 @@ router.get("/api/scores/user/:username", isLoggedIn, (req, res) => {
     return res.status(200).send({ data: { scores } });
 });
 
+router.post("/api/scores", isLoggedIn, (req, res) => {
+    const { game_id, score } = req.body;
+
+    if (!game_id || score === undefined) {
+        return res.status(400).send({ data: { errorMessage: "game_id and score are required" } });
+    }
+
+    const game = db.prepare("SELECT id FROM games WHERE id = ?").get(game_id);
+    if (!game) {
+        return res.status(404).send({ data: { errorMessage: "Game not found" } });
+    }
+
+    db.prepare("INSERT INTO scores (user_id, game_id, score, date) VALUES (?, ?, ?, datetime('now'))").run(
+        req.session.user.id, game_id, score
+    );
+
+    return res.status(201).send({ data: { message: "Score saved" } });
+});
+
 export default router;
