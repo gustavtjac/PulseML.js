@@ -2,22 +2,27 @@ import { Router } from "express";
 import db from "../database/connection.js";
 import { isLoggedIn } from "../middleWare/authMiddleWare.js";
 
-
 const router = Router();
 
 router.get("/api/leaderboard/:game_id", isLoggedIn, (req, res) => {
     const { game_id } = req.params;
 
     if (!game_id) {
-        return res.status(400).send({ data: { errorMessage: "game_id is required" } });
+        return res
+            .status(400)
+            .send({ data: { errorMessage: "game_id is required" } });
     }
 
     const game = db.prepare("SELECT * FROM games WHERE id = ?").get(game_id);
     if (!game) {
-        return res.status(404).send({ data: { errorMessage: "Game not found" } });
+        return res
+            .status(404)
+            .send({ data: { errorMessage: "Game not found" } });
     }
 
-    const highscores = db.prepare(`
+    const highscores = db
+        .prepare(
+            `
         SELECT s.score, s.date, u.username, u.profile_picture, c.code AS country_code, c.name AS country_name
         FROM scores s
         JOIN users u ON s.user_id = u.id
@@ -30,7 +35,9 @@ router.get("/api/leaderboard/:game_id", isLoggedIn, (req, res) => {
         GROUP BY s.user_id
         ORDER BY s.score DESC
         LIMIT 50
-    `).all(game_id);
+    `,
+        )
+        .all(game_id);
 
     return res.status(200).send({ data: { highscores } });
 });
@@ -38,19 +45,27 @@ router.get("/api/leaderboard/:game_id", isLoggedIn, (req, res) => {
 router.get("/api/scores/user/:username", isLoggedIn, (req, res) => {
     const { username } = req.params;
 
-    const user = db.prepare("SELECT id FROM users WHERE username = ?").get(username);
+    const user = db
+        .prepare("SELECT id FROM users WHERE username = ?")
+        .get(username);
     if (!user) {
-        return res.status(404).send({ data: { errorMessage: "User not found" } });
+        return res
+            .status(404)
+            .send({ data: { errorMessage: "User not found" } });
     }
 
-    const scores = db.prepare(`
+    const scores = db
+        .prepare(
+            `
         SELECT g.name AS game_name, MAX(s.score) AS best_score, COUNT(s.id) AS plays
         FROM scores s
         JOIN games g ON s.game_id = g.id
         WHERE s.user_id = ?
         GROUP BY s.game_id
         ORDER BY best_score DESC
-    `).all(user.id);
+    `,
+        )
+        .all(user.id);
 
     return res.status(200).send({ data: { scores } });
 });
@@ -59,17 +74,21 @@ router.post("/api/scores", isLoggedIn, (req, res) => {
     const { game_id, score } = req.body;
 
     if (!game_id || score === undefined) {
-        return res.status(400).send({ data: { errorMessage: "game_id and score are required" } });
+        return res
+            .status(400)
+            .send({ data: { errorMessage: "game_id and score are required" } });
     }
 
     const game = db.prepare("SELECT id FROM games WHERE id = ?").get(game_id);
     if (!game) {
-        return res.status(404).send({ data: { errorMessage: "Game not found" } });
+        return res
+            .status(404)
+            .send({ data: { errorMessage: "Game not found" } });
     }
 
-    db.prepare("INSERT INTO scores (user_id, game_id, score, date) VALUES (?, ?, ?, datetime('now'))").run(
-        req.session.user.id, game_id, score
-    );
+    db.prepare(
+        "INSERT INTO scores (user_id, game_id, score, date) VALUES (?, ?, ?, datetime('now'))",
+    ).run(req.session.user.id, game_id, score);
 
     return res.status(201).send({ data: { message: "Score saved" } });
 });

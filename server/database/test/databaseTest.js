@@ -58,16 +58,18 @@ seedGames(db);
 const testPassword = await hashPassword("123");
 
 const insertUser = db.prepare(
-    "INSERT INTO users (username, email, password, name, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    "INSERT INTO users (username, email, password, name, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
 );
 const insertScore = db.prepare(
-    "INSERT INTO scores (user_id, game_id, score) VALUES (?, ?, ?)"
+    "INSERT INTO scores (user_id, game_id, score) VALUES (?, ?, ?)",
 );
 
 const games = db.prepare("SELECT id FROM games ORDER BY id").all();
 
 for (const userData of testUsers) {
-    const country = db.prepare("SELECT id FROM countries WHERE code = ?").get(userData.countryCode);
+    const country = db
+        .prepare("SELECT id FROM countries WHERE code = ?")
+        .get(userData.countryCode);
     const { lastInsertRowid: userId } = insertUser.run(
         userData.username,
         userData.email,
@@ -84,7 +86,6 @@ for (const userData of testUsers) {
 
     games.forEach((game, gameIndex) => {
         const scores = userScores[gameIndex] ?? [];
-        scores.forEach(score => insertScore.run(userId, game.id, score));
+        scores.forEach((score) => insertScore.run(userId, game.id, score));
     });
 }
-

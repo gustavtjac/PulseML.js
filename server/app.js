@@ -19,43 +19,45 @@ const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }
+    cookie: { secure: false },
 });
 
 app.use(sessionMiddleware);
 
 const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 10,
-  standardHeaders: "draft-8",
-  legacyHeaders: false,
-  ipv6Subnet: 56,
-  message: {
-    data: {
-      errorMessage: "Too many auth attempts, please try again later",
+    windowMs: 15 * 60 * 1000,
+    limit: 10,
+    standardHeaders: "draft-8",
+    legacyHeaders: false,
+    ipv6Subnet: 56,
+    message: {
+        data: {
+            errorMessage: "Too many auth attempts, please try again later",
+        },
     },
-  },
 });
 
 const generalLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 50,
-  standardHeaders: "draft-8",
-  legacyHeaders: false,
-  ipv6Subnet: 56,
-  message: {
-    data: { errorMessage: "Too many attempts, please try again later" },
-  },
+    windowMs: 15 * 60 * 1000,
+    limit: 50,
+    standardHeaders: "draft-8",
+    legacyHeaders: false,
+    ipv6Subnet: 56,
+    message: {
+        data: { errorMessage: "Too many attempts, please try again later" },
+    },
 });
 
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-      "img-src": ["'self'", "data:", "https://flagcdn.com"],
-    },
-  },
-}));
+app.use(
+    helmet({
+        contentSecurityPolicy: {
+            directives: {
+                ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+                "img-src": ["'self'", "data:", "https://flagcdn.com"],
+            },
+        },
+    }),
+);
 /* app.use("/auth", authLimiter);
 app.use(generalLimiter); */
 app.use(authRouter);
@@ -64,11 +66,10 @@ app.use(usersRouter);
 app.use(gamesRouter);
 app.use(scoresRouter);
 
-
-import http from 'http'
+import http from "http";
 const server = http.createServer(app);
 
-import { Server } from 'socket.io'
+import { Server } from "socket.io";
 const io = new Server(server);
 
 io.engine.use(sessionMiddleware);
@@ -76,25 +77,24 @@ io.engine.use(sessionMiddleware);
 import { leaderboardBannerSocket } from "./sockets/leaderboardBannerSocket.js";
 leaderboardBannerSocket(io);
 
-
 app.get("/api/{*splat}", (req, res) => {
-  res.status(404).send({
-    data: { errorMessage: `${req.method} ${req.path} does not exist` },
-  });
+    res.status(404).send({
+        data: { errorMessage: `${req.method} ${req.path} does not exist` },
+    });
 });
 
 app.get("/{*splat}", (req, res) => {
-  res.sendFile(path.resolve("../client/dist/index.html"));
+    res.sendFile(path.resolve("../client/dist/index.html"));
 });
 
 app.all("/{*splat}", (req, res) => {
-  res.status(404).send({
-    data: { errorMessage: `${req.method} ${req.path} does not exist` },
-  });
+    res.status(404).send({
+        data: { errorMessage: `${req.method} ${req.path} does not exist` },
+    });
 });
 
 const PORT = process.env.PORT ?? 8080;
 
 server.listen(PORT, () => {
-  console.log("Server is running on port " + server.address().port);
+    console.log("Server is running on port " + server.address().port);
 });

@@ -14,7 +14,9 @@ router.get("/api/games/:id", isLoggedIn, (req, res) => {
     const game = db.prepare("SELECT * FROM games WHERE id = ?").get(id);
 
     if (!game) {
-        return res.status(404).send({ data: { errorMessage: "Game not found" } });
+        return res
+            .status(404)
+            .send({ data: { errorMessage: "Game not found" } });
     }
 
     return res.status(200).send({ data: { game } });

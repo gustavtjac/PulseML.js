@@ -4,9 +4,10 @@ const router = Router();
 import db from "../database/connection.js";
 
 router.get("/api/countries", (req, res) => {
-
-    console.log("Her")
-    const countries = db.prepare("SELECT * FROM countries ORDER BY name ASC").all();
+    console.log("Her");
+    const countries = db
+        .prepare("SELECT * FROM countries ORDER BY name ASC")
+        .all();
 
     return res.status(200).send({ data: { countries } });
 });
