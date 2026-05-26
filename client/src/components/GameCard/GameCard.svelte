@@ -1,8 +1,8 @@
 <script>
-  let { title, description, icon, accent = "var(--accent)", comingSoon = false, onclick } = $props();
+  let { title, description, icon, onclick } = $props();
 </script>
 
-<button class="card" class:coming-soon={comingSoon} style="--card-accent: {accent}" {onclick} disabled={comingSoon}>
+<button class="card"  {onclick}>
   <div class="accent-bar"></div>
   <div class="card-body">
     <div class="icon">{icon}</div>
@@ -11,11 +11,7 @@
       <p>{description}</p>
     </div>
     <div class="arrow">
-      {#if comingSoon}
-        <span class="badge">Soon</span>
-      {:else}
         ›
-      {/if}
     </div>
   </div>
 </button>
@@ -89,22 +85,4 @@
     transition: transform 0.15s;
   }
 
-  .card:hover:not(:disabled) .arrow {
-    transform: translateX(4px);
-  }
-
-  .badge {
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--text-muted);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 0.2rem 0.5rem;
-  }
-
-  .coming-soon .accent-bar {
-    background: var(--border);
-  }
 </style>

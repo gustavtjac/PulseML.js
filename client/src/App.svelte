@@ -2,14 +2,15 @@
   import { onMount } from "svelte";
   import { Toaster } from "svelte-sonner";
   import { Router, Route } from "svelte-routing";
+  import { checkAuth } from "./stores/userStore.js";
   import Home from "./pages/Homepage/Home.svelte";
   import Auth from "./pages/Auth/Auth.svelte";
   import Landing from "./pages/Landing/Landing.svelte";
   import RouteGuard from "./components/RouteGuard/RouteGuard.svelte";
-  import { checkAuth } from "./stores/userStore.js";
   import Profile from "./pages/Profile/Profile.svelte";
   import Leaderboard from "./pages/Leaderboard/Leaderboard.svelte";
   import PublicProfile from "./pages/PublicProfile/PublicProfile.svelte";
+  import GamePage from "./pages/GamePage/GamePage.svelte";
 
   onMount(() => checkAuth());
 </script>
@@ -37,8 +38,13 @@
       </RouteGuard>                      
   </Route>
     <Route path="/leaderboard"
-      ><RouteGuard requireAuth={true}><Leaderboard /></RouteGuard></Route
-    >
+      ><RouteGuard requireAuth={true}><Leaderboard /></RouteGuard></Route>
+
+      <Route path="/games/:gameId" let:params>
+        <RouteGuard requireAuth={true}>                                                                                                     
+          <GamePage gameId={params.gameId}></GamePage>                    
+        </RouteGuard> 
+      </Route>
     <Route
       ><h1>404</h1>
       <p>This page does not exist.</p></Route
