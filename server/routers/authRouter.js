@@ -17,7 +17,7 @@ router.post("/auth/login", async (req, res) => {
 
   const foundUserFromDatabase = db
     .prepare("SELECT * FROM users WHERE username = ?")
-    .get(username);
+    .get(username.toLowerCase());
 
   if (!foundUserFromDatabase) {
     return res.status(401).send({
@@ -58,7 +58,8 @@ router.post("/auth/register", async (req, res) => {
     !email ||
     !birthday ||
     !weight ||
-    !gender
+    gender == null ||
+    gender === ""
   ) {
     return res.status(400).send({
       data: { errorMessage: "Please fill out all information fields" },
@@ -86,7 +87,7 @@ router.post("/auth/register", async (req, res) => {
 
     db.prepare(
       "INSERT INTO users (username, name, password, email, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-    ).run(username, name, hashedPassword, email, countryId, birthday, weight, gender);
+    ).run(username.toLowerCase(), name, hashedPassword, email, countryId, birthday, weight, gender);
 
     sendRegisterMail(email, username).catch((error) => {
     console.log(error);

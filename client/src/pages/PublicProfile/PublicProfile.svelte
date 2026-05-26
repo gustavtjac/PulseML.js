@@ -14,14 +14,14 @@
 
     onMount(async () => {
         try {
-            const [profileRes, scoresRes] = await Promise.all([
-                fetchGet(`/api/users/profile/${username}`),
-                fetchGet(`/api/scores/user/${username}`),
-            ]);
-            profile = profileRes.data.profile;
-            scores = scoresRes.data.scores;
-        } catch (err) {
-            error = err?.data?.errorMessage ?? "Failed to load profile.";
+            
+            const profileResult = await fetchGet(`/api/users/profile/${username}`)
+            const scoresResult = await fetchGet(`/api/scores/user/${username}`)
+
+            profile = profileResult.data.profile;
+            scores = scoresResult.data.scores;
+        } catch (error) {
+            error = error?.data?.errorMessage ?? "Failed to load profile.";
         }
     });
 </script>
