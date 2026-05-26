@@ -18,9 +18,11 @@
     "vite": "^8.0.10"
   },
   "dependencies": {
+    "@mediapipe/tasks-vision": "^0.10.35",
     "dotenv": "^17.4.1",
+    "onnxruntime-web": "^1.26.0",
+    "socket.io-client": "^4.8.3",
     "svelte-routing": "^2.13.0",
-    "svelte-sonner": "^1.1.0",
-    "socket.io-client": "^4.8.3"
+    "svelte-sonner": "^1.1.0"
   }
 }
