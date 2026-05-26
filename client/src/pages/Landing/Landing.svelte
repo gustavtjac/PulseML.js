@@ -51,7 +51,7 @@
         </header>
 
         <div class="slideshow">
-            {#each images as img, i}
+            {#each images as img, i (img.toString())}
                 <img
                     src={img}
                     alt="game preview {i + 1}"
@@ -59,7 +59,7 @@
                 />
             {/each}
             <div class="dots">
-                {#each images as _, i}
+                {#each images as dots, i (dots.toString())}
                     <button aria-label="false"
                         class:active={i === current}
                         onclick={() => (current = i)}

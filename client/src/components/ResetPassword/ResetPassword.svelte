@@ -1,5 +1,5 @@
 <script>
-    import { fetchPatch, fetchPost } from "../../util/fetchUtil.js";
+    import { fetchPatch } from "../../util/fetchUtil.js";
     import { toast } from "svelte-sonner";
     import { user } from "../../stores/userStore.js"
 

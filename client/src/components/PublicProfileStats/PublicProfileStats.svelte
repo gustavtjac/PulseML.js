@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                {#each scores as row}
+                {#each scores as row (row.game_name)}
                     <tr>
                         <td>{row.game_name}</td>
                         <td class="highlight">{row.best_score}</td>

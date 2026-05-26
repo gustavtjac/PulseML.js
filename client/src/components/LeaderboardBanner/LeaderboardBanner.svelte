@@ -19,10 +19,10 @@
     <main class="carousel">
         <section class="group">
             <span class="label">⚡ LIVE LEADERBOARD</span>
-            {#each leaderboardRankings as game, i (game.name)}
+            {#each leaderboardRankings as game (game.name)}
                 <div class="card">
                     <span class="game-name">🎮 {game.name}</span>
-                    {#each game.scores as score, j}
+                    {#each game.scores as score, j (score.username)}
                         <span class="score">
                             <span class="rank">{j === 0 ? '🥇' : j === 1 ? '🥈' : '🥉'}</span>
                             <a href="/profile/{score.username}"><span class="username">@{score.username}</span></a>
@@ -35,10 +35,10 @@
         </section>
         <section aria-hidden="true" class="group">
             <span class="label">⚡ LIVE LEADERBOARD</span>
-            {#each leaderboardRankings as game, i (game.name)}
+            {#each leaderboardRankings as game (game.name)}
                 <div class="card">
                     <span class="game-name">🎮 {game.name}</span>
-                    {#each game.scores as score, j}
+                    {#each game.scores as score, j (score.username)}
                         <span class="score">
                             <span class="rank">{j === 0 ? '🥇' : j === 1 ? '🥈' : '🥉'}</span>
                             <a href="/profile/{score.username}"><span class="username">@{score.username}</span></a>

@@ -10,18 +10,18 @@
 
     let profile = $state(null);
     let scores = $state([]);
-    let error = $state(null);
+    let errorMessage = $state(null);
 
     onMount(async () => {
         try {
-            
+
             const profileResult = await fetchGet(`/api/users/profile/${username}`)
             const scoresResult = await fetchGet(`/api/scores/user/${username}`)
 
             profile = profileResult.data.profile;
             scores = scoresResult.data.scores;
         } catch (error) {
-            error = error?.data?.errorMessage ?? "Failed to load profile.";
+            errorMessage = error?.data?.errorMessage ?? "Failed to load profile.";
         }
     });
 </script>
@@ -30,8 +30,8 @@
 <Navbar />
 
 <div class="page">
-    {#if error}
-        <p class="error">{error}</p>
+    {#if errorMessage}
+        <p class="error">{errorMessage}</p>
     {:else if profile}
         <div class="cards-row">
             <PublicProfileCard {profile} />

@@ -1,20 +1,27 @@
 <script>
 import { onMount } from "svelte";
+import { user } from "../../stores/userStore.js";
+import { fetchGet } from "../../util/fetchUtil.js";
+  import { toast } from "svelte-sonner";
 import Navbar from "../../components/Nav/Navbar.svelte";
 import ProfileCard from "../../components/ProfileCard/ProfileCard.svelte";
 import ResetPassword from "../../components/ResetPassword/ResetPassword.svelte";
 import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
 import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";
-import { user } from "../../stores/userStore.js";
-import { fetchGet } from "../../util/fetchUtil.js";
+
 
 let scores = $state([]);
+let errorMessage = $state("")
 
 onMount(async () => {
     try {
         const result = await fetchGet(`/api/scores/user/${$user.username}`);
         scores = result.data.scores;
-    } catch (e) {}
+    } catch (error) {
+        errorMessage = error?.data?.errorMessage ?? "Failed to load users scores";
+    }
+
+    toast(errorMessage)
 });
 </script>
 

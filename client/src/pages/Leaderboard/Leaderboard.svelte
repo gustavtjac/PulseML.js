@@ -1,6 +1,33 @@
 <script>
-import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
-import Navbar from "../../components/Nav/Navbar.svelte";
+    import { onMount } from "svelte";
+    import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
+    import Navbar from "../../components/Nav/Navbar.svelte";
+    import PodiumCard from "../../components/PodiumCard/PodiumCard.svelte";
+    import { fetchGet } from "../../util/fetchUtil";
+    import { navigate } from "svelte-routing";
+
+    let games = $state([])
+    let gameLeaderBoardMap = $state({})
+    let errorMessage = $state(null);
+    let selectedGame = $state()
+
+
+onMount(async () => {
+    try {
+    const gamesResult = await fetchGet(`/api/games`);
+    games = gamesResult.data.games;
+    selectedGame = games[0]?.id;
+
+    for (const game of games) {
+      const leaderboard = await fetchGet(`/api/leaderboard/${game.id}`);
+      gameLeaderBoardMap[game.id] = leaderboard.data;
+    }
+
+    }catch(error) {
+         errorMessage = error?.data?.errorMessage ?? "Failed to load leaderboard";
+    }
+
+})
 </script>
 
 
@@ -8,4 +35,159 @@ import Navbar from "../../components/Nav/Navbar.svelte";
 <Navbar/>
 
 
-<h1>Leaderboard</h1>   
+<div class="header-row">
+    <h1>Game Leaderboard</h1>
+    <select bind:value={selectedGame}>
+        {#each games as game (game.id)}
+        <option value={game.id}>{game.name}</option>
+        {/each}
+    </select>
+
+</div>    
+
+
+<main>
+
+    {#if errorMessage}
+        <h2>{errorMessage}</h2>
+    {/if}
+
+{#if selectedGame && gameLeaderBoardMap[selectedGame]}
+      {@const scores = gameLeaderBoardMap[selectedGame].highscores}
+<div class="podium-wrapper">
+      {#each scores.slice(0, 3) as score, i (score.username)}
+          <PodiumCard rank={i + 1} {score} />
+      {/each}
+   </div>
+  
+
+      <div class="highscore-table">
+          {#each scores.slice(3) as score, i (score.username)}
+              <div class="highscore-row">
+                  <span class="rank">#{i + 4}</span>
+                  <img src={score.profile_picture} alt={score.username} onclick={() => navigate(`/profile/${score.username}`)} style="cursor:pointer" />
+                  <span class="username" onclick={() => navigate(`/profile/${score.username}`)} style="cursor:pointer">@{score.username}</span>
+                  {#if score.country_code}
+                      <div class="country-badge">
+                          <img src="https://flagcdn.com/{score.country_code.toLowerCase()}.svg" alt={score.country_name} />
+                          <span>{score.country_name}</span>
+                      </div>
+                  {/if}
+                  <span class="score">{score.score} pts</span>
+                  <span class="date">{score.date}</span>
+              </div>
+          {/each}
+      </div>
+  {/if}
+
+
+</main>
+    
+
+
+<style>
+
+    .header-row {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+
+    }
+    select {
+        width: 20vw;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .podium-wrapper {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    .highscore-table {
+        display: flex;
+        flex-direction: column;
+        width: 80vw;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .highscore-row {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        width: 100%;
+        padding: 0.8rem 1.5rem;
+        gap: 1rem;
+        border-bottom: 1px solid var(--border);
+        box-sizing: border-box;
+        background: var(--bg-surface);
+        transition: background 0.15s;
+    }
+
+    .highscore-row:last-child {
+        border-bottom: none;
+    }
+
+    .highscore-row:hover {
+        background: var(--bg-raised);
+    }
+
+    .rank {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        width: 2rem;
+        flex-shrink: 0;
+    }
+
+    .username {
+        flex: 1;
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    .score {
+        color: var(--accent);
+        font-weight: 700;
+    }
+
+    .date {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+    }
+
+    .country-badge {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        background: var(--bg-raised);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        padding: 0.2rem 0.7rem;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+    }
+
+    .country-badge img {
+        width: 18px;
+        height: auto;
+        border-radius: 2px;
+    }
+
+</style>

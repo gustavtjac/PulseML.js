@@ -2,7 +2,6 @@
     import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
     import Navbar from "../../components/Nav/Navbar.svelte";
-    import { user } from "../../stores/userStore.js"
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import GameCard from "../../components/GameCard/GameCard.svelte";
     import { fetchGet } from "../../util/fetchUtil.js";
@@ -31,7 +30,7 @@
 
 
 <div class="gameswrapper">
-{#each games as game}
+{#each games as game (game.id)}
     <GameCard
       title={game.name}
       description={game.description}
