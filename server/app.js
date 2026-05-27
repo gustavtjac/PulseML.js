@@ -76,6 +76,8 @@ io.engine.use(sessionMiddleware);
 
 import { leaderboardBannerSocket } from "./sockets/leaderboardBannerSocket.js";
 leaderboardBannerSocket(io);
+import {leaderboardSocket} from './sockets/leaderboardSocket.js';
+leaderboardSocket(io);
 
 app.get("/api/{*splat}", (req, res) => {
     res.status(404).send({
