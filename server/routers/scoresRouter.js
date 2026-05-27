@@ -1,8 +1,13 @@
 import { Router } from "express";
 import db from "../database/connection.js";
 import { isLoggedIn } from "../middleWare/authMiddleWare.js";
+import { getLeaderboardBannerInformation } from "../sockets/leaderboardBannerSocket.js";
 
 const router = Router();
+
+router.get("/api/leaderboard-banner", (req, res) => {
+    return res.status(200).send({ data: getLeaderboardBannerInformation() });
+});
 
 router.get("/api/leaderboard/:game_id", isLoggedIn, (req, res) => {
     const { game_id } = req.params;

@@ -7,7 +7,7 @@ export function leaderboardBannerSocket(io) {
     }, 1000);
 }
 
-function getLeaderboardBannerInformation() {
+export function getLeaderboardBannerInformation() {
     const rows = db
         .prepare(
             `
