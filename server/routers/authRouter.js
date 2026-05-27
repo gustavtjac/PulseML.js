@@ -121,6 +121,11 @@ router.post("/auth/register", async (req, res) => {
     } catch (error) {
         console.log(error);
         /* logger.error({ error }, "Error while registering user"); */
+        if (error.code === "SQLITE_CONSTRAINT_UNIQUE") {
+            return res.status(400).send({
+                data: { errorMessage: "Email or username is already taken" },
+            });
+        }
         return res.status(500).send({
             data: { errorMessage: "Something went wrong, please try again" },
         });
