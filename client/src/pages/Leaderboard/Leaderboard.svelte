@@ -5,7 +5,12 @@
     import PodiumCard from "../../components/PodiumCard/PodiumCard.svelte";
     import { fetchGet } from "../../util/fetchUtil";
     import { navigate } from "svelte-routing";
+    import { BASE_URL } from "../../stores/generalStore.js";
+    import io from "socket.io-client";
 
+
+
+    let socket = $state();
     let games = $state([]);
     let gameLeaderBoardMap = $state({});
     let errorMessage = $state(null);
@@ -27,6 +32,14 @@
             errorMessage =
                 error?.data?.errorMessage ?? "Failed to load leaderboard";
         }
+
+        socket = io($BASE_URL, {
+            withCredentials: true,
+        });
+
+        socket.on("server-sends-leaderboards", (data) => {
+            gameLeaderBoardMap = data.data;
+        });
     });
 </script>
 

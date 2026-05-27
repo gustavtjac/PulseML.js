@@ -1,15 +1,16 @@
 <script>
     import { onMount } from "svelte";
-    import io from "socket.io-client";
     import { BASE_URL } from "../../stores/generalStore.js";
+    import { fetchGet } from "../../util/fetchUtil.js";
+    import io from "socket.io-client";
     let socket = $state();
-    let leaderboardRankings = $state();
+    let leaderboardRankings = $state([]);
 
-    onMount(() => {
-        socket = io($BASE_URL, {
-            withCredentials: true,
-        });
+    onMount(async () => {
+        const result = await fetchGet("/api/leaderboard-banner");
+        leaderboardRankings = result.data.data;
 
+        socket = io($BASE_URL, { withCredentials: true });
         socket.on("server-sends-leaderboard-banner", (data) => {
             leaderboardRankings = data.data;
         });
