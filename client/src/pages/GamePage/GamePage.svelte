@@ -27,7 +27,7 @@
     let countdown = $state(null);
 
     let frameBuffer = [];
-    let inRep = false;
+    let inRep = $state(false);
 
     function resetGame() {
         repCount = 0;
@@ -137,20 +137,27 @@
                     <span class="countdown-number">{countdown}</span>
                     <p>Get ready!</p>
                 </div>
-            {:else}
-                <div class="hud">
-                    <div class="hud-stat">
-                        <span class="hud-label">Reps</span>
-                        <span class="hud-value">{repCount}</span>
-                    </div>
-                    <div class="hud-stat">
-                        <span class="hud-label">Time</span>
-                        <span class="hud-value" class:urgent={timeLeft <= 5}
-                            >{timeLeft}</span
-                        >
-                    </div>
-                </div>
             {/if}
+            <div class="hud">
+                <div class="hud-stat">
+                    <span class="hud-label">Reps</span>
+                    <span class="hud-value">{repCount}</span>
+                </div>
+                <div class="hud-stat">
+                    <span class="hud-label">Position</span>
+                    <span class="hud-value position">
+                        {inRep
+                            ? gameConfigs[gameId]?.positionLabels.down
+                            : gameConfigs[gameId]?.positionLabels.up}
+                    </span>
+                </div>
+                <div class="hud-stat">
+                    <span class="hud-label">Time</span>
+                    <span class="hud-value" class:urgent={timeLeft <= 5}
+                        >{timeLeft}</span
+                    >
+                </div>
+            </div>
         </div>
     {:else if phase === "done"}
         <div class="start-screen">
@@ -192,8 +199,11 @@
     }
 
     .game-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         position: relative;
-        width: 60vw;
+        width: 40vw;
     }
 
     video {
@@ -203,15 +213,12 @@
     }
 
     .hud {
-        position: absolute;
-        top: 1rem;
-        left: 50%;
-        transform: translateX(-50%);
         display: flex;
         gap: 3rem;
         background: rgba(0, 0, 0, 0.5);
         border-radius: 12px;
         padding: 0.6rem 2rem;
+        margin-top: 1rem;
     }
 
     .hud-stat {
@@ -232,6 +239,10 @@
         font-weight: 700;
         color: var(--text);
         line-height: 1;
+    }
+
+    .hud-value.position {
+        font-size: 1.2rem;
     }
 
     .hud-value.urgent {

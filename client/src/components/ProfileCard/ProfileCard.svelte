@@ -102,7 +102,13 @@
 
 <main>
     <section id="topSection">
-        <div class="avatar-wrapper" onclick={() => fileInput?.click()}>
+        <div
+            class="avatar-wrapper"
+            role="button"
+            tabindex="0"
+            onclick={() => fileInput?.click()}
+            onkeydown={(e) => (e.key === "Enter" || e.key === " ") && fileInput?.click()}
+        >
             <img
                 class="avatar"
                 src={$user?.profile_picture}

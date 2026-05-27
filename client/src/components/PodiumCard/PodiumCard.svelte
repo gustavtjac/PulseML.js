@@ -6,17 +6,14 @@
 </script>
 
 <div class="podium-card rank-{rank}">
-    <img
-        src={score.profile_picture}
-        alt={score.username}
+    <button
+        class="profile-link"
         onclick={() => navigate(`/profile/${score.username}`)}
-    />
-    <span class="medal">{medals[rank]}</span>
-    <span
-        class="username"
-        onclick={() => navigate(`/profile/${score.username}`)}
-        >@{score.username}</span
     >
+        <img src={score.profile_picture} alt={score.username} />
+        <span class="username">@{score.username}</span>
+    </button>
+    <span class="medal">{medals[rank]}</span>
     {#if score.country_code}
         <div class="country-badge">
             <img
@@ -65,12 +62,34 @@
         border-color: #cd7f32;
     }
 
+    .profile-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.4rem;
+        background: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+        text-transform: none;
+        letter-spacing: normal;
+        transition: none;
+    }
+
+    .profile-link:hover {
+        background: none;
+        box-shadow: none;
+        transform: none;
+    }
+
     img {
         width: 64px;
         height: 64px;
         border-radius: 50%;
         object-fit: cover;
-        cursor: pointer;
     }
 
     .medal {
@@ -81,7 +100,6 @@
     .username {
         font-weight: 700;
         color: var(--text);
-        cursor: pointer;
         font-size: 0.95rem;
     }
 

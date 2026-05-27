@@ -19,9 +19,8 @@
         } catch (error) {
             errorMessage =
                 error?.data?.errorMessage ?? "Failed to load users scores";
+            toast.error(errorMessage);
         }
-
-        toast(errorMessage);
     });
 </script>
 

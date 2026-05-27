@@ -72,17 +72,17 @@
             {#each scores.slice(3) as score, i (score.username)}
                 <div class="highscore-row">
                     <span class="rank">#{i + 4}</span>
-                    <img
-                        src={score.profile_picture}
-                        alt={score.username}
+                    
+                    <button
+                        class="profile-link"
                         onclick={() => navigate(`/profile/${score.username}`)}
-                        style="cursor:pointer"
-                    />
-                    <span
-                        class="username"
-                        onclick={() => navigate(`/profile/${score.username}`)}
-                        style="cursor:pointer">@{score.username}</span
                     >
+                        <img
+                            src={score.profile_picture}
+                            alt={score.username}
+                        />
+                        <span class="username">@{score.username}</span>
+                    </button>
                     {#if score.country_code}
                         <div class="country-badge">
                             <img
@@ -161,8 +161,31 @@
         flex-shrink: 0;
     }
 
-    .username {
+    .profile-link {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
         flex: 1;
+        background: none;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        cursor: pointer;
+        font: inherit;
+        text-align: left;
+        color: inherit;
+        text-transform: none;
+        letter-spacing: normal;
+        transition: none;
+    }
+
+    .profile-link:hover {
+        background: none;
+        box-shadow: none;
+        transform: none;
+    }
+
+    .username {
         font-weight: 600;
         color: var(--text);
     }

@@ -9,7 +9,7 @@
             <img
                 class="avatar"
                 src={profile.profile_picture}
-                alt="Profile picture"
+                alt={profile.name ?? profile.username}
             />
         </div>
         <p class="display-name">{profile.name ?? profile.username}</p>
