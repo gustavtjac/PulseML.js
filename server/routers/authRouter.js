@@ -41,7 +41,6 @@ router.post("/auth/login", async (req, res) => {
 
     const { password: _password, ...safeUser } = foundUserFromDatabase;
     req.session.user = safeUser;
-    console.log(safeUser);
 
     res.status(200).send({
         data: { successMessage: "Login succesfull" },
@@ -111,16 +110,13 @@ router.post("/auth/register", async (req, res) => {
         );
 
         sendRegisterMail(email, username).catch((error) => {
-            console.log(error);
-            /*  logger.error({ error }, "Register email failed"); */
+            
         });
 
         return res.status(201).send({
             data: { successMessage: "Account registered" },
         });
     } catch (error) {
-        console.log(error);
-        /* logger.error({ error }, "Error while registering user"); */
         if (error.code === "SQLITE_CONSTRAINT_UNIQUE") {
             return res.status(400).send({
                 data: { errorMessage: "Email or username is already taken" },

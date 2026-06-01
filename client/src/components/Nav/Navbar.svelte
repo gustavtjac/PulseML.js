@@ -11,7 +11,7 @@
             toast.success(result.data.successMessage);
             navigate("/");
         } catch (error) {
-            toast.success(error.data.errorMessage);
+            toast.error(error.data.errorMessage);
         }
     }
 </script>

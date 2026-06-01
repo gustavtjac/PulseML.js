@@ -12,14 +12,6 @@ import {
 } from "../utils/passwordHashing.js";
 import { sendPasswordChangedMail } from "../utils/emailUtil/emailUtil.js";
 
-const ALLOWED_FIELDS = [
-    "profile_picture",
-    "name",
-    "birthday",
-    "weight",
-    "gender",
-];
-
 router.get("/api/users/profile/:username", isLoggedIn, (req, res) => {
     const { username } = req.params;
     const profile = db
@@ -49,16 +41,10 @@ router.patch(
     isAccessingOwnUser,
     async (req, res) => {
         const { id } = req.params;
-        const {
-            currentPassword,
-            newPassword,
-            confirmNewPassword,
-            ...otherFields
-        } = req.body;
+        const { currentPassword, newPassword, confirmNewPassword, profile_picture, name, birthday, weight, gender } = req.body;
 
-        const updates = Object.keys(otherFields).filter((key) =>
-            ALLOWED_FIELDS.includes(key),
-        );
+        const otherFields = { profile_picture, name, birthday, weight, gender };
+        const updates = Object.keys(otherFields).filter((key) => otherFields[key] !== undefined);
 
         if (updates.length === 0 && !newPassword) {
             return res
@@ -67,7 +53,7 @@ router.patch(
         }
 
         if (newPassword) {
-            if (!currentPassword || !newPassword) {
+            if (!currentPassword) {
                 return res
                     .status(400)
                     .send({

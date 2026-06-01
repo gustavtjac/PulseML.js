@@ -35,56 +35,18 @@
 
         try {
             const encoded = await encodeImage(file);
-            const result = await fetchPatch(`/api/users/${$user.id}`, {
-                profile_picture: encoded,
-            });
-            user.update((update) => ({ ...update, profile_picture: encoded }));
+            const result = await fetchPatch(`/api/users/${$user.id}`, { profile_picture: encoded });
+            user.update((u) => ({ ...u, profile_picture: encoded }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
         }
     }
 
-    async function handleNameChange() {
+    async function saveField(fieldName, value) {
         try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, { name });
-            user.update((update) => ({ ...update, name }));
-            toast.success(result.data.successMessage);
-        } catch (error) {
-            toast.error(error.data.errorMessage);
-        }
-    }
-
-    async function handleBirthdayChange() {
-        try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, {
-                birthday,
-            });
-            user.update((update) => ({ ...update, birthday }));
-            toast.success(result.data.successMessage);
-        } catch (error) {
-            toast.error(error.data.errorMessage);
-        }
-    }
-
-    async function handleWeightChange() {
-        try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, {
-                weight,
-            });
-            user.update((update) => ({ ...update, weight: Number(weight) }));
-            toast.success(result.data.successMessage);
-        } catch (error) {
-            toast.error(error.data.errorMessage);
-        }
-    }
-
-    async function handleGenderChange() {
-        try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, {
-                gender,
-            });
-            user.update((update) => ({ ...update, gender: Number(gender) }));
+            const result = await fetchPatch(`/api/users/${$user.id}`, { [fieldName]: value });
+            user.update((user) => ({ ...user, [fieldName]: value }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
@@ -119,7 +81,7 @@
             class="name-input"
             type="text"
             bind:value={name}
-            onchange={handleNameChange}
+            onchange={() => saveField("name", name)}
         />
         <h3>@{$user?.username}</h3>
         {#if country}
@@ -148,7 +110,7 @@
                 class="inline-input"
                 type="date"
                 bind:value={birthday}
-                onchange={handleBirthdayChange}
+                onchange={() => saveField("birthday", birthday)}
             />
         </div>
         <div class="info-row">
@@ -157,7 +119,7 @@
                 class="inline-input"
                 type="number"
                 bind:value={weight}
-                onchange={handleWeightChange}
+                onchange={() => saveField("weight", Number(weight))}
                 min="1"
                 max="500"
             />
@@ -167,7 +129,7 @@
             <select
                 class="inline-select"
                 bind:value={gender}
-                onchange={handleGenderChange}
+                onchange={() => saveField("gender", Number(gender))}
             >
                 <option value={0}>Male</option>
                 <option value={1}>Female</option>

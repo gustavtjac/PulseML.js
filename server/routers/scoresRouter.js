@@ -2,6 +2,7 @@ import { Router } from "express";
 import db from "../database/connection.js";
 import { isLoggedIn } from "../middleWare/authMiddleWare.js";
 import { getLeaderboardBannerInformation } from "../sockets/leaderboardBannerSocket.js";
+import { getLeaderboardForGame } from "../sockets/leaderboardSocket.js";
 
 const router = Router();
 
@@ -25,24 +26,7 @@ router.get("/api/leaderboard/:game_id", isLoggedIn, (req, res) => {
             .send({ data: { errorMessage: "Game not found" } });
     }
 
-    const highscores = db
-        .prepare(
-            `
-        SELECT s.score, s.date, u.username, u.profile_picture, c.code AS country_code, c.name AS country_name
-        FROM scores s
-        JOIN users u ON s.user_id = u.id
-        LEFT JOIN countries c ON u.country_id = c.id
-        WHERE s.game_id = ?
-          AND s.score = (
-            SELECT MAX(s2.score) FROM scores s2
-            WHERE s2.user_id = s.user_id AND s2.game_id = s.game_id
-          )
-        GROUP BY s.user_id
-        ORDER BY s.score DESC
-        LIMIT 50
-    `,
-        )
-        .all(game_id);
+    const highscores = getLeaderboardForGame(game_id);
 
     return res.status(200).send({ data: { highscores } });
 });
