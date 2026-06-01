@@ -45,7 +45,9 @@ db.exec(`
     birthday TEXT NOT NULL,
     weight REAL NOT NULL,
     gender INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    reset_token TEXT,
+    reset_token_expires INTEGER
   );
 `);
 

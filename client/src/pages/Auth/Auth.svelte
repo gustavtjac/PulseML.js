@@ -2,12 +2,14 @@
     import Navbar from "../../components/Nav/Navbar.svelte";
     import Login from "../../components/Login/Login.svelte";
     import Register from "../../components/Register/Register.svelte";
+    import ForgotPassword from "../../components/ForgotPassword/ForgotPassword.svelte";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
+    import ResetPassword from "../../components/ResetPassword/ResetPassword.svelte";
     import { user } from "../../stores/userStore.js";
     import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
 
-    let { view = $bindable() } = $props();
+    let { view = $bindable(), resetToken = $bindable()  } = $props();
 
     onMount(() => {
         if ($user) {
@@ -28,8 +30,14 @@
                     onclick={() => navigate("/register")}>Create one</button
                 >
             </p>
+            <p>
+                forgot password? <button
+                    type="button"
+                    onclick={() => navigate("/forgot-password")}>Reset password</button
+                >
+            </p>
         </footer>
-    {:else}
+    {:else if view === "register"}
         <Register />
         <footer>
             <p>
@@ -39,14 +47,22 @@
                 >
             </p>
         </footer>
+         {:else if view === "forgot-password"}
+         <ForgotPassword></ForgotPassword>
+
+        {:else}
+        <ResetPassword {resetToken}></ResetPassword>
+
     {/if}
 </main>
 
 <style>
     footer {
+        gap: 1vw;
         margin: 1rem;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
+        justify-content: center;
     }
 </style>

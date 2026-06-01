@@ -28,6 +28,14 @@
                 ><Auth view="register" /></RouteGuard
             ></Route
         >
+        <Route path="/forgot-password"
+            ><RouteGuard requireAuth={false}><Auth view="forgot-password" /></RouteGuard
+            ></Route
+        >
+        <Route path="/reset-password/:resetToken" let:params
+            ><RouteGuard requireAuth={false}><Auth resetToken={params.resetToken} view="reset-password" /></RouteGuard
+            ></Route
+        >
         <Route path="/dashboard"
             ><RouteGuard requireAuth={true}><Home /></RouteGuard></Route
         >

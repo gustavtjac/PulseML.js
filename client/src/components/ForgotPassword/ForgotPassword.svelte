@@ -2,26 +2,21 @@
     import { fetchPost } from "../../util/fetchUtil.js";
     import { navigate } from "svelte-routing";
     import { toast } from "svelte-sonner";
-
-    let { resetToken = $bindable() } = $props();
-    let email = $state();
-    let password = $state();
-    let confirmPassword = $state();
+    let email = "";
 
 
     async function handleSubmit(event) {
         event.preventDefault();
+       
+
         try {
-            const result = await fetchPost("/auth/reset-password", {
-                email,
-                password,
-                confirmPassword,
-                resetToken
+            const result = await fetchPost("/auth/forgot-password", {
+                email
             });
-            toast.success(result.data.successMessage);
+            toast.success("You will recieve an email if it's associated with and account");
             navigate("/dashboard");
-        } catch (error) { 
-            toast.success(error?.data.errorMessage);
+        } catch (error) {
+            
         }
     }
 </script>
@@ -33,7 +28,7 @@
     </header>
 
     <form onsubmit={handleSubmit}>
-        <label for="email">Email</label>
+        <label for="username">Email</label>
         <input
             id="email"
             type="email"
@@ -41,22 +36,9 @@
             placeholder="gustavo@roque.dk"
             required
         />
-        <label for="psw1">New password</label>
-        <input
-            id="psw1"
-            type="password"
-            bind:value={password}
-            placeholder="*****"
-            required
-        />
-        <label for="psw2">Confirm new password</label>
-         <input
-            id="psw2"
-            type="password"
-            bind:value={confirmPassword}
-            placeholder="*****"
-            required
-        />
+
+        
+
         <button type="submit">Reset
         </button>
     </form>
