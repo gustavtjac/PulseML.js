@@ -29,7 +29,7 @@
 </script>
 
 <svelte:head>
-    <title>PulseML.js - {profile.username}</title>
+    <title>PulseML.js - {username}</title>
 </svelte:head>
 
 <LeaderboardBanner />
