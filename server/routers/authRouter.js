@@ -180,7 +180,6 @@ router.post("/auth/forgot-password", async (req, res) => {
 });
 
 router.post("/auth/reset-password", async (req, res) => {
-    console.log();
     const { email, password, confirmPassword, resetToken } = req.body;
 
     if (!email || !password || !confirmPassword || !resetToken) {
