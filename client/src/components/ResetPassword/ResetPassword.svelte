@@ -8,7 +8,6 @@
     let password = $state();
     let confirmPassword = $state();
 
-
     async function handleSubmit(event) {
         event.preventDefault();
         try {
@@ -16,11 +15,11 @@
                 email,
                 password,
                 confirmPassword,
-                resetToken
+                resetToken,
             });
             toast.success(result.data.successMessage);
             navigate("/dashboard");
-        } catch (error) { 
+        } catch (error) {
             toast.success(error?.data.errorMessage);
         }
     }
@@ -50,15 +49,14 @@
             required
         />
         <label for="psw2">Confirm new password</label>
-         <input
+        <input
             id="psw2"
             type="password"
             bind:value={confirmPassword}
             placeholder="*****"
             required
         />
-        <button type="submit">Reset
-        </button>
+        <button type="submit">Reset </button>
     </form>
 </section>
 

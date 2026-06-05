@@ -35,7 +35,9 @@
 
         try {
             const encoded = await encodeImage(file);
-            const result = await fetchPatch(`/api/users/${$user.id}`, { profile_picture: encoded });
+            const result = await fetchPatch(`/api/users/${$user.id}`, {
+                profile_picture: encoded,
+            });
             user.update((u) => ({ ...u, profile_picture: encoded }));
             toast.success(result.data.successMessage);
         } catch (error) {
@@ -45,7 +47,9 @@
 
     async function saveField(fieldName, value) {
         try {
-            const result = await fetchPatch(`/api/users/${$user.id}`, { [fieldName]: value });
+            const result = await fetchPatch(`/api/users/${$user.id}`, {
+                [fieldName]: value,
+            });
             user.update((user) => ({ ...user, [fieldName]: value }));
             toast.success(result.data.successMessage);
         } catch (error) {
@@ -69,7 +73,8 @@
             role="button"
             tabindex="0"
             onclick={() => fileInput?.click()}
-            onkeydown={(e) => (e.key === "Enter" || e.key === " ") && fileInput?.click()}
+            onkeydown={(e) =>
+                (e.key === "Enter" || e.key === " ") && fileInput?.click()}
         >
             <img
                 class="avatar"

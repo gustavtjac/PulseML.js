@@ -4,19 +4,19 @@
     import { toast } from "svelte-sonner";
     let email = "";
 
-
     async function handleSubmit(event) {
         event.preventDefault();
-       
 
         try {
-            const result = await fetchPost("/auth/forgot-password", {
-                email
+            await fetchPost("/auth/forgot-password", {
+                email,
             });
-            toast.success("You will recieve an email if it's associated with and account");
+            toast.success(
+                "You will recieve an email if it's associated with and account",
+            );
             navigate("/dashboard");
         } catch (error) {
-            
+            toast.error(error.data.errorMessage);
         }
     }
 </script>
@@ -37,10 +37,7 @@
             required
         />
 
-        
-
-        <button type="submit">Reset
-        </button>
+        <button type="submit">Reset </button>
     </form>
 </section>
 

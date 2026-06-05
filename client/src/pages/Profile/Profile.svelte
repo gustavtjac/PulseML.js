@@ -25,7 +25,7 @@
 </script>
 
 <svelte:head>
-    <title>PulseML.js - {$user.username} </title>
+    <title>PulseML.js - {$user.username}</title>
 </svelte:head>
 <LeaderboardBanner />
 <Navbar></Navbar>

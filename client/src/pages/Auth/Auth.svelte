@@ -9,7 +9,7 @@
     import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
 
-    let { view = $bindable(), resetToken = $bindable()  } = $props();
+    let { view = $bindable(), resetToken = $bindable() } = $props();
 
     onMount(() => {
         if ($user) {
@@ -17,8 +17,9 @@
         }
     });
 </script>
+
 <svelte:head>
-    <title>PulseML.js - Login / Signup </title>
+    <title>PulseML.js - Login / Signup</title>
 </svelte:head>
 <LeaderboardBanner />
 <Navbar />
@@ -35,7 +36,8 @@
             <p>
                 forgot password? <button
                     type="button"
-                    onclick={() => navigate("/forgot-password")}>Reset password</button
+                    onclick={() => navigate("/forgot-password")}
+                    >Reset password</button
                 >
             </p>
         </footer>
@@ -49,12 +51,10 @@
                 >
             </p>
         </footer>
-         {:else if view === "forgot-password"}
-         <ForgotPassword></ForgotPassword>
-
-        {:else}
+    {:else if view === "forgot-password"}
+        <ForgotPassword></ForgotPassword>
+    {:else}
         <ResetPassword {resetToken}></ResetPassword>
-
     {/if}
 </main>
 

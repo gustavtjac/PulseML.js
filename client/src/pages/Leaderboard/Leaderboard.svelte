@@ -8,8 +8,6 @@
     import { BASE_URL } from "../../stores/generalStore.js";
     import io from "socket.io-client";
 
-
-
     let socket = $state();
     let games = $state([]);
     let gameLeaderBoardMap = $state({});
@@ -42,8 +40,9 @@
         });
     });
 </script>
+
 <svelte:head>
-    <title>PulseML.js - Leaderboard </title>
+    <title>PulseML.js - Leaderboard</title>
 </svelte:head>
 <LeaderboardBanner />
 <Navbar />
@@ -74,15 +73,12 @@
             {#each scores.slice(3) as score, i (score.username)}
                 <div class="highscore-row">
                     <span class="rank">#{i + 4}</span>
-                    
+
                     <button
                         class="profile-link"
                         onclick={() => navigate(`/profile/${score.username}`)}
                     >
-                        <img
-                            src={score.profile_picture}
-                            alt={score.username}
-                        />
+                        <img src={score.profile_picture} alt={score.username} />
                         <span class="username">@{score.username}</span>
                     </button>
                     {#if score.country_code}

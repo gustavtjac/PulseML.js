@@ -127,8 +127,9 @@
         }
     });
 </script>
+
 <svelte:head>
-    <title>PulseML.js {game} </title>
+    <title>PulseML.js {game}</title>
 </svelte:head>
 
 <LeaderboardBanner />
@@ -169,7 +170,7 @@
         <div class="start-screen">
             <h1>Nice job!</h1>
             {#if isPersonalBest}
-            <p>New Personal Best! 🏆</p>
+                <p>New Personal Best! 🏆</p>
             {/if}
             <p>{repCount} reps in 20 seconds</p>
             <button onclick={resetGame}>Play Again</button>

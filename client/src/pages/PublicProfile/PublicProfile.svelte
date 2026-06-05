@@ -28,9 +28,8 @@
     });
 </script>
 
-
 <svelte:head>
-    <title>PulseML.js - {profile.username} </title>
+    <title>PulseML.js - {profile.username}</title>
 </svelte:head>
 
 <LeaderboardBanner />
