@@ -21,6 +21,9 @@
 
     onDestroy(() => clearInterval(interval));
 </script>
+<svelte:head>
+    <title>PulseML.js</title>
+</svelte:head>
 
 <LeaderboardBanner />
 <Navbar />

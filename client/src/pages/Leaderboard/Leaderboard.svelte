@@ -42,7 +42,9 @@
         });
     });
 </script>
-
+<svelte:head>
+    <title>PulseML.js - Leaderboard </title>
+</svelte:head>
 <LeaderboardBanner />
 <Navbar />
 

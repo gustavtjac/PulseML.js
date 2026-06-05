@@ -17,7 +17,9 @@
         }
     });
 </script>
-
+<svelte:head>
+    <title>PulseML.js - Login / Signup </title>
+</svelte:head>
 <LeaderboardBanner />
 <Navbar />
 <main aria-label="Authentication">

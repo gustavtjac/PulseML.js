@@ -19,7 +19,9 @@
         navigate(`/games/${gameId}`);
     }
 </script>
-
+<svelte:head>
+    <title>PulseML.js - Home </title>
+</svelte:head>
 <LeaderboardBanner />
 <Navbar />
 

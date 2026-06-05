@@ -124,6 +124,9 @@
         }
     });
 </script>
+<svelte:head>
+    <title>PulseML.js {game} </title>
+</svelte:head>
 
 <LeaderboardBanner />
 <Navbar />
