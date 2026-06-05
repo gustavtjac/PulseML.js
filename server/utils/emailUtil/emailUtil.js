@@ -33,8 +33,6 @@ export async function sendPasswordChangedMail(email, username) {
     return data;
 }
 
-
-
 export async function sendPasswordResetMail(email, username, token) {
     const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;
     const { data, error } = await resend.emails.send({
@@ -45,6 +43,8 @@ export async function sendPasswordResetMail(email, username, token) {
     });
 
     if (error)
-        throw new Error(`Failed to send password reset email: ${error.message}`);
+        throw new Error(
+            `Failed to send password reset email: ${error.message}`,
+        );
     return data;
 }

@@ -41,10 +41,21 @@ router.patch(
     isAccessingOwnUser,
     async (req, res) => {
         const { id } = req.params;
-        const { currentPassword, newPassword, confirmNewPassword, profile_picture, name, birthday, weight, gender } = req.body;
+        const {
+            currentPassword,
+            newPassword,
+            confirmNewPassword,
+            profile_picture,
+            name,
+            birthday,
+            weight,
+            gender,
+        } = req.body;
 
         const otherFields = { profile_picture, name, birthday, weight, gender };
-        const updates = Object.keys(otherFields).filter((key) => otherFields[key] !== undefined);
+        const updates = Object.keys(otherFields).filter(
+            (key) => otherFields[key] !== undefined,
+        );
 
         if (updates.length === 0 && !newPassword) {
             return res
@@ -54,13 +65,11 @@ router.patch(
 
         if (newPassword) {
             if (!currentPassword) {
-                return res
-                    .status(400)
-                    .send({
-                        data: {
-                            errorMessage: "Current & new password is required",
-                        },
-                    });
+                return res.status(400).send({
+                    data: {
+                        errorMessage: "Current & new password is required",
+                    },
+                });
             }
             if (newPassword !== confirmNewPassword) {
                 return res
@@ -82,11 +91,9 @@ router.patch(
                 dbUser.password,
             );
             if (!passwordMatch) {
-                return res
-                    .status(401)
-                    .send({
-                        data: { errorMessage: "Current password is incorrect" },
-                    });
+                return res.status(401).send({
+                    data: { errorMessage: "Current password is incorrect" },
+                });
             }
 
             updates.push("password");

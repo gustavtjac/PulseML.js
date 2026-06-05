@@ -3,7 +3,11 @@ import crypto from "crypto";
 const router = Router();
 
 import db from "../database/connection.js";
-import { sendRegisterMail, sendPasswordResetMail, sendPasswordChangedMail } from "../utils/emailUtil/emailUtil.js";
+import {
+    sendRegisterMail,
+    sendPasswordResetMail,
+    sendPasswordChangedMail,
+} from "../utils/emailUtil/emailUtil.js";
 import {
     compareHashedPasswords,
     hashPassword,
@@ -131,7 +135,9 @@ router.post("/auth/forgot-password", async (req, res) => {
     const { email } = req.body;
 
     if (!email) {
-        return res.status(400).send({ data: { errorMessage: "Email must be filled out" } });
+        return res
+            .status(400)
+            .send({ data: { errorMessage: "Email must be filled out" } });
     }
 
     const foundUserFromDatabase = db
@@ -139,53 +145,83 @@ router.post("/auth/forgot-password", async (req, res) => {
         .get(email.toLowerCase());
 
     if (!foundUserFromDatabase) {
-        return res.status(200).send({ data: { successMessage: "If that email exists, a reset link has been sent" } });
+        return res.status(200).send({
+            data: {
+                successMessage:
+                    "If that email exists, a reset link has been sent",
+            },
+        });
     }
 
     const token = crypto.randomBytes(32).toString("hex");
     const expires = Date.now() + 900000;
 
-    db.prepare("UPDATE users SET reset_token = ?, reset_token_expires = ? WHERE id = ?")
-        .run(token, expires, foundUserFromDatabase.id);
+    db.prepare(
+        "UPDATE users SET reset_token = ?, reset_token_expires = ? WHERE id = ?",
+    ).run(token, expires, foundUserFromDatabase.id);
 
     try {
-        await sendPasswordResetMail(email, foundUserFromDatabase.username, token);
+        await sendPasswordResetMail(
+            email,
+            foundUserFromDatabase.username,
+            token,
+        );
     } catch (error) {
-        return res.status(500).send({ data: { errorMessage: "Failed to send reset email" } });
+        return res
+            .status(500)
+            .send({ data: { errorMessage: "Failed to send reset email" } });
     }
 
-    res.status(200).send({ data: { successMessage: "If that email exists, a reset link has been sent" } });
+    res.status(200).send({
+        data: {
+            successMessage: "If that email exists, a reset link has been sent",
+        },
+    });
 });
 
 router.post("/auth/reset-password", async (req, res) => {
-
-    console.log()
+    console.log();
     const { email, password, confirmPassword, resetToken } = req.body;
 
     if (!email || !password || !confirmPassword || !resetToken) {
-        return res.status(400).send({ data: { errorMessage: "All fields are required" } });
+        return res
+            .status(400)
+            .send({ data: { errorMessage: "All fields are required" } });
     }
 
     if (password !== confirmPassword) {
-        return res.status(400).send({ data: { errorMessage: "Passwords do not match" } });
+        return res
+            .status(400)
+            .send({ data: { errorMessage: "Passwords do not match" } });
     }
 
     const user = db
-        .prepare("SELECT id, username, email, reset_token, reset_token_expires FROM users WHERE email = ?")
+        .prepare(
+            "SELECT id, username, email, reset_token, reset_token_expires FROM users WHERE email = ?",
+        )
         .get(email.toLowerCase());
 
-    if (!user || user.reset_token !== resetToken || Date.now() > user.reset_token_expires) {
-        return res.status(400).send({ data: { errorMessage: "Invalid or expired reset link" } });
+    if (
+        !user ||
+        user.reset_token !== resetToken ||
+        Date.now() > user.reset_token_expires
+    ) {
+        return res
+            .status(400)
+            .send({ data: { errorMessage: "Invalid or expired reset link" } });
     }
 
     const hashedPassword = await hashPassword(password);
 
-    db.prepare("UPDATE users SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?")
-        .run(hashedPassword, user.id);
+    db.prepare(
+        "UPDATE users SET password = ?, reset_token = NULL, reset_token_expires = NULL WHERE id = ?",
+    ).run(hashedPassword, user.id);
 
     await sendPasswordChangedMail(user.email, user.username).catch(() => {});
 
-    res.status(200).send({ data: { successMessage: "Password reset successfully" } });
+    res.status(200).send({
+        data: { successMessage: "Password reset successfully" },
+    });
 });
 
 router.get("/auth/me", isLoggedIn, (req, res) => {

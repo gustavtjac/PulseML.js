@@ -54,7 +54,11 @@ app.use(
             directives: {
                 ...helmet.contentSecurityPolicy.getDefaultDirectives(),
                 "img-src": ["'self'", "data:", "https://flagcdn.com"],
-                "script-src": ["'self'", "'wasm-unsafe-eval'", "https://cdn.jsdelivr.net"],
+                "script-src": [
+                    "'self'",
+                    "'wasm-unsafe-eval'",
+                    "https://cdn.jsdelivr.net",
+                ],
                 "connect-src": ["'self'", "https://cdn.jsdelivr.net"],
                 "worker-src": ["'self'", "blob:"],
             },
@@ -79,7 +83,7 @@ io.engine.use(sessionMiddleware);
 
 import { leaderboardBannerSocket } from "./sockets/leaderboardBannerSocket.js";
 leaderboardBannerSocket(io);
-import {leaderboardSocket} from './sockets/leaderboardSocket.js';
+import { leaderboardSocket } from "./sockets/leaderboardSocket.js";
 leaderboardSocket(io);
 
 app.get("/api/{*splat}", (req, res) => {
