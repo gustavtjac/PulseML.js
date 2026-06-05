@@ -25,11 +25,13 @@
     let repCount = $state(0);
     let timeLeft = $state(20);
     let countdown = $state(null);
+    let isPersonalBest = $state(false);
 
     let frameBuffer = [];
     let inRep = $state(false);
 
     function resetGame() {
+        isPersonalBest = false;
         repCount = 0;
         timeLeft = 20;
         countdown = null;
@@ -57,12 +59,13 @@
         game = result.data.game;
     });
 
-    $effect(() => {
+    $effect(async () => {
         if (phase === "done") {
-            fetchPost("/api/scores", {
+            const result = await fetchPost("/api/scores", {
                 game_id: Number(gameId),
                 score: repCount,
             });
+            isPersonalBest = result.data.isPersonalBest;
             confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         }
     });
@@ -165,6 +168,9 @@
     {:else if phase === "done"}
         <div class="start-screen">
             <h1>Nice job!</h1>
+            {#if isPersonalBest}
+            <p>New Personal Best! 🏆</p>
+            {/if}
             <p>{repCount} reps in 20 seconds</p>
             <button onclick={resetGame}>Play Again</button>
         </div>

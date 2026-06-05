@@ -75,11 +75,17 @@ router.post("/api/scores", isLoggedIn, (req, res) => {
             .send({ data: { errorMessage: "Game not found" } });
     }
 
+    const previousBest = db
+    .prepare("SELECT MAX(score) AS best FROM scores WHERE user_id = ? AND game_id = ?")
+    .get(req.session.user.id, game_id);
+
+    const isPersonalBest = previousBest.best === null || score > previous.best;
+
     db.prepare(
         "INSERT INTO scores (user_id, game_id, score, date) VALUES (?, ?, ?, datetime('now'))",
     ).run(req.session.user.id, game_id, score);
 
-    return res.status(201).send({ data: { message: "Score saved" } });
+    return res.status(201).send({ data: { message: "Score saved", isPersonalBest } });
 });
 
 export default router;
