@@ -20,7 +20,8 @@
         countries.find((country) => country.id === countryId),
     );
 
-    async function handleSubmit() {
+    async function handleSubmit(event) {
+        event.preventDefault();
         submitted = true;
         try {
             const result = await fetchPost("/auth/register", {
@@ -58,7 +59,7 @@
         <p>Sign up to get started</p>
     </header>
 
-    <form>
+    <form onsubmit={handleSubmit}>
         <label for="username">Username</label>
         <input
             id="username"
@@ -142,7 +143,7 @@
             <option value={1}>Female</option>
         </select>
 
-        <button type="submit" onclick={handleSubmit}>
+        <button type="submit">
             {submitted ? "Creating account…" : "Create account"}
         </button>
     </form>

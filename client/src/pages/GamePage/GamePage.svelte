@@ -1,34 +1,31 @@
 <script>
     import Navbar from "../../components/Nav/Navbar.svelte";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
-    import { onMount, tick } from "svelte";
+
+    import { onMount } from "svelte";
     import { fetchGet, fetchPost } from "../../util/fetchUtil.js";
     import { startWebcam, stopWebcam } from "../../util/webcamUtil.js";
-    import {
-        loadPoseLandmarker,
-        startFrameLoop,
-    } from "../../util/mediapipeUtil.js";
-    import {
-        loadModel,
-        loadScaler,
-        runInference,
-    } from "../../util/onnxUtil.js";
+    import { loadPoseLandmarker, startFrameLoop } from "../../util/mediapipeUtil.js";
+    import { loadModel, loadScaler, runInference } from "../../util/onnxUtil.js";
     import { gameConfigs } from "../../util/gameConfigs.js";
     import confetti from "canvas-confetti";
 
     let { gameId } = $props();
-
     let game = $state(null);
     let phase = $state("start");
     let stream = $state(null);
-    let videoEl = $state(null);
+    let videoElement = $state(null);
     let repCount = $state(0);
     let timeLeft = $state(20);
     let countdown = $state(null);
     let isPersonalBest = $state(false);
-
     let frameBuffer = [];
     let inRep = $state(false);
+
+    onMount(async () => {
+        const result = await fetchGet(`/api/games/${gameId}`);
+        game = result.data.game;
+    });
 
     function resetGame() {
         isPersonalBest = false;
@@ -42,8 +39,7 @@
 
     async function startCountdown() {
         countdown = 5;
-        await tick();
-        stream = await startWebcam(videoEl);
+        stream = await startWebcam(videoElement);
         const interval = setInterval(() => {
             countdown--;
             if (countdown <= 0) {
@@ -53,11 +49,6 @@
             }
         }, 1000);
     }
-
-    onMount(async () => {
-        const result = await fetchGet(`/api/games/${gameId}`);
-        game = result.data.game;
-    });
 
     $effect(async () => {
         if (phase === "done") {
@@ -83,7 +74,7 @@
                 ]);
 
                 cancelLoop = startFrameLoop(
-                    videoEl,
+                    videoElement,
                     poseLandmarker,
                     config,
                     async (features) => {
@@ -136,15 +127,18 @@
 <Navbar />
 
 <main>
-    {#if phase === "playing" || countdown !== null}
-        <div class="game-container">
-            <video bind:this={videoEl} autoplay playsinline></video>
-            {#if countdown !== null}
-                <div class="countdown-overlay">
-                    <span class="countdown-number">{countdown}</span>
-                    <p>Get ready!</p>
-                </div>
-            {/if}
+    <div
+        class="game-container"
+        class:hidden={!(phase === "playing" || countdown !== null)}
+    >
+        <video bind:this={videoElement} autoplay playsinline></video>
+        {#if countdown !== null}
+            <div class="countdown-overlay">
+                <span class="countdown-number">{countdown}</span>
+                <p>Get ready!</p>
+            </div>
+        {/if}
+        {#if phase === "playing"}
             <div class="hud">
                 <div class="hud-stat">
                     <span class="hud-label">Reps</span>
@@ -165,8 +159,10 @@
                     >
                 </div>
             </div>
-        </div>
-    {:else if phase === "done"}
+        {/if}
+    </div>
+
+    {#if phase === "done"}
         <div class="start-screen">
             <h1>Nice job!</h1>
             {#if isPersonalBest}
@@ -175,16 +171,18 @@
             <p>{repCount} reps in 20 seconds</p>
             <button onclick={resetGame}>Play Again</button>
         </div>
-    {:else if game}
-        <div class="start-screen">
-            <h1>{game.name}</h1>
-            <p>{game.description}</p>
-            <button onclick={startCountdown}>Start</button>
-        </div>
-    {:else}
-        <div class="start-screen">
-            <p>Loading...</p>
-        </div>
+    {:else if phase === "start" && countdown === null}
+        {#if game}
+            <div class="start-screen">
+                <h1>{game.name}</h1>
+                <p>{game.description}</p>
+                <button onclick={startCountdown}>Start</button>
+            </div>
+        {:else}
+            <div class="start-screen">
+                <p>Loading...</p>
+            </div>
+        {/if}
     {/if}
 </main>
 
@@ -214,6 +212,10 @@
         align-items: center;
         position: relative;
         width: 40vw;
+    }
+
+    .game-container.hidden {
+        display: none;
     }
 
     video {

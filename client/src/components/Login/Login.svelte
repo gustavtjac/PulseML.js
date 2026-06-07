@@ -8,7 +8,8 @@
     let password = "";
     let submitted = false;
 
-    async function handleSubmit() {
+    async function handleSubmit(event) {
+        event.preventDefault();
         submitted = true;
 
         try {
@@ -32,7 +33,7 @@
         <p>Welcome back</p>
     </header>
 
-    <form>
+    <form onsubmit={handleSubmit}>
         <label for="username">Username</label>
         <input
             id="username"
@@ -45,7 +46,7 @@
         <label for="password">Password</label>
         <input id="password" type="password" bind:value={password} required />
 
-        <button onclick={handleSubmit} type="submit">
+        <button type="submit">
             {submitted ? "Signing in…" : "Sign in"}
         </button>
     </form>
