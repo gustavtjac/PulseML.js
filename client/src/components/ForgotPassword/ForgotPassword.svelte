@@ -2,11 +2,11 @@
     import { fetchPost } from "../../util/fetchUtil.js";
     import { navigate } from "svelte-routing";
     import { toast } from "svelte-sonner";
+
     let email = "";
 
-    async function handleSubmit(event) {
-        event.preventDefault();
-
+    async function handleSubmit() {
+        
         try {
             await fetchPost("/auth/forgot-password", {
                 email,
@@ -21,13 +21,13 @@
     }
 </script>
 
-<section aria-labelledby="login-heading">
+<section>
     <header>
         <h1 id="login-heading">Reset Password</h1>
         <p>Reset your password to gain access to your account</p>
     </header>
 
-    <form onsubmit={handleSubmit}>
+    <form>
         <label for="username">Email</label>
         <input
             id="email"
@@ -36,8 +36,7 @@
             placeholder="gustavo@roque.dk"
             required
         />
-
-        <button type="submit">Reset </button>
+        <button onclick={handleSubmit} type="submit">Reset</button>
     </form>
 </section>
 

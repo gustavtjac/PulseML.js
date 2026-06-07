@@ -8,8 +8,7 @@
     let confirmNewPassword = $state("");
     let submitted = $state(false);
 
-    async function handleSubmit(event) {
-        event.preventDefault();
+    async function handleSubmit() {
 
         if (newPassword !== confirmNewPassword) {
             toast.error("New passwords do not match");
@@ -36,7 +35,7 @@
 </script>
 
 <main>
-    <section id="topSection">
+    <section class="top-section">
         <h2>Reset Password</h2>
         <h3>Update your credentials</h3>
     </section>
@@ -74,7 +73,7 @@
                 />
             </div>
             <div class="form-row">
-                <button type="submit" disabled={submitted}>
+                <button onclick={handleSubmit} type="submit" disabled={submitted}>
                     {submitted ? "Updating…" : "Update Password"}
                 </button>
             </div>
@@ -96,7 +95,7 @@
         border: 1px solid var(--border);
     }
 
-    #topSection {
+    .top-section {
         display: flex;
         flex-direction: column;
         align-items: center;
