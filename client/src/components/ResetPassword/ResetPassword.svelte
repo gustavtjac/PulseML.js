@@ -3,13 +3,13 @@
     import { navigate } from "svelte-routing";
     import { toast } from "svelte-sonner";
 
-    let { resetToken = $bindable() } = $props();
+    let { resetToken } = $props();
     let email = $state();
     let password = $state();
     let confirmPassword = $state();
 
-    async function handleSubmit(event) {
-        event.preventDefault();
+    async function handleSubmit() {
+
         try {
             const result = await fetchPost("/auth/reset-password", {
                 email,
@@ -25,9 +25,9 @@
     }
 </script>
 
-<section aria-labelledby="login-heading">
+<section>
     <header>
-        <h1 id="login-heading">Reset Password</h1>
+        <h1>Reset Password</h1>
         <p>Reset your password to gain access to your account</p>
     </header>
 
@@ -56,7 +56,7 @@
             placeholder="*****"
             required
         />
-        <button type="submit">Reset </button>
+        <button onclick={handleSubmit} type="submit">Reset </button>
     </form>
 </section>
 

@@ -1,7 +1,8 @@
 <script>
     import { navigate } from "svelte-routing";
-    let { rank, score } = $props();
 
+    
+    let { rank, score } = $props();
     const medals = { 1: "🥇", 2: "🥈", 3: "🥉" };
 </script>
 
@@ -77,12 +78,6 @@
         text-transform: none;
         letter-spacing: normal;
         transition: none;
-    }
-
-    .profile-link:hover {
-        background: none;
-        box-shadow: none;
-        transform: none;
     }
 
     img {

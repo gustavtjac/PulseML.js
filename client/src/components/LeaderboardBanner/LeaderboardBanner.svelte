@@ -2,7 +2,9 @@
     import { onMount } from "svelte";
     import { BASE_URL } from "../../stores/generalStore.js";
     import { fetchGet } from "../../util/fetchUtil.js";
+
     import io from "socket.io-client";
+
     let socket = $state();
     let leaderboardRankings = $state([]);
 
@@ -11,6 +13,7 @@
         leaderboardRankings = result.data.data;
 
         socket = io($BASE_URL, { withCredentials: true });
+
         socket.on("server-sends-leaderboard-banner", (data) => {
             leaderboardRankings = data.data;
         });
@@ -38,7 +41,7 @@
         {/each}
         <span class="sep">✦</span>
     </section>
-    <section aria-hidden="true" class="group">
+    <section class="group">
         <span class="label">⚡ LIVE LEADERBOARD</span>
         {#each leaderboardRankings as game (game.name)}
             <div class="card">
@@ -86,9 +89,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0.6em;
         flex-shrink: 0;
-        padding: 0 1em;
         white-space: nowrap;
         border-right: 1px solid var(--border);
     }

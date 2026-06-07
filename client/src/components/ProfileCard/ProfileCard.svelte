@@ -25,7 +25,7 @@
                 country = result?.data?.country;
             }
         } catch (error) {
-            console.log(error);
+            toast.error(error.data.errorMessage ?? "Error while loading profile details")
         }
     });
 
@@ -73,8 +73,7 @@
             role="button"
             tabindex="0"
             onclick={() => fileInput?.click()}
-            onkeydown={(e) =>
-                (e.key === "Enter" || e.key === " ") && fileInput?.click()}
+            
         >
             <img
                 class="avatar"
@@ -184,10 +183,7 @@
         height: 100px;
         border-radius: 50%;
         object-fit: cover;
-        border: 3px solid transparent;
-        background:
-            linear-gradient(var(--bg-surface), var(--bg-surface)) padding-box,
-            linear-gradient(135deg, var(--accent), var(--accent-dim)) border-box;
+        border: 3px solid var(--accent);
     }
 
     .name-input {
@@ -200,7 +196,6 @@
         font-weight: 700;
         font-family: inherit;
         text-align: center;
-        width: auto;
         padding: 0;
         outline: none;
         transition: border-color 0.15s;

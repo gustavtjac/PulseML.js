@@ -1,10 +1,6 @@
 <script>
-
 let { playStreak, publicProfile } = $props()
-
-
 </script>
-
 
 <main>
     <h2>Streak</h2>
@@ -35,8 +31,5 @@ let { playStreak, publicProfile } = $props()
         border: 1px solid var(--border);
         width: 10vw;
         height: 10vw;
-
     }
-
-
 </style>

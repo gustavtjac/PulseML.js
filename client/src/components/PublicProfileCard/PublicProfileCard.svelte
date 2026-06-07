@@ -1,10 +1,11 @@
 <script>
     import { calcAge } from "../../util/dateUtil.js";
+    
     let { profile } = $props();
 </script>
 
 <main>
-    <section id="topSection">
+    <section id="top-section">
         <div class="avatar-wrapper">
             <img
                 class="avatar"
@@ -68,7 +69,7 @@
         border: 1px solid var(--border);
     }
 
-    #topSection {
+    #top-section {
         display: flex;
         flex-direction: column;
         align-items: center;

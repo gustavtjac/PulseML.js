@@ -232,10 +232,6 @@
         align-items: center;
         gap: 1vw;
     }
-     .country-selector img {
-        
-    }
-
     .profile-link:hover {
         background: none;
         box-shadow: none;
