@@ -41,7 +41,7 @@
             const result = await fetchPatch(`/api/users/${$user.id}`, {
                 profile_picture: encoded,
             });
-            user.update((u) => ({ ...u, profile_picture: encoded }));
+            user.update((user) => ({ ...user, profile_picture: encoded }));
             toast.success(result.data.successMessage);
         } catch (error) {
             toast.error(error.data.errorMessage);
@@ -70,7 +70,7 @@
 />
 
 <main>
-    <section id="topSection">
+    <section class="top-section">
         <div
             class="avatar-wrapper"
             role="button"
@@ -162,7 +162,7 @@
         border: 1px solid var(--border);
     }
 
-    #topSection {
+    .top-section {
         display: flex;
         flex-direction: column;
         align-items: center;

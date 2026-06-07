@@ -22,7 +22,7 @@
 
 <section>
     <header>
-        <h1 id="login-heading">Reset Password</h1>
+        <h1>Reset Password</h1>
         <p>Reset your password to gain access to your account</p>
     </header>
 
