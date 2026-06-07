@@ -1,14 +1,14 @@
 <script>
-    import { onMount } from "svelte";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import Navbar from "../../components/Nav/Navbar.svelte";
     import PublicProfileCard from "../../components/PublicProfileCard/PublicProfileCard.svelte";
     import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";
-    import { fetchGet } from "../../util/fetchUtil.js";
     import ProfileStreak from "../../components/ProfileStreak/ProfileStreak.svelte";
 
+    import { fetchGet } from "../../util/fetchUtil.js";   
+    import { onMount } from "svelte";
+   
     let { username } = $props();
-
     let profile = $state(null);
     let scores = $state([]);
     let errorMessage = $state(null);
@@ -83,9 +83,4 @@
         color: var(--error, #e55);
     }
 
-    @media (max-width: 768px) {
-        .cards-row {
-            flex-direction: column;
-        }
-    }
 </style>

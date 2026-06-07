@@ -1,13 +1,14 @@
 <script>
     import { onMount } from "svelte";
     import { toast } from "svelte-sonner";
-    import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
-    import Navbar from "../../components/Nav/Navbar.svelte";
-    import PodiumCard from "../../components/PodiumCard/PodiumCard.svelte";
     import { fetchGet } from "../../util/fetchUtil";
     import { navigate } from "svelte-routing";
     import { BASE_URL } from "../../stores/generalStore.js";
     import io from "socket.io-client";
+
+    import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
+    import Navbar from "../../components/Nav/Navbar.svelte";
+    import PodiumCard from "../../components/PodiumCard/PodiumCard.svelte";
 
     let socket = $state();
     let games = $state([]);
@@ -232,12 +233,6 @@
         align-items: center;
         gap: 1vw;
     }
-    .profile-link:hover {
-        background: none;
-        box-shadow: none;
-        transform: none;
-    }
-
     .username {
         font-weight: 600;
         color: var(--text);

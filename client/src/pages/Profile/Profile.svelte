@@ -3,6 +3,7 @@
     import { user } from "../../stores/userStore.js";
     import { fetchGet } from "../../util/fetchUtil.js";
     import { toast } from "svelte-sonner";
+    
     import Navbar from "../../components/Nav/Navbar.svelte";
     import ProfileCard from "../../components/ProfileCard/ProfileCard.svelte";
     import ResetPassword from "../../components/ChangePassword/ChangePassword.svelte";

@@ -1,13 +1,13 @@
 <script>
     import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
+    import { fetchGet } from "../../util/fetchUtil.js";
+
     import Navbar from "../../components/Nav/Navbar.svelte";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import GameCard from "../../components/GameCard/GameCard.svelte";
-    import { fetchGet } from "../../util/fetchUtil.js";
-
+    
     const icons = { 1: "💪", 2: "🏋️‍♂️" };
-
     let games = $state([]);
 
     onMount(async () => {
@@ -15,9 +15,6 @@
         games = result.data.games;
     });
 
-    function handleGameCardClick(gameId) {
-        navigate(`/games/${gameId}`);
-    }
 </script>
 
 <svelte:head>
@@ -28,21 +25,20 @@
 
 <main>
     <h1>Choose a game!</h1>
-
-    <div class="gameswrapper">
+    <div class="games-wrapper">
         {#each games as game (game.id)}
             <GameCard
                 title={game.name}
                 description={game.description}
                 icon={icons[game.id] ?? "🎮"}
-                onclick={() => handleGameCardClick(game.id)}
+                onclick={() => navigate(`/games/${game.id}`)}
             />
         {/each}
     </div>
 </main>
 
 <style>
-    .gameswrapper {
+    .games-wrapper {
         display: flex;
         align-items: center;
         flex-direction: row;

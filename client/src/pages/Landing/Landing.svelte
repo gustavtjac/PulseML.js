@@ -1,10 +1,11 @@
 <script>
-    import Navbar from "../../components/Nav/Navbar.svelte";
-    import { navigate } from "svelte-routing";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
-    import { onMount, onDestroy } from "svelte";
+    import Navbar from "../../components/Nav/Navbar.svelte";
 
+    import { navigate } from "svelte-routing";
+    import { onMount, onDestroy } from "svelte";
     import { user } from "../../stores/userStore.js";
+
     const images = [
         "/slideshow/slideshow-1.png",
         "/slideshow/slideshow-2.png",
@@ -30,7 +31,7 @@
 <Navbar />
 
 <main>
-    <section id="hero">
+    <section class="hero">
         <header>
             <h1>Webcam games.<br />No controller needed.</h1>
             <p>
@@ -65,7 +66,6 @@
             <div class="dots">
                 {#each images as dots, i (dots.toString())}
                     <button
-                        aria-label="false"
                         class:active={i === current}
                         onclick={() => (current = i)}
                     ></button>
@@ -74,7 +74,7 @@
         </div>
     </section>
 
-    <section id="features">
+    <section class="information-section">
         <div>
             <h3>Webcam as a controller</h3>
             <p>
@@ -98,7 +98,7 @@
         </div>
     </section>
 
-    <section id="cta">
+    <section class="next">
         <h2>Ready to play?</h2>
         {#if $user}
             <button onclick={() => navigate("/dashboard")}>Go to games!</button>
@@ -120,20 +120,20 @@
         gap: 7rem;
     }
 
-    #hero {
+    .hero {
         display: flex;
         align-items: center;
         gap: 5rem;
     }
 
-    #hero header {
+    .hero header {
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
     }
 
-    #hero nav {
+    .hero nav {
         display: flex;
         gap: 0.75rem;
         margin-top: 0.5rem;
@@ -147,7 +147,7 @@
         letter-spacing: -0.03em;
     }
 
-    #hero p {
+    .hero p {
         font-size: 0.95rem;
         color: var(--text-muted);
         line-height: 1.8;
@@ -204,12 +204,12 @@
         background: var(--accent);
     }
 
-    #features {
+    .information-section {
         display: flex;
         gap: 3rem;
     }
 
-    #features > div {
+    .information-section > div {
         flex: 1;
         display: flex;
         flex-direction: column;
@@ -218,21 +218,21 @@
         border-left: 2px solid var(--border);
     }
 
-    #features h3 {
+    .information-section h3 {
         font-size: 0.95rem;
         font-weight: 700;
         color: var(--text);
         margin: 0;
     }
 
-    #features p {
+    .information-section p {
         font-size: 0.82rem;
         color: var(--text-muted);
         margin: 0;
         line-height: 1.75;
     }
 
-    #cta {
+    .next {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
@@ -241,7 +241,7 @@
         border-top: 1px solid var(--border);
     }
 
-    #cta h2 {
+    .next h2 {
         font-size: clamp(1.6rem, 3vw, 2.4rem);
         color: var(--text);
         margin: 0;
@@ -257,7 +257,7 @@
         letter-spacing: 0.03em;
     }
 
-    button.ghost {
+    .ghost {
         background: transparent;
         color: var(--text-muted);
         border: 1px solid var(--border);
@@ -267,26 +267,10 @@
             border-color 0.15s;
     }
 
-    button.ghost:hover {
+   .ghost:hover {
         color: var(--text);
         border-color: var(--text-muted);
         background: transparent;
-        transform: none;
-        box-shadow: none;
     }
 
-    @media (max-width: 768px) {
-        #hero,
-        #features {
-            flex-direction: column;
-            gap: 3rem;
-        }
-
-        #features > div {
-            border-left: none;
-            border-top: 2px solid var(--border);
-            padding-left: 0;
-            padding-top: 1.5rem;
-        }
-    }
 </style>

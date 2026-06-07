@@ -5,6 +5,7 @@
     import ForgotPassword from "../../components/ForgotPassword/ForgotPassword.svelte";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import ResetPassword from "../../components/ResetPassword/ResetPassword.svelte";
+    
     import { user } from "../../stores/userStore.js";
     import { onMount } from "svelte";
     import { navigate } from "svelte-routing";
