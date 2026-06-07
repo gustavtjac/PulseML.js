@@ -176,3 +176,4 @@ trainingData/
 *.njsproj
 *.sln
 *.sw?
+server/database/connection.js
