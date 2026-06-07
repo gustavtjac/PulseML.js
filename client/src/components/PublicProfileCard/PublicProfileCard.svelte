@@ -1,6 +1,6 @@
 <script>
-    import { calcAge } from "../../util/dateUtil.js";
-    
+    import { calculateAge } from "../../util/dateUtil.js";
+
     let { profile } = $props();
 </script>
 
@@ -34,7 +34,7 @@
         {#if profile.birthday}
             <div class="info-row">
                 <span class="label">AGE</span>
-                <span>{calcAge(profile.birthday)}</span>
+                <span>{calculateAge(profile.birthday)}</span>
             </div>
         {/if}
         {#if profile.weight != null}

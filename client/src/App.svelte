@@ -3,6 +3,7 @@
     import { Toaster } from "svelte-sonner";
     import { Router, Route } from "svelte-routing";
     import { checkAuth } from "./stores/userStore.js";
+    
     import Home from "./pages/Homepage/Home.svelte";
     import Auth from "./pages/Auth/Auth.svelte";
     import Landing from "./pages/Landing/Landing.svelte";
