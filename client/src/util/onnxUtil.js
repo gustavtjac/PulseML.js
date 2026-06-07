@@ -5,20 +5,20 @@ export async function loadModel(modelFile) {
 }
 
 export async function loadScaler(scalerFile) {
-    const res = await fetch(scalerFile);
-    return await res.json();
+    const response = await fetch(scalerFile);
+    return await response.json();
 }
 
 export async function runInference(session, frameBuffer, scaler) {
-    const seqLen = frameBuffer.length;
-    const featSize = frameBuffer[0].length;
+    const sequenceLength = frameBuffer.length;
+    const featureSize = frameBuffer[0].length;
 
-    const scaled = frameBuffer.map((frame) =>
-        frame.map((val, i) => (val - scaler.mean[i]) / scaler.scale[i]),
+    const scaledFrames = frameBuffer.map((frame) =>
+        frame.map((value, index) => (value - scaler.mean[index]) / scaler.scale[index]),
     );
 
-    const flat = new Float32Array(scaled.flat());
-    const tensor = new ort.Tensor("float32", flat, [1, seqLen, featSize]);
+    const flattenedData = new Float32Array(scaledFrames.flat());
+    const tensor = new ort.Tensor("float32", flattenedData, [1, sequenceLength, featureSize]);
 
     const inputName = session.inputNames[0];
     const result = await session.run({ [inputName]: tensor });

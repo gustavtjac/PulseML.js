@@ -16,17 +16,17 @@ export async function loadPoseLandmarker() {
     });
 }
 
-export function startFrameLoop(videoEl, poseLandmarker, config, onFeatures) {
-    let rafId = null;
-    let lastTime = -1;
+export function startFrameLoop(videoElement, poseLandmarker, config, onFeatures) {
+    let animationFrameId = null;
+    let lastTimestamp = -1;
 
     function loop(timestamp) {
-        rafId = requestAnimationFrame(loop);
+        animationFrameId = requestAnimationFrame(loop);
 
-        if (timestamp === lastTime) return;
-        lastTime = timestamp;
+        if (timestamp === lastTimestamp) return;
+        lastTimestamp = timestamp;
 
-        const result = poseLandmarker.detectForVideo(videoEl, timestamp);
+        const result = poseLandmarker.detectForVideo(videoElement, timestamp);
 
         if (result.landmarks?.length > 0) {
             const features = extractFeatures(result.landmarks[0], config);
@@ -36,7 +36,7 @@ export function startFrameLoop(videoEl, poseLandmarker, config, onFeatures) {
         }
     }
 
-    rafId = requestAnimationFrame(loop);
+    animationFrameId = requestAnimationFrame(loop);
 
-    return () => cancelAnimationFrame(rafId);
+    return () => cancelAnimationFrame(animationFrameId);
 }
