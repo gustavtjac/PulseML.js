@@ -1,15 +1,15 @@
 export function extractFeatures(landmarks, config) {
-    const relevant = config.landmarkIndices.map((i) => landmarks[i]);
+    const relevantLandmarks = config.landmarkIndices.map((i) => landmarks[i]);
 
     if (
-        relevant.some(
+        relevantLandmarks.some(
             (landmark) => landmark.visibility < config.visibilityThreshold,
         )
     ) {
         return null;
     }
 
-    const coords = relevant.flatMap((landmark) => [
+    const coords = relevantLandmarks.flatMap((landmark) => [
         landmark.x,
         landmark.y,
         landmark.visibility,

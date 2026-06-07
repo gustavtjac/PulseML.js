@@ -50,16 +50,6 @@
         }, 1000);
     }
 
-    $effect(async () => {
-        if (phase === "done") {
-            const result = await fetchPost("/api/scores", {
-                game_id: Number(gameId),
-                score: repCount,
-            });
-            isPersonalBest = result.data.isPersonalBest;
-            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
-        }
-    });
 
     $effect(() => {
         if (phase === "playing") {
@@ -115,6 +105,18 @@
                 stopWebcam(stream);
                 clearInterval(timer);
             };
+        }
+    });
+
+
+    $effect(async () => {
+        if (phase === "done") {
+            const result = await fetchPost("/api/scores", {
+                game_id: Number(gameId),
+                score: repCount,
+            });
+            isPersonalBest = result.data.isPersonalBest;
+            confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
         }
     });
 </script>
