@@ -1,20 +1,12 @@
 import 'dotenv/config';
-import express from 'express';
-import session from 'express-session';
-import { rateLimit } from 'express-rate-limit';
-import helmet from 'helmet';
-import authRouter from './routers/authRouter.js';
-import countriesRouter from './routers/countriesRouter.js';
-import usersRouter from './routers/usersRouter.js';
-import gamesRouter from './routers/gamesRouter.js';
-import scoresRouter from './routers/scoresRouter.js';
-import path from 'path';
 
+import express from 'express';
 const app = express();
 
 app.use(express.static('../client/dist'));
 app.use(express.json({ limit: '5mb' }));
 
+import session from 'express-session';
 const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -24,12 +16,14 @@ const sessionMiddleware = session({
 
 app.use(sessionMiddleware);
 
+import { rateLimit } from 'express-rate-limit';
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000,
     limit: 10,
     standardHeaders: 'draft-8',
     legacyHeaders: false,
     ipv6Subnet: 56,
+    skip: (req) => req.path === '/auth/me',
     message: {
         data: {
             errorMessage: 'Too many auth attempts, please try again later',
@@ -48,6 +42,7 @@ const generalLimiter = rateLimit({
     },
 });
 
+import helmet from 'helmet';
 app.use(
     helmet({
         contentSecurityPolicy: {
@@ -65,12 +60,23 @@ app.use(
         },
     }),
 );
-/* app.use("/auth", authLimiter);
-app.use(generalLimiter); */
+
+app.use('/auth', authLimiter);
+app.use(generalLimiter);
+
+import authRouter from './routers/authRouter.js';
 app.use(authRouter);
+
+import countriesRouter from './routers/countriesRouter.js';
 app.use(countriesRouter);
+
+import usersRouter from './routers/usersRouter.js';
 app.use(usersRouter);
+
+import gamesRouter from './routers/gamesRouter.js';
 app.use(gamesRouter);
+
+import scoresRouter from './routers/scoresRouter.js';
 app.use(scoresRouter);
 
 import http from 'http';
@@ -83,6 +89,7 @@ io.engine.use(sessionMiddleware);
 
 import { leaderboardBannerSocket } from './sockets/leaderboardBannerSocket.js';
 leaderboardBannerSocket(io);
+
 import { leaderboardSocket } from './sockets/leaderboardSocket.js';
 leaderboardSocket(io);
 
@@ -92,6 +99,7 @@ app.get('/api/{*splat}', (req, res) => {
     });
 });
 
+import path from 'path';
 app.get('/{*splat}', (req, res) => {
     res.sendFile(path.resolve('../client/dist/index.html'));
 });
