@@ -46,6 +46,7 @@ db.exec(`
     weight REAL NOT NULL,
     gender INTEGER NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    streak INTEGER DEFAULT 0,
     reset_token TEXT,
     reset_token_expires INTEGER
   );

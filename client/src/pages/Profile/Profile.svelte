@@ -8,14 +8,20 @@
     import ResetPassword from "../../components/ChangePassword/ChangePassword.svelte";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";
+    import ProfileStreak from "../../components/ProfileStreak/ProfileStreak.svelte";
 
     let scores = $state([]);
+    let profile = $state(null);
     let errorMessage = $state("");
 
     onMount(async () => {
         try {
-            const result = await fetchGet(`/api/scores/user/${$user.username}`);
-            scores = result.data.scores;
+            const [scoresResult, profileResult] = await Promise.all([
+                fetchGet(`/api/scores/user/${$user.username}`),
+                fetchGet(`/api/users/profile/${$user.username}`),
+            ]);
+            scores = scoresResult.data.scores;
+            profile = profileResult.data.profile;
         } catch (error) {
             errorMessage =
                 error?.data?.errorMessage ?? "Failed to load users scores";
@@ -35,6 +41,7 @@
         <PublicProfileStats {scores} />
         <ResetPassword />
     </div>
+    <ProfileStreak playStreak={profile?.streak ?? 0}/>
 </div>
 
 <style>

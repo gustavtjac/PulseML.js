@@ -5,6 +5,7 @@
     import PublicProfileCard from "../../components/PublicProfileCard/PublicProfileCard.svelte";
     import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";
     import { fetchGet } from "../../util/fetchUtil.js";
+    import ProfileStreak from "../../components/ProfileStreak/ProfileStreak.svelte";
 
     let { username } = $props();
 
@@ -22,8 +23,7 @@
             profile = profileResult.data.profile;
             scores = scoresResult.data.scores;
         } catch (error) {
-            errorMessage =
-                error?.data?.errorMessage ?? "Failed to load profile.";
+            errorMessage = error?.data?.errorMessage ?? "Failed to load profile.";
         }
     });
 </script>
@@ -41,7 +41,11 @@
     {:else if profile}
         <div class="cards-row">
             <PublicProfileCard {profile} />
+            <div class="center">
             <PublicProfileStats {scores} />
+            <ProfileStreak playStreak={profile.streak} publicProfile={true}/>
+            </div>
+            
         </div>
     {:else}
         <p class="loading">Loading...</p>
@@ -49,6 +53,13 @@
 </div>
 
 <style>
+
+    .center {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
     .page {
         display: flex;
         justify-content: center;

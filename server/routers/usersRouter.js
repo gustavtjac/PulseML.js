@@ -11,6 +11,7 @@ import {
     hashPassword,
 } from '../utils/passwordHashing.js';
 import { sendPasswordChangedMail } from '../utils/emailUtil/emailUtil.js';
+import { liveStreak } from '../utils/streakUtil.js';
 
 router.get('/api/users/profile/:username', isLoggedIn, (req, res) => {
     const { username } = req.params;
@@ -31,6 +32,8 @@ router.get('/api/users/profile/:username', isLoggedIn, (req, res) => {
             .status(404)
             .send({ data: { errorMessage: 'User not found' } });
     }
+
+    profile.streak = liveStreak(profile.id);
 
     return res.status(200).send({ data: { profile } });
 });

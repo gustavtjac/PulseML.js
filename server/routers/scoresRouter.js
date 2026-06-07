@@ -3,6 +3,7 @@ import db from '../database/connection.js';
 import { isLoggedIn } from '../middleWare/authMiddleWare.js';
 import { getLeaderboardBannerInformation } from '../sockets/leaderboardBannerSocket.js';
 import { getLeaderboardForGame } from '../sockets/leaderboardSocket.js';
+import { nextStreak } from '../utils/streakUtil.js';
 
 const router = Router();
 
@@ -102,9 +103,18 @@ router.post('/api/scores', isLoggedIn, (req, res) => {
     const isPersonalBest =
         previousBest.best === null || score > previousBest.best;
 
+    const lastPlayed = db
+        .prepare('SELECT MAX(date) AS lastPlayed FROM scores WHERE user_id = ?')
+        .get(req.session.user.id).lastPlayed;
+
     db.prepare(
         "INSERT INTO scores (user_id, game_id, score, date) VALUES (?, ?, ?, datetime('now'))",
     ).run(req.session.user.id, game_id, score);
+
+    db.prepare('UPDATE users SET streak = ? WHERE id = ?').run(
+        nextStreak(req.session.user.id, lastPlayed),
+        req.session.user.id,
+    );
 
     return res
         .status(201)

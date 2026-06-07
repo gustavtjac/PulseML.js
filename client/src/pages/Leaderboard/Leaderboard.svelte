@@ -25,16 +25,10 @@
 
             const result = await fetchGet("/api/countries");
             countries = result.data.countries;
-       
 
-            for (const game of games) {
-                const leaderboard = await fetchGet(
-                    `/api/leaderboard/${game.id}`,
-                );
-                gameLeaderBoardMap[game.id] = leaderboard.data;
-            }
+            await loadLeaderboards();
         } catch (error) {
-            toast(error?.data?.errorMessage ?? "Failed to load leaderboard"); 
+            toast(error?.data?.errorMessage ?? "Failed to load leaderboard");
         }
 
         socket = io($BASE_URL, {
@@ -42,27 +36,31 @@
         });
 
         socket.on("server-sends-leaderboards", (data) => {
+            if (selectedCountry) {
+                return;
+            }
             gameLeaderBoardMap = data.data;
         });
     });
 
+    async function loadLeaderboards(countryId) {
+        await Promise.all(
+            games.map(async (game) => {
+                const url = countryId
+                    ? `/api/leaderboard/${game.id}/${countryId}`
+                    : `/api/leaderboard/${game.id}`;
+                const leaderboard = await fetchGet(url);
+                gameLeaderBoardMap[game.id] = leaderboard.data;
+            }),
+        );
+    }
+
     async function handleCountryChange(){
-        if(!selectedCountry){
-            return
-        }
-
-         try {
-            
-
-            
-
-
-
+        try {
+            await loadLeaderboards(selectedCountry?.id);
         } catch (error) {
             toast(error?.data?.errorMessage ?? "Failed to load leaderboard");
-                
         }
-
     }
 
 </script>
@@ -81,9 +79,9 @@
         {/each}
     </select>
 
-    <div>
+    <div class="country-selector">
 {#if selectedCountry}
-                <img
+                <img class="country-flag-image"
                     src="https://flagcdn.com/{selectedCountry?.code.toLowerCase()}.svg"
                     width="24"
                     alt={selectedCountry?.name}
@@ -112,6 +110,9 @@
 
     {#if selectedGame && gameLeaderBoardMap[selectedGame]}
         {@const scores = gameLeaderBoardMap[selectedGame].highscores}
+        {#if scores.length <= 0}
+            <h1>No leaderboard data</h1>
+        {/if}
         <div class="podium-wrapper">
             {#each scores.slice(0, 3) as score, i (score.username)}
                 <PodiumCard rank={i + 1} {score} />
@@ -225,6 +226,15 @@
         letter-spacing: normal;
         transition: none;
     }
+    .country-selector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1vw;
+    }
+     .country-selector img {
+        
+    }
 
     .profile-link:hover {
         background: none;
@@ -267,6 +277,11 @@
         color: var(--text-muted);
     }
 
+    .country-flag-image {
+        width: 2vw;
+        height: auto;
+        border-radius: 2px;
+    }
     .country-badge img {
         width: 18px;
         height: auto;
