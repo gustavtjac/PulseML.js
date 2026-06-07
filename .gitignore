@@ -161,7 +161,6 @@ dist-ssr
 trainingData/
 *.keras
 *.tflite
-*.task
 
 # SQLite WAL and shared memory files
 *.db-wal

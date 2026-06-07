@@ -122,7 +122,7 @@
 </script>
 
 <svelte:head>
-    <title>PulseML.js {game}</title>
+    <title>PulseML.js - Play</title>
 </svelte:head>
 
 <LeaderboardBanner />
