@@ -1,15 +1,15 @@
-import { Resend } from "resend";
-import { registerEmail } from "./emailTemplates/registerEmail.js";
-import { passwordChangeEmail } from "./emailTemplates/passwordChangeEmail.js";
-import { resetPasswordEmail } from "./emailTemplates/resetPasswordEmail.js";
+import { Resend } from 'resend';
+import { registerEmail } from './emailTemplates/registerEmail.js';
+import { passwordChangeEmail } from './emailTemplates/passwordChangeEmail.js';
+import { resetPasswordEmail } from './emailTemplates/resetPasswordEmail.js';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function sendRegisterMail(email, username) {
     const { data, error } = await resend.emails.send({
-        from: "PulseML.js <noreply@gorillahub.dk>",
+        from: 'PulseML.js <noreply@gorillahub.dk>',
         to: email,
-        subject: "Welcome to PulseML.js",
+        subject: 'Welcome to PulseML.js',
         html: registerEmail(username),
     });
 
@@ -20,9 +20,9 @@ export async function sendRegisterMail(email, username) {
 
 export async function sendPasswordChangedMail(email, username) {
     const { data, error } = await resend.emails.send({
-        from: "PulseML.js <noreply@gorillahub.dk>",
+        from: 'PulseML.js <noreply@gorillahub.dk>',
         to: email,
-        subject: "Your password has been changed",
+        subject: 'Your password has been changed',
         html: passwordChangeEmail(username),
     });
 
@@ -36,9 +36,9 @@ export async function sendPasswordChangedMail(email, username) {
 export async function sendPasswordResetMail(email, username, token) {
     const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;
     const { data, error } = await resend.emails.send({
-        from: "PulseML.js <noreply@gorillahub.dk>",
+        from: 'PulseML.js <noreply@gorillahub.dk>',
         to: email,
-        subject: "Reset your password",
+        subject: 'Reset your password',
         html: resetPasswordEmail(username, resetLink),
     });
 

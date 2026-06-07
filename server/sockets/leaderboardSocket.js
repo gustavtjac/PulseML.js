@@ -1,14 +1,14 @@
-import db from "../database/connection.js";
+import db from '../database/connection.js';
 
 export function leaderboardSocket(io) {
     setInterval(() => {
         const data = getAllLeaderboards();
-        io.emit("server-sends-leaderboards", { data });
+        io.emit('server-sends-leaderboards', { data });
     }, 1000);
 }
 
 function getAllLeaderboards() {
-    const games = db.prepare("SELECT id FROM games").all();
+    const games = db.prepare('SELECT id FROM games').all();
     const result = {};
     for (const game of games) {
         result[game.id] = { highscores: getLeaderboardForGame(game.id) };

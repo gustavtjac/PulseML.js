@@ -1,5 +1,6 @@
 <script>
     import { onMount } from "svelte";
+    import { toast } from "svelte-sonner";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import Navbar from "../../components/Nav/Navbar.svelte";
     import PodiumCard from "../../components/PodiumCard/PodiumCard.svelte";
@@ -10,15 +11,21 @@
 
     let socket = $state();
     let games = $state([]);
+    let selectedGame = $state();
     let gameLeaderBoardMap = $state({});
     let errorMessage = $state(null);
-    let selectedGame = $state();
+    let countries = $state([]);
+    let selectedCountry = $state()
 
     onMount(async () => {
         try {
             const gamesResult = await fetchGet(`/api/games`);
             games = gamesResult.data.games;
             selectedGame = games[0]?.id;
+
+            const result = await fetchGet("/api/countries");
+            countries = result.data.countries;
+       
 
             for (const game of games) {
                 const leaderboard = await fetchGet(
@@ -27,8 +34,7 @@
                 gameLeaderBoardMap[game.id] = leaderboard.data;
             }
         } catch (error) {
-            errorMessage =
-                error?.data?.errorMessage ?? "Failed to load leaderboard";
+            toast(error?.data?.errorMessage ?? "Failed to load leaderboard"); 
         }
 
         socket = io($BASE_URL, {
@@ -39,6 +45,26 @@
             gameLeaderBoardMap = data.data;
         });
     });
+
+    async function handleCountryChange(){
+        if(!selectedCountry){
+            return
+        }
+
+         try {
+            
+
+            
+
+
+
+        } catch (error) {
+            toast(error?.data?.errorMessage ?? "Failed to load leaderboard");
+                
+        }
+
+    }
+
 </script>
 
 <svelte:head>
@@ -54,6 +80,29 @@
             <option value={game.id}>{game.name}</option>
         {/each}
     </select>
+
+    <div>
+{#if selectedCountry}
+                <img
+                    src="https://flagcdn.com/{selectedCountry?.code.toLowerCase()}.svg"
+                    width="24"
+                    alt={selectedCountry?.name}
+                />
+            {/if}
+
+<select bind:value={selectedCountry} onchange={handleCountryChange}>
+        <option value={undefined}>Country not selected</option>
+        {#each countries as country (country.id)}
+
+            <option value={country}>{country.name}
+                
+            </option>
+        {/each}
+    </select>
+
+    </div>
+
+    
 </div>
 
 <main>

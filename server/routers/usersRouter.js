@@ -1,18 +1,18 @@
-import { Router } from "express";
+import { Router } from 'express';
 const router = Router();
 
-import db from "../database/connection.js";
+import db from '../database/connection.js';
 import {
     isLoggedIn,
     isAccessingOwnUser,
-} from "../middleWare/authMiddleWare.js";
+} from '../middleWare/authMiddleWare.js';
 import {
     compareHashedPasswords,
     hashPassword,
-} from "../utils/passwordHashing.js";
-import { sendPasswordChangedMail } from "../utils/emailUtil/emailUtil.js";
+} from '../utils/passwordHashing.js';
+import { sendPasswordChangedMail } from '../utils/emailUtil/emailUtil.js';
 
-router.get("/api/users/profile/:username", isLoggedIn, (req, res) => {
+router.get('/api/users/profile/:username', isLoggedIn, (req, res) => {
     const { username } = req.params;
     const profile = db
         .prepare(
@@ -29,14 +29,14 @@ router.get("/api/users/profile/:username", isLoggedIn, (req, res) => {
     if (!profile) {
         return res
             .status(404)
-            .send({ data: { errorMessage: "User not found" } });
+            .send({ data: { errorMessage: 'User not found' } });
     }
 
     return res.status(200).send({ data: { profile } });
 });
 
 router.patch(
-    "/api/users/:id",
+    '/api/users/:id',
     isLoggedIn,
     isAccessingOwnUser,
     async (req, res) => {
@@ -60,30 +60,30 @@ router.patch(
         if (updates.length === 0 && !newPassword) {
             return res
                 .status(400)
-                .send({ data: { errorMessage: "No valid fields provided" } });
+                .send({ data: { errorMessage: 'No valid fields provided' } });
         }
 
         if (newPassword) {
             if (!currentPassword) {
                 return res.status(400).send({
                     data: {
-                        errorMessage: "Current & new password is required",
+                        errorMessage: 'Current & new password is required',
                     },
                 });
             }
             if (newPassword !== confirmNewPassword) {
                 return res
                     .status(400)
-                    .send({ data: { errorMessage: "Passwords do not match" } });
+                    .send({ data: { errorMessage: 'Passwords do not match' } });
             }
 
             const dbUser = db
-                .prepare("SELECT password FROM users WHERE id = ?")
+                .prepare('SELECT password FROM users WHERE id = ?')
                 .get(id);
             if (!dbUser) {
                 return res
                     .status(404)
-                    .send({ data: { errorMessage: "User not found" } });
+                    .send({ data: { errorMessage: 'User not found' } });
             }
 
             const passwordMatch = await compareHashedPasswords(
@@ -92,15 +92,15 @@ router.patch(
             );
             if (!passwordMatch) {
                 return res.status(401).send({
-                    data: { errorMessage: "Current password is incorrect" },
+                    data: { errorMessage: 'Current password is incorrect' },
                 });
             }
 
-            updates.push("password");
+            updates.push('password');
             otherFields.password = await hashPassword(newPassword);
         }
 
-        const fields = updates.map((field) => `${field} = ?`).join(", ");
+        const fields = updates.map((field) => `${field} = ?`).join(', ');
         const values = updates.map((key) => otherFields[key]);
 
         db.prepare(`UPDATE users SET ${fields} WHERE id = ?`).run(
@@ -109,12 +109,12 @@ router.patch(
         );
 
         updates
-            .filter((k) => k !== "password")
+            .filter((k) => k !== 'password')
             .forEach((key) => {
                 req.session.user[key] = otherFields[key];
             });
 
-        if (updates.includes("password")) {
+        if (updates.includes('password')) {
             sendPasswordChangedMail(
                 req.session.user.email,
                 req.session.user.username,
@@ -125,7 +125,7 @@ router.patch(
 
         return res
             .status(200)
-            .send({ data: { successMessage: "User updated" } });
+            .send({ data: { successMessage: 'User updated' } });
     },
 );
 

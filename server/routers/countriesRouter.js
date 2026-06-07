@@ -1,25 +1,25 @@
-import { Router } from "express";
+import { Router } from 'express';
 const router = Router();
 
-import db from "../database/connection.js";
+import db from '../database/connection.js';
 
-router.get("/api/countries", (req, res) => {
-    console.log("Her");
+router.get('/api/countries', (req, res) => {
+    console.log('Her');
     const countries = db
-        .prepare("SELECT * FROM countries ORDER BY name ASC")
+        .prepare('SELECT * FROM countries ORDER BY name ASC')
         .all();
 
     return res.status(200).send({ data: { countries } });
 });
 
-router.get("/api/countries/:id", (req, res) => {
+router.get('/api/countries/:id', (req, res) => {
     const { id } = req.params;
 
-    const country = db.prepare("SELECT * FROM countries WHERE id = ?").get(id);
+    const country = db.prepare('SELECT * FROM countries WHERE id = ?').get(id);
 
     if (!country) {
         return res.status(404).send({
-            data: { errorMessage: "Country not found" },
+            data: { errorMessage: 'Country not found' },
         });
     }
 

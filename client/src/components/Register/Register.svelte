@@ -48,7 +48,6 @@
             const result = await fetchGet("/api/countries");
             countries = result.data.countries;
         } catch (error) {
-            console.log();
             toast.error(error.data.errorMessage);
         }
     });
