@@ -16,7 +16,7 @@
     let gameLeaderBoardMap = $state({});
     let errorMessage = $state(null);
     let countries = $state([]);
-    let selectedCountry = $state()
+    let selectedCountry = $state();
 
     onMount(async () => {
         try {
@@ -56,14 +56,13 @@
         );
     }
 
-    async function handleCountryChange(){
+    async function handleCountryChange() {
         try {
             await loadLeaderboards(selectedCountry?.id);
         } catch (error) {
             toast(error?.data?.errorMessage ?? "Failed to load leaderboard");
         }
     }
-
 </script>
 
 <svelte:head>
@@ -81,27 +80,22 @@
     </select>
 
     <div class="country-selector">
-{#if selectedCountry}
-                <img class="country-flag-image"
-                    src="https://flagcdn.com/{selectedCountry?.code.toLowerCase()}.svg"
-                    width="24"
-                    alt={selectedCountry?.name}
-                />
-            {/if}
+        {#if selectedCountry}
+            <img
+                class="country-flag-image"
+                src="https://flagcdn.com/{selectedCountry?.code.toLowerCase()}.svg"
+                width="24"
+                alt={selectedCountry?.name}
+            />
+        {/if}
 
-<select bind:value={selectedCountry} onchange={handleCountryChange}>
-        <option value={undefined}>Country not selected</option>
-        {#each countries as country (country.id)}
-
-            <option value={country}>{country.name}
-                
-            </option>
-        {/each}
-    </select>
-
+        <select bind:value={selectedCountry} onchange={handleCountryChange}>
+            <option value={undefined}>Country not selected</option>
+            {#each countries as country (country.id)}
+                <option value={country}>{country.name} </option>
+            {/each}
+        </select>
     </div>
-
-    
 </div>
 
 <main>

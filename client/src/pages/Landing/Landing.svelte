@@ -267,10 +267,9 @@
             border-color 0.15s;
     }
 
-   .ghost:hover {
+    .ghost:hover {
         color: var(--text);
         border-color: var(--text-muted);
         background: transparent;
     }
-
 </style>

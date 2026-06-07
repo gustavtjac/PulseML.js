@@ -6,7 +6,6 @@
     let email = "";
 
     async function handleSubmit() {
-        
         try {
             await fetchPost("/auth/forgot-password", {
                 email,

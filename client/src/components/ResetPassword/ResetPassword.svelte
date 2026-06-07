@@ -9,7 +9,6 @@
     let confirmPassword = $state();
 
     async function handleSubmit() {
-
         try {
             const result = await fetchPost("/auth/reset-password", {
                 email,

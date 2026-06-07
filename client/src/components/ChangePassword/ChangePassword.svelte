@@ -9,7 +9,6 @@
     let submitted = $state(false);
 
     async function handleSubmit() {
-
         if (newPassword !== confirmNewPassword) {
             toast.error("New passwords do not match");
             return;
@@ -73,7 +72,11 @@
                 />
             </div>
             <div class="form-row">
-                <button onclick={handleSubmit} type="submit" disabled={submitted}>
+                <button
+                    onclick={handleSubmit}
+                    type="submit"
+                    disabled={submitted}
+                >
                     {submitted ? "Updating…" : "Update Password"}
                 </button>
             </div>

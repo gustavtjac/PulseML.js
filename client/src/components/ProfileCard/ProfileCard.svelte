@@ -25,7 +25,10 @@
                 country = result?.data?.country;
             }
         } catch (error) {
-            toast.error(error.data.errorMessage ?? "Error while loading profile details")
+            toast.error(
+                error.data.errorMessage ??
+                    "Error while loading profile details",
+            );
         }
     });
 
@@ -73,7 +76,6 @@
             role="button"
             tabindex="0"
             onclick={() => fileInput?.click()}
-            
         >
             <img
                 class="avatar"

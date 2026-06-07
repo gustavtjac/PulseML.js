@@ -6,7 +6,7 @@
     import Navbar from "../../components/Nav/Navbar.svelte";
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import GameCard from "../../components/GameCard/GameCard.svelte";
-    
+
     const icons = { 1: "💪", 2: "🏋️‍♂️" };
     let games = $state([]);
 
@@ -14,7 +14,6 @@
         const result = await fetchGet("/api/games");
         games = result.data.games;
     });
-
 </script>
 
 <svelte:head>

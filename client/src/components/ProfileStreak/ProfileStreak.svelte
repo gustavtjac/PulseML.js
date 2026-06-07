@@ -1,18 +1,17 @@
 <script>
-let { playStreak, publicProfile } = $props()
+    let { playStreak, publicProfile } = $props();
 </script>
 
 <main>
     <h2>Streak</h2>
-{#if !playStreak || Number(playStreak) === 0}
-    {#if !publicProfile}
-        <span>Keep playing everyday to start a streak!</span>
-    {/if}
-    <h1>0 😵</h1>
+    {#if !playStreak || Number(playStreak) === 0}
+        {#if !publicProfile}
+            <span>Keep playing everyday to start a streak!</span>
+        {/if}
+        <h1>0 😵</h1>
     {:else}
-    <h1>{Number(playStreak)}🔥</h1>
-{/if}
-
+        <h1>{Number(playStreak)}🔥</h1>
+    {/if}
 </main>
 
 <style>

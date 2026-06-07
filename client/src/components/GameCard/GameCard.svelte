@@ -2,8 +2,7 @@
     let { title, description, icon, onclick } = $props();
 </script>
 
-
-<button onclick={onclick}>
+<button {onclick}>
     <h1>{icon}</h1>
     <section>
         <h2>{title}</h2>
@@ -13,38 +12,34 @@
 </button>
 
 <style>
+    button {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 1vw;
+        background-color: var(--bg-surface);
+    }
 
-button {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1vw;
-    background-color: var(--bg-surface);
-}
+    button:hover {
+        background-color: var(--bg-raised);
+    }
 
-button:hover {
-    background-color: var(--bg-raised);
-}
+    section {
+        text-align: left;
+        justify-content: center;
+    }
 
-section {
-    text-align: left;
-    justify-content: center;
-}
+    h2 {
+        margin: 5px 5px 5px 0px;
+        color: var(--text);
+    }
 
-h2 {
-    margin: 5px 5px 5px 0px;
-    color: var(--text);
-}
+    span {
+        color: var(--text-muted);
+    }
 
-span {
-    color: var(--text-muted);
-}
-
-.arrow {
-    color: black;
-}
-
-
-
+    .arrow {
+        color: black;
+    }
 </style>
