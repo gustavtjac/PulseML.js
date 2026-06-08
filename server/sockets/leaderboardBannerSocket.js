@@ -1,11 +1,5 @@
 import db from '../database/connection.js'
 
-export function leaderboardBannerSocket (io) {
-  setInterval(() => {
-    const data = getLeaderboardBannerInformation()
-    io.emit('server-sends-leaderboard-banner', { data })
-  }, 1000)
-}
 
 export function getLeaderboardBannerInformation () {
   const rows = db

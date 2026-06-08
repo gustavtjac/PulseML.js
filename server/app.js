@@ -22,10 +22,6 @@ import http from 'http'
 
 import { Server } from 'socket.io'
 
-import { leaderboardBannerSocket } from './sockets/leaderboardBannerSocket.js'
-
-import { leaderboardSocket } from './sockets/leaderboardSocket.js'
-
 import path from 'path'
 const app = express()
 
@@ -91,9 +87,9 @@ app.use(scoresRouter)
 const server = http.createServer(app)
 const io = new Server(server)
 
+export { io }
+
 io.engine.use(sessionMiddleware)
-leaderboardBannerSocket(io)
-leaderboardSocket(io)
 
 app.get('/api/{*splat}', (req, res) => {
   res.status(404).send({
@@ -112,6 +108,10 @@ app.all('/{*splat}', (req, res) => {
 
 const PORT = process.env.PORT ?? 8080
 
+
+
 server.listen(PORT, () => {
   console.log('Server is running on port ' + server.address().port)
 })
+
+

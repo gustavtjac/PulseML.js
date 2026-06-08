@@ -4,6 +4,8 @@ import { isLoggedIn } from '../middleWare/authMiddleWare.js'
 import { getLeaderboardBannerInformation } from '../sockets/leaderboardBannerSocket.js'
 import { getLeaderboardForGame } from '../sockets/leaderboardSocket.js'
 import { nextStreak } from '../utils/streakUtil.js'
+import { io } from '../app.js'
+import { getAllLeaderboards } from '../sockets/leaderboardSocket.js'
 
 const router = Router()
 
@@ -115,6 +117,13 @@ router.post('/api/scores', isLoggedIn, (req, res) => {
     nextStreak(req.session.user.id, lastPlayed),
     req.session.user.id
   )
+
+  const leaderboardBannerInformation = getLeaderboardBannerInformation();
+  io.emit('server-sends-leaderboard-banner', { data: leaderboardBannerInformation })
+  
+  const leaderboardData = getAllLeaderboards();
+  io.emit('server-sends-leaderboards', { data: leaderboardData })
+
 
   return res
     .status(201)

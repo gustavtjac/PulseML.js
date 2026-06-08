@@ -10,7 +10,7 @@
 
     onMount(async () => {
         const result = await fetchGet("/api/leaderboard-banner");
-        leaderboardRankings = result.data.data;
+        leaderboardRankings = result.data;
 
         socket = io($BASE_URL, { withCredentials: true });
 
