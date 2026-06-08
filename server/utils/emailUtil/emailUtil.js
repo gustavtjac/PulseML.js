@@ -13,7 +13,9 @@ export async function sendRegisterMail (email, username) {
     html: registerEmail(username)
   })
 
-  if (error) { throw new Error(`Failed to send registration email: ${error.message}`) }
+  if (error) {
+    throw new Error(`Failed to send registration email: ${error.message}`)
+  }
   return data
 }
 

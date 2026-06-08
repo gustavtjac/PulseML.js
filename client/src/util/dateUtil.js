@@ -3,6 +3,11 @@ export function calculateAge (birthday) {
   const born = new Date(birthday)
   let age = today.getFullYear() - born.getFullYear()
   const monthDiff = today.getMonth() - born.getMonth()
-  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < born.getDate())) { age-- }
+  if (
+    monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < born.getDate())
+  ) {
+    age--
+  }
   return age
 }

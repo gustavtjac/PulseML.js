@@ -48,14 +48,20 @@ router.patch(
       currentPassword,
       newPassword,
       confirmNewPassword,
-      profile_picture,
+      profile_picture: profilePicture,
       name,
       birthday,
       weight,
       gender
     } = req.body
 
-    const otherFields = { profile_picture, name, birthday, weight, gender }
+    const otherFields = {
+      profile_picture: profilePicture,
+      name,
+      birthday,
+      weight,
+      gender
+    }
     const updates = Object.keys(otherFields).filter(
       (key) => otherFields[key] !== undefined
     )

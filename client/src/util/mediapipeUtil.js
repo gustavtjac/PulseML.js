@@ -16,7 +16,12 @@ export async function loadPoseLandmarker () {
   })
 }
 
-export function startFrameLoop (videoElement, poseLandmarker, config, onFeatures) {
+export function startFrameLoop (
+  videoElement,
+  poseLandmarker,
+  config,
+  onFeatures
+) {
   let animationFrameId = null
   let lastTimestamp = -1
 

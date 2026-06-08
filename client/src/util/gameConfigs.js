@@ -1,7 +1,8 @@
 function calculateAngle (pointA, vertex, pointC) {
   const vectorToA = [pointA[0] - vertex[0], pointA[1] - vertex[1]]
   const vectorToC = [pointC[0] - vertex[0], pointC[1] - vertex[1]]
-  const dotProduct = vectorToA[0] * vectorToC[0] + vectorToA[1] * vectorToC[1]
+  const dotProduct =
+        vectorToA[0] * vectorToC[0] + vectorToA[1] * vectorToC[1]
   const magnitude =
         Math.sqrt(vectorToA[0] ** 2 + vectorToA[1] ** 2) *
         Math.sqrt(vectorToC[0] ** 2 + vectorToC[1] ** 2)

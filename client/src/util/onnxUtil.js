@@ -14,11 +14,18 @@ export async function runInference (session, frameBuffer, scaler) {
   const featureSize = frameBuffer[0].length
 
   const scaledFrames = frameBuffer.map((frame) =>
-    frame.map((value, index) => (value - scaler.mean[index]) / scaler.scale[index])
+    frame.map(
+      (value, index) =>
+        (value - scaler.mean[index]) / scaler.scale[index]
+    )
   )
 
   const flattenedData = new Float32Array(scaledFrames.flat())
-  const tensor = new ort.Tensor('float32', flattenedData, [1, sequenceLength, featureSize])
+  const tensor = new ort.Tensor('float32', flattenedData, [
+    1,
+    sequenceLength,
+    featureSize
+  ])
 
   const inputName = session.inputNames[0]
   const result = await session.run({ [inputName]: tensor })

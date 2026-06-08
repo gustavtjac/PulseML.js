@@ -1,5 +1,7 @@
 export function extractFeatures (landmarks, config) {
-  const relevantLandmarks = config.landmarkIndices.map((indice) => landmarks[indice])
+  const relevantLandmarks = config.landmarkIndices.map(
+    (indice) => landmarks[indice]
+  )
 
   if (
     relevantLandmarks.some(

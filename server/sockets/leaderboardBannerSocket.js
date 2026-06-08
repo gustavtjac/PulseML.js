@@ -1,6 +1,5 @@
 import db from '../database/connection.js'
 
-
 export function getLeaderboardBannerInformation () {
   const rows = db
     .prepare(

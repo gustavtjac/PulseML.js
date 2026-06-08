@@ -1,6 +1,5 @@
 import db from '../database/connection.js'
 
-
 export function getAllLeaderboards () {
   const games = db.prepare('SELECT id FROM games').all()
   const result = {}
