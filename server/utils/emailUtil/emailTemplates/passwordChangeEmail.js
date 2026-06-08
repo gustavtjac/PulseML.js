@@ -18,4 +18,4 @@ export const passwordChangeEmail = (username) => `<!DOCTYPE html>
     </div>
   </div>
   <p style="text-align:center;font-size:11px;color:#334155;margin-top:24px;">This is an automated security notification. Do not reply.</p>
-</body></html>`
+</body></html>`;

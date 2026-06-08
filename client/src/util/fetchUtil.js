@@ -1,71 +1,71 @@
-const BASE_URL = import.meta.env.VITE_BASE_URL
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 
-export async function fetchGet (endpoint) {
-  try {
-    const response = await fetch(BASE_URL + endpoint, {
-      credentials: 'include'
-    })
+export async function fetchGet(endpoint) {
+    try {
+        const response = await fetch(BASE_URL + endpoint, {
+            credentials: "include",
+        });
 
-    if (!response.ok) {
-      throw await response.json()
+        if (!response.ok) {
+            throw await response.json();
+        }
+
+        return await response.json();
+    } catch (error) {
+        if (error?.data?.errorMessage) {
+            throw error;
+        } else {
+            throw { data: { errorMessage: "Server down error" } };
+        }
     }
-
-    return await response.json()
-  } catch (error) {
-    if (error?.data?.errorMessage) {
-      throw error
-    } else {
-      throw { data: { errorMessage: 'Server down error' } }
-    }
-  }
 }
 
-export async function fetchPatch (endpoint, body) {
-  try {
-    const response = await fetch(BASE_URL + endpoint, {
-      method: 'PATCH',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
+export async function fetchPatch(endpoint, body) {
+    try {
+        const response = await fetch(BASE_URL + endpoint, {
+            method: "PATCH",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
 
-    if (!response.ok) {
-      throw await response.json()
-    }
+        if (!response.ok) {
+            throw await response.json();
+        }
 
-    return await response.json()
-  } catch (error) {
-    if (error?.data?.errorMessage) {
-      throw error
-    } else {
-      throw { data: { errorMessage: 'Server down error' } }
+        return await response.json();
+    } catch (error) {
+        if (error?.data?.errorMessage) {
+            throw error;
+        } else {
+            throw { data: { errorMessage: "Server down error" } };
+        }
     }
-  }
 }
 
-export async function fetchPost (endpoint, body) {
-  try {
-    const response = await fetch(BASE_URL + endpoint, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
+export async function fetchPost(endpoint, body) {
+    try {
+        const response = await fetch(BASE_URL + endpoint, {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
 
-    if (!response.ok) {
-      throw await response.json()
-    }
+        if (!response.ok) {
+            throw await response.json();
+        }
 
-    return await response.json()
-  } catch (error) {
-    if (error?.data?.errorMessage) {
-      throw error
-    } else {
-      throw { data: { errorMessage: 'Server down error' } }
+        return await response.json();
+    } catch (error) {
+        if (error?.data?.errorMessage) {
+            throw error;
+        } else {
+            throw { data: { errorMessage: "Server down error" } };
+        }
     }
-  }
 }

@@ -15,4 +15,4 @@ export const resetPasswordEmail = (username, resetLink) => `<!DOCTYPE html>
     </div>
   </div>
   <p style="text-align:center;font-size:11px;color:#334155;margin-top:24px;">If you didn't request this, ignore this email.</p>
-</body></html>`
+</body></html>`;

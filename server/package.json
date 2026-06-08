@@ -8,7 +8,7 @@
         "database:update": "node database/database.js",
         "database:test": "node database/test/databaseTest.js",
         "start": "npm run database:update && node app.js ",
-        "lint": "npx prettier --write . && npx standard --fix && eslint .  "
+        "lint": "npx prettier --write . && eslint .  "
     },
     "author": "",
     "license": "ISC",
