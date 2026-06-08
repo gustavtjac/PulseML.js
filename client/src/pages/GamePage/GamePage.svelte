@@ -5,15 +5,8 @@
     import { onMount } from "svelte";
     import { fetchGet, fetchPost } from "../../util/fetchUtil.js";
     import { startWebcam, stopWebcam } from "../../util/webcamUtil.js";
-    import {
-        loadPoseLandmarker,
-        startFrameLoop,
-    } from "../../util/mediapipeUtil.js";
-    import {
-        loadModel,
-        loadScaler,
-        runInference,
-    } from "../../util/onnxUtil.js";
+    import { loadPoseLandmarker, startFrameLoop } from "../../util/mediapipeUtil.js";
+    import { loadModel, loadScaler, runInference } from "../../util/onnxUtil.js";
     import { gameConfigs } from "../../util/gameConfigs.js";
     import confetti from "canvas-confetti";
 
@@ -56,6 +49,7 @@
             }
         }, 1000);
     }
+
 
     $effect(() => {
         if (phase === "playing") {
@@ -113,6 +107,7 @@
             };
         }
     });
+
 
     $effect(async () => {
         if (phase === "done") {
@@ -265,7 +260,7 @@
     }
 
     .hud-value.urgent {
-        color: #f04141;
+        color: #f87171;
     }
 
     .countdown-overlay {
