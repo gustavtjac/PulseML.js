@@ -1,24 +1,24 @@
-import db from '../database/connection.js';
+import db from '../database/connection.js'
 
-export function leaderboardSocket(io) {
-    setInterval(() => {
-        const data = getAllLeaderboards();
-        io.emit('server-sends-leaderboards', { data });
-    }, 1000);
+export function leaderboardSocket (io) {
+  setInterval(() => {
+    const data = getAllLeaderboards()
+    io.emit('server-sends-leaderboards', { data })
+  }, 1000)
 }
 
-function getAllLeaderboards() {
-    const games = db.prepare('SELECT id FROM games').all();
-    const result = {};
-    for (const game of games) {
-        result[game.id] = { highscores: getLeaderboardForGame(game.id) };
-    }
-    return result;
+function getAllLeaderboards () {
+  const games = db.prepare('SELECT id FROM games').all()
+  const result = {}
+  for (const game of games) {
+    result[game.id] = { highscores: getLeaderboardForGame(game.id) }
+  }
+  return result
 }
 
-export function getLeaderboardForGame(gameId) {
-    return db
-        .prepare(
+export function getLeaderboardForGame (gameId) {
+  return db
+    .prepare(
             `
         SELECT s.score, s.date, u.username, u.profile_picture, c.code AS country_code, c.name AS country_name
         FROM scores s
@@ -32,7 +32,7 @@ export function getLeaderboardForGame(gameId) {
         GROUP BY s.user_id
         ORDER BY s.score DESC
         LIMIT 50
-    `,
-        )
-        .all(gameId);
+    `
+    )
+    .all(gameId)
 }

@@ -14,4 +14,4 @@ export const registerEmail = (username) => `<!DOCTYPE html>
     </div>
   </div>
   <p style="text-align:center;font-size:11px;color:#334155;margin-top:24px;">If this wasn't you, ignore this email.</p>
-</body></html>`;
+</body></html>`

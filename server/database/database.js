@@ -1,20 +1,20 @@
-import 'dotenv/config';
-import { hashPassword } from '../utils/passwordHashing.js';
-import { seedCountries, seedGames } from './seed.js';
+import 'dotenv/config'
+import { hashPassword } from '../utils/passwordHashing.js'
+import { seedCountries, seedGames } from './seed.js'
+
+import db from './connection.js'
 
 const ADMIN_PASSWORD = await hashPassword(
-    process.env.ADMIN_PASSWORD ?? 'admin',
-);
+  process.env.ADMIN_PASSWORD ?? 'admin'
+)
 
-import db from './connection.js';
-
-const deleteMode = process.argv.includes('--delete');
+const deleteMode = process.argv.includes('--delete')
 
 if (deleteMode) {
-    db.exec('DROP TABLE IF EXISTS scores');
-    db.exec('DROP TABLE IF EXISTS users');
-    db.exec('DROP TABLE IF EXISTS games');
-    db.exec('DROP TABLE IF EXISTS countries');
+  db.exec('DROP TABLE IF EXISTS scores')
+  db.exec('DROP TABLE IF EXISTS users')
+  db.exec('DROP TABLE IF EXISTS games')
+  db.exec('DROP TABLE IF EXISTS countries')
 }
 
 db.exec(`
@@ -23,7 +23,7 @@ db.exec(`
     name VARCHAR(100) NOT NULL,
     code CHAR(2) NOT NULL UNIQUE
   );
-`);
+`)
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS games (
@@ -31,7 +31,7 @@ db.exec(`
     name VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(255) NOT NULL
   );
-`);
+`)
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
@@ -50,7 +50,7 @@ db.exec(`
     reset_token TEXT,
     reset_token_expires INTEGER
   );
-`);
+`)
 
 db.exec(`
   CREATE TABLE IF NOT EXISTS scores (
@@ -60,27 +60,27 @@ db.exec(`
     score INTEGER NOT NULL,
     date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
   );
-`);
+`)
 
 if (deleteMode) {
-    seedCountries(db);
+  seedCountries(db)
 
-    const denmark = db
-        .prepare('SELECT id FROM countries WHERE code = ?')
-        .get('DK');
+  const denmark = db
+    .prepare('SELECT id FROM countries WHERE code = ?')
+    .get('DK')
 
-    db.prepare(
-        'INSERT INTO users (username, email, password, name, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-    ).run(
-        'admin',
-        'admin@test.dk',
-        ADMIN_PASSWORD,
-        'Admin',
-        denmark.id,
-        '1990-01-01',
-        80,
-        0,
-    );
+  db.prepare(
+    'INSERT INTO users (username, email, password, name, country_id, birthday, weight, gender) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+  ).run(
+    'admin',
+    'admin@test.dk',
+    ADMIN_PASSWORD,
+    'Admin',
+    denmark.id,
+    '1990-01-01',
+    80,
+    0
+  )
 
-    seedGames(db);
+  seedGames(db)
 }
