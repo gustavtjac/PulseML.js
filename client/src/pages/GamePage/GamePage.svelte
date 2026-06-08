@@ -260,7 +260,7 @@
     }
 
     .hud-value.urgent {
-        color: #f87171;
+        color: #f04141;
     }
 
     .countdown-overlay {
