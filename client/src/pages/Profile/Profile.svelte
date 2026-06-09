@@ -10,6 +10,7 @@
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import PublicProfileStats from "../../components/PublicProfileStats/PublicProfileStats.svelte";
     import ProfileStreak from "../../components/ProfileStreak/ProfileStreak.svelte";
+    import DeleteAccount from "../../components/DeleteAccount/DeleteAccount.svelte";
 
     let scores = $state([]);
     let profile = $state(null);
@@ -42,7 +43,11 @@
         <PublicProfileStats {scores} />
         <ResetPassword />
     </div>
-    <ProfileStreak playStreak={profile?.streak ?? 0} />
+    <div class="right-col">
+        <ProfileStreak playStreak={profile?.streak ?? 0} />
+        <DeleteAccount/>
+    </div>
+    
 </div>
 
 <style>

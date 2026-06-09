@@ -138,4 +138,29 @@ router.patch(
     },
 );
 
+
+router.delete("/api/users/:userId", (req, res) => {
+
+    const userId = Number(req.params.userId);
+
+    try{
+
+        db.prepare("DELETE FROM users WHERE id = ?")
+        .run(userId);
+
+        req.session.destroy()
+
+        return res.status(200).send({ data: { successMessage: "User deleted"}})
+
+    }catch(error){
+
+        return res.status(400).send({ data: { errorMessage: "Server failed to delete user"}})
+    }
+
+
+
+
+});
+
+
 export default router;

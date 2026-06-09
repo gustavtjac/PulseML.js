@@ -41,7 +41,7 @@ const authLimiter = rateLimit({
     standardHeaders: 'draft-8',
     legacyHeaders: false,
     ipv6Subnet: 56,
-    skip: (req) => req.path === '/auth/me',
+    skip: (req) => req.path === '/me',
     message: {
         data: {
             errorMessage: 'Too many auth attempts, please try again later',
