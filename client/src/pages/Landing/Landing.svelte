@@ -1,6 +1,7 @@
 <script>
     import LeaderboardBanner from "../../components/LeaderboardBanner/LeaderboardBanner.svelte";
     import Navbar from "../../components/Nav/Navbar.svelte";
+    import Footer from "../../components/Footer/Footer.svelte";
 
     import { navigate } from "svelte-routing";
     import { onMount, onDestroy } from "svelte";
@@ -109,6 +110,10 @@
         {/if}
     </section>
 </main>
+
+<Footer/>
+
+
 
 <style>
     main {
