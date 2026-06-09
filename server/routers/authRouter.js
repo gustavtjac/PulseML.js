@@ -12,7 +12,12 @@ import {
     hashPassword,
 } from '../utils/passwordHashing.js';
 import { isLoggedIn } from '../middleWare/authMiddleWare.js';
+
 const router = Router();
+
+router.get('/auth/me', isLoggedIn, (req, res) => {
+    res.status(200).send({ data: { user: { ...req.session.user } } });
+});
 
 router.post('/auth/login', async (req, res) => {
     const { username, password } = req.body;
@@ -224,10 +229,6 @@ router.post('/auth/reset-password', async (req, res) => {
     res.status(200).send({
         data: { successMessage: 'Password reset successfully' },
     });
-});
-
-router.get('/auth/me', isLoggedIn, (req, res) => {
-    res.status(200).send({ data: { user: { ...req.session.user } } });
 });
 
 router.post('/auth/logout', isLoggedIn, (req, res) => {
