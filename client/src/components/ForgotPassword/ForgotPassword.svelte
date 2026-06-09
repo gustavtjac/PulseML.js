@@ -10,11 +10,12 @@
             await fetchPost("/auth/forgot-password", {
                 email,
             });
-            toast.success("You will recieve an email if it's associated with and account");
+            toast.success(
+                "You will recieve an email if it's associated with and account",
+            );
             setTimeout(() => navigate("/login"), 2000);
-            
         } catch (error) {
-            console.log("hej")
+            console.log("hej");
             toast.error(error.data.errorMessage);
         }
     }
@@ -26,16 +27,15 @@
         <p>Reset your password to gain access to your account</p>
     </header>
 
-    
-        <label for="username">Email</label>
-        <input
-            id="email"
-            type="email"
-            bind:value={email}
-            placeholder="gustavo@roque.dk"
-            required
-        />
-        <button onclick={handleSubmit}>Reset</button>
+    <label for="username">Email</label>
+    <input
+        id="email"
+        type="email"
+        bind:value={email}
+        placeholder="gustavo@roque.dk"
+        required
+    />
+    <button onclick={handleSubmit}>Reset</button>
 </section>
 
 <style>

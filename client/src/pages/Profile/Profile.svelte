@@ -45,9 +45,8 @@
     </div>
     <div class="right-col">
         <ProfileStreak playStreak={profile?.streak ?? 0} />
-        <DeleteAccount/>
+        <DeleteAccount />
     </div>
-    
 </div>
 
 <style>

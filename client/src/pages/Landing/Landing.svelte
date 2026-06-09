@@ -111,9 +111,7 @@
     </section>
 </main>
 
-<Footer/>
-
-
+<Footer />
 
 <style>
     main {

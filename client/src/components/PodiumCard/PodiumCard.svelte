@@ -1,7 +1,7 @@
 <script>
     import { navigate } from "svelte-routing";
     let { rank, score } = $props();
-    
+
     const medals = { 1: "🥇", 2: "🥈", 3: "🥉" };
 </script>
 
