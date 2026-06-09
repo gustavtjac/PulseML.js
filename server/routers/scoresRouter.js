@@ -54,7 +54,19 @@ router.get('/api/scores/leaderboards/:game_id/:country_id', (req, res) => {
 
     const highscores = db
         .prepare(
-            'SELECT s.score, s.date, u.username, u.profile_picture, c.code AS country_code, c.name AS country_name FROM scores s JOIN users u ON s.user_id = u.id JOIN countries c ON u.country_id = c.id WHERE s.game_id = ? AND c.id = ? AND s.score = (SELECT MAX(s2.score) FROM scores s2 WHERE s2.user_id = s.user_id AND s2.game_id = s.game_id) GROUP BY s.user_id ORDER BY s.score DESC LIMIT 50',
+            `SELECT s.score, s.date, u.username, u.profile_picture,
+                c.code AS country_code, c.name AS country_name
+            FROM scores s
+            JOIN users u ON s.user_id = u.id
+            JOIN countries c ON u.country_id = c.id
+            WHERE s.game_id = ? AND c.id = ?
+                AND s.score = (
+                    SELECT MAX(s2.score) FROM scores s2
+                    WHERE s2.user_id = s.user_id AND s2.game_id = s.game_id
+                )
+            GROUP BY s.user_id
+            ORDER BY s.score DESC
+            LIMIT 50`,
         )
         .all(gameId, countryId);
 
@@ -75,7 +87,12 @@ router.get('/api/scores/users/:username', isLoggedIn, (req, res) => {
 
     const scores = db
         .prepare(
-            'SELECT g.name AS game_name, MAX(s.score) AS best_score, COUNT(s.id) AS plays FROM scores s JOIN games g ON s.game_id = g.id WHERE s.user_id = ? GROUP BY s.game_id ORDER BY best_score DESC',
+            `SELECT g.name AS game_name, MAX(s.score) AS best_score, COUNT(s.id) AS plays
+            FROM scores s
+            JOIN games g ON s.game_id = g.id
+            WHERE s.user_id = ?
+            GROUP BY s.game_id
+            ORDER BY best_score DESC`,
         )
         .all(user.id);
 

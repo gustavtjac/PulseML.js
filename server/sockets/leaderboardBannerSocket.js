@@ -6,8 +6,8 @@ export function getLeaderboardBannerInformation() {
             `
         SELECT g.id, g.name, u.username, MAX(s.score) AS score
         FROM games g
-        LEFT JOIN scores s ON s.game_id = g.id
-        LEFT JOIN users u ON s.user_id = u.id
+        JOIN scores s ON s.game_id = g.id
+        JOIN users u ON s.user_id = u.id
         GROUP BY g.id, g.name, s.user_id
         ORDER BY g.id, score DESC
     `,

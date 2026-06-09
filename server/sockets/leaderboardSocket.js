@@ -16,7 +16,7 @@ export function getLeaderboardForGame(gameId) {
         SELECT s.score, s.date, u.username, u.profile_picture, c.code AS country_code, c.name AS country_name
         FROM scores s
         JOIN users u ON s.user_id = u.id
-        LEFT JOIN countries c ON u.country_id = c.id
+        JOIN countries c ON u.country_id = c.id
         WHERE s.game_id = ?
           AND s.score = (
             SELECT MAX(s2.score) FROM scores s2
