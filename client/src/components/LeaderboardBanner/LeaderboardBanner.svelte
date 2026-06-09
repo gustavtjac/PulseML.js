@@ -9,7 +9,7 @@
     let leaderboardRankings = $state([]);
 
     onMount(async () => {
-        const result = await fetchGet("/api/leaderboard-banner");
+        const result = await fetchGet("/api/scores/leaderboards/banner");
         leaderboardRankings = result.data;
 
         socket = io($BASE_URL, { withCredentials: true });

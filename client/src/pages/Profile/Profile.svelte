@@ -19,8 +19,8 @@
     onMount(async () => {
         try {
             const [scoresResult, profileResult] = await Promise.all([
-                fetchGet(`/api/scores/user/${$user.username}`),
-                fetchGet(`/api/users/profile/${$user.username}`),
+                fetchGet(`/api/scores/users/${$user.username}`),
+                fetchGet(`/api/users/${$user.username}`),
             ]);
             scores = scoresResult.data.scores;
             profile = profileResult.data.profile;

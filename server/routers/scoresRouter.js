@@ -11,11 +11,11 @@ import { io } from '../app.js';
 
 const router = Router();
 
-router.get('/api/leaderboard-banner', (req, res) => {
+router.get('/api/scores/leaderboards/banner', (req, res) => {
     return res.status(200).send({ data: getLeaderboardBannerInformation() });
 });
 
-router.get('/api/leaderboard/:game_id', isLoggedIn, (req, res) => {
+router.get('/api/scores/leaderboards/:game_id', isLoggedIn, (req, res) => {
     const { game_id: gameId } = req.params;
 
     if (!gameId) {
@@ -36,7 +36,7 @@ router.get('/api/leaderboard/:game_id', isLoggedIn, (req, res) => {
     return res.status(200).send({ data: { highscores } });
 });
 
-router.get('/api/leaderboard/:game_id/:country_id', (req, res) => {
+router.get('/api/scores/leaderboards/:game_id/:country_id', (req, res) => {
     const { game_id: gameId, country_id: countryId } = req.params;
 
     if (!gameId || !countryId) {
@@ -61,7 +61,7 @@ router.get('/api/leaderboard/:game_id/:country_id', (req, res) => {
     return res.status(200).send({ data: { highscores } });
 });
 
-router.get('/api/scores/user/:username', isLoggedIn, (req, res) => {
+router.get('/api/scores/users/:username', isLoggedIn, (req, res) => {
     const { username } = req.params;
 
     const user = db

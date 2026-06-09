@@ -13,7 +13,7 @@ import { sendPasswordChangedMail } from '../utils/emailUtil/emailUtil.js';
 import { liveStreak } from '../utils/streakUtil.js';
 const router = Router();
 
-router.get('/api/users/profile/:username', isLoggedIn, (req, res) => {
+router.get('/api/users/:username', isLoggedIn, (req, res) => {
     const { username } = req.params;
     const profile = db
         .prepare(
@@ -139,9 +139,9 @@ router.patch(
 );
 
 
-router.delete("/api/users/:userId", (req, res) => {
+router.delete("/api/users/:id", isLoggedIn, isAccessingOwnUser, (req, res) => {
 
-    const userId = Number(req.params.userId);
+    const userId = Number(req.params.id);
 
     try{
 

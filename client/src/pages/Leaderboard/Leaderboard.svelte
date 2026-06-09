@@ -48,8 +48,8 @@
         await Promise.all(
             games.map(async (game) => {
                 const url = countryId
-                    ? `/api/leaderboard/${game.id}/${countryId}`
-                    : `/api/leaderboard/${game.id}`;
+                    ? `/api/scores/leaderboards/${game.id}/${countryId}`
+                    : `/api/scores/leaderboards/${game.id}`;
                 const leaderboard = await fetchGet(url);
                 gameLeaderBoardMap[game.id] = leaderboard.data;
             }),
