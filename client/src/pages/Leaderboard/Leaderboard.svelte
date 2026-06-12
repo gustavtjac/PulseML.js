@@ -221,6 +221,12 @@
         letter-spacing: normal;
         transition: none;
     }
+
+    .profile-link:hover {
+        background: none;
+        box-shadow: none;
+        transform: none;
+    }
     .country-selector {
         display: flex;
         justify-content: center;
